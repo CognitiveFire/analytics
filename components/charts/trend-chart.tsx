@@ -22,6 +22,18 @@ interface TrendChartProps {
   data: TrendPoint[];
 }
 
+function formatMetricValue(dataKey: keyof TrendPoint, value: number | string) {
+  if (typeof value !== "number") {
+    return value;
+  }
+
+  if (dataKey === "spend" || dataKey === "cpa" || dataKey === "attributedRevenue") {
+    return `kr ${value.toLocaleString("en-GB", { maximumFractionDigits: 1 })}`;
+  }
+
+  return value.toLocaleString("en-GB", { maximumFractionDigits: 1 });
+}
+
 export function TrendChart({ title, description, color, dataKey, data }: TrendChartProps) {
   const [mounted, setMounted] = useState(false);
 
@@ -41,6 +53,7 @@ export function TrendChart({ title, description, color, dataKey, data }: TrendCh
               <XAxis dataKey="date" tick={{ fontSize: 12, fill: "#71717a" }} tickLine={false} axisLine={false} />
               <YAxis tick={{ fontSize: 12, fill: "#71717a" }} tickLine={false} axisLine={false} />
               <Tooltip
+                formatter={(value) => formatMetricValue(dataKey, value as number)}
                 contentStyle={{
                   borderRadius: "14px",
                   border: "1px solid rgba(148, 163, 184, 0.35)",

@@ -12,12 +12,12 @@ export const executiveKpis: KPI[] = [
 ];
 
 export const trendHistory: TrendPoint[] = [
-  { date: "Week 1", spend: 238, roas: 5.6, cpa: 36, seoVisibility: 54, conversionQuality: 84, attributedRevenue: 1120 },
-  { date: "Week 2", spend: 244, roas: 5.4, cpa: 37, seoVisibility: 56, conversionQuality: 83, attributedRevenue: 1138 },
-  { date: "Week 3", spend: 251, roas: 5.2, cpa: 39, seoVisibility: 58, conversionQuality: 82, attributedRevenue: 1163 },
-  { date: "Week 4", spend: 259, roas: 5.1, cpa: 39, seoVisibility: 59, conversionQuality: 80, attributedRevenue: 1181 },
-  { date: "Week 5", spend: 267, roas: 4.9, cpa: 41, seoVisibility: 61, conversionQuality: 79, attributedRevenue: 1202 },
-  { date: "Week 6", spend: 274, roas: 4.8, cpa: 42, seoVisibility: 62, conversionQuality: 78, attributedRevenue: 1220 },
-  { date: "Week 7", spend: 281, roas: 4.9, cpa: 42, seoVisibility: 63, conversionQuality: 79, attributedRevenue: 1264 },
-  { date: "Week 8", spend: 289, roas: 4.9, cpa: 42, seoVisibility: 64, conversionQuality: 79, attributedRevenue: 1289 },
+  { date: "Oct 2025", spend: 238, roas: 5.6, cpa: 36, seoVisibility: 54, conversionQuality: 84, attributedRevenue: 1120 },
+  { date: "Nov 2025", spend: 244, roas: 5.4, cpa: 37, seoVisibility: 56, conversionQuality: 83, attributedRevenue: 1138 },
+  { date: "Dec 2025", spend: 251, roas: 5.2, cpa: 39, seoVisibility: 58, conversionQuality: 82, attributedRevenue: 1163 },
+  { date: "Jan 2026", spend: 259, roas: 5.1, cpa: 39, seoVisibility: 59, conversionQuality: 80, attributedRevenue: 1181 },
+  { date: "Feb 2026", spend: 267, roas: 4.9, cpa: 41, seoVisibility: 61, conversionQuality: 79, attributedRevenue: 1202 },
+  { date: "Mar 2026", spend: 274, roas: 4.8, cpa: 42, seoVisibility: 62, conversionQuality: 78, attributedRevenue: 1220 },
+  { date: "Apr 2026", spend: 281, roas: 4.9, cpa: 42, seoVisibility: 63, conversionQuality: 79, attributedRevenue: 1264 },
+  { date: "May 2026", spend: 289, roas: 4.9, cpa: 42, seoVisibility: 64, conversionQuality: 79, attributedRevenue: 1289 },
 ];

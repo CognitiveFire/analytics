@@ -1,17 +1,16 @@
 "use client";
 
-import { Check, ChevronDown } from "lucide-react";
 import { useMemo } from "react";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { clients } from "@/lib/mock-data/clients";
 import { usePlatformStore } from "@/hooks/use-platform-store";
+import { getMonthlyPeriods } from "@/lib/reporting/month-periods";
 
-const periods = ["Last 7 days", "Last 30 days", "Quarter to date", "Year to date"];
+const periods = getMonthlyPeriods(12);
 
 export function ClientControls() {
-  const { clientId, setClientId, period, setPeriod, comparePrevious, toggleComparePrevious } = usePlatformStore();
+  const { clientId, setClientId, period, comparePeriod, setPeriod } = usePlatformStore();
 
   const currentClient = useMemo(() => clients.find((c) => c.id === clientId) ?? clients[0], [clientId]);
 
@@ -43,13 +42,10 @@ export function ClientControls() {
         ))}
       </select>
 
-      <Button onClick={toggleComparePrevious} size="sm" variant="outline">
-        {comparePrevious ? <Check className="mr-2 h-4 w-4" /> : <ChevronDown className="mr-2 h-4 w-4" />}
-        Compare previous period
-      </Button>
+      <Badge variant="neutral">Sammenlignes med: {comparePeriod}</Badge>
 
-      <Badge variant={healthVariant}>Account health: {currentClient.accountHealth}</Badge>
-      <Badge variant="neutral">Report: {currentClient.reportStatus}</Badge>
+      <Badge variant={healthVariant}>Kontohelse: {currentClient.accountHealth}</Badge>
+      <Badge variant="neutral">Rapport: {currentClient.reportStatus}</Badge>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { AccountRoster } from "@/components/dashboard/account-roster";
 import { ConnectorStatus } from "@/components/dashboard/connector-status";
 import { KpiGrid } from "@/components/dashboard/kpi-grid";
+import { KpiTrendOverview } from "@/components/charts/kpi-trend-overview";
 import { LandingPagePerformanceChart } from "@/components/charts/landing-page-performance-chart";
 import { TrendChart } from "@/components/charts/trend-chart";
 import { AIInsightPanel } from "@/components/insights/ai-insight-panel";
@@ -18,6 +19,7 @@ export default function DashboardPage() {
         <AccountRoster />
         <AIInsightPanel clientName={client.name} />
         <KpiGrid />
+        <KpiTrendOverview data={trendHistory} />
 
         <section className="grid gap-4 xl:grid-cols-3">
           <TrendChart

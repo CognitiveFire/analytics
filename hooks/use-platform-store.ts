@@ -2,20 +2,22 @@
 
 import { create } from "zustand";
 
+import { formatMonthLabel, getPreviousMonthLabel } from "@/lib/reporting/month-periods";
+
 interface PlatformState {
   clientId: string;
   period: string;
-  comparePrevious: boolean;
+  comparePeriod: string;
   setClientId: (clientId: string) => void;
   setPeriod: (period: string) => void;
-  toggleComparePrevious: () => void;
 }
+
+const initialPeriod = formatMonthLabel(new Date());
 
 export const usePlatformStore = create<PlatformState>((set) => ({
   clientId: "sotra-ror",
-  period: "Last 30 days",
-  comparePrevious: true,
+  period: initialPeriod,
+  comparePeriod: getPreviousMonthLabel(initialPeriod),
   setClientId: (clientId) => set({ clientId }),
-  setPeriod: (period) => set({ period }),
-  toggleComparePrevious: () => set((state) => ({ comparePrevious: !state.comparePrevious })),
+  setPeriod: (period) => set({ period, comparePeriod: getPreviousMonthLabel(period) }),
 }));

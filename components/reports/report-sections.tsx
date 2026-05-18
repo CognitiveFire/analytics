@@ -1,6 +1,6 @@
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 
-interface ReportSection {
+export interface ReportSection {
   heading: string;
   description: string;
   highlights: string[];
@@ -8,35 +8,35 @@ interface ReportSection {
 
 const defaultSections: ReportSection[] = [
   {
-    heading: "Executive Summary",
-    description: "Strategic narrative focused on what changed, why it changed, and what should happen next.",
+    heading: "Sammendrag for ledelsen",
+    description: "Strategisk sammendrag med fokus pa hva som har endret seg, hvorfor det har skjedd, og hva som bor gjores videre.",
     highlights: [
-      "Paid efficiency softened while volume stayed stable across core campaigns.",
-      "Brand demand capture remains the clearest short-term margin opportunity.",
+      "Effektiviteten i betalt annonsering er svakere, mens volumet er stabilt i hovedkampanjer.",
+      "Merkevareettersporsel er fortsatt den tydeligste kortsiktige muligheten for bedre margin.",
     ],
   },
   {
-    heading: "Operational Recommendations",
-    description: "Prioritised actions with expected commercial impact and confidence levels.",
+    heading: "Operasjonelle anbefalinger",
+    description: "Prioriterte tiltak med forventet forretningseffekt og vurdert sikkerhetsniva.",
     highlights: [
-      "Shift 12% budget from low-intent prospecting to branded and remarketing campaigns.",
-      "Implement SEO fixes on high-converting service templates before next crawl cycle.",
+      "Flytt 12% av budsjettet fra lav-intensjons prospektering til merkevare og remarketing.",
+      "Gjennomfor SEO-forbedringer pa tjenestesider med hoy konvertering for neste crawl-syklus.",
     ],
   },
   {
-    heading: "Cross-Channel Intelligence",
-    description: "Unified interpretation across paid media, SEO, analytics, and CRM outcomes.",
+    heading: "Kanalovergripende innsikt",
+    description: "Samlet tolkning pa tvers av betalte kanaler, SEO, analyse og CRM-resultater.",
     highlights: [
-      "Lead quality variance is concentrated in mobile paid traffic from broad match groups.",
-      "Organic landing pages with strongest engagement are under-supported by paid campaigns.",
+      "Variasjonen i lead-kvalitet er konsentrert i mobil, betalt trafikk fra brede samsvar.",
+      "Organiske landingssider med hoyest engasjement er underprioritert i betalte kampanjer.",
     ],
   },
   {
-    heading: "Client-Ready Commentary",
-    description: "Premium consultancy-style language designed for stakeholder communication.",
+    heading: "Kundevennlig kommentar",
+    description: "Tydelig kommentar til interessenter som forklarer resultater, arsaker og neste steg.",
     highlights: [
-      "Margin pressure is manageable with targeted budget correction and tracking hygiene.",
-      "The next 30-day plan prioritises efficient growth and confidence in attribution.",
+      "Marginpresset kan handteres med malrettet budsjettjustering og bedre sporingskvalitet.",
+      "Planen for de neste 30 dagene prioriterer effektiv vekst og tillit til attribusjon.",
     ],
   },
 ];

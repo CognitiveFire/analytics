@@ -224,6 +224,42 @@ function getBadgeVariant(status: ReportStatus) {
   return "neutral" as const;
 }
 
+const readinessLabels: Record<string, string> = {
+  "Ready for client": "Klar for kunde",
+  "In review": "Til vurdering",
+  Drafting: "Utkast",
+  Approved: "Godkjent",
+};
+
+const statusLabels: Record<ReportStatus, string> = {
+  Scheduled: "Planlagt",
+  Drafting: "Utkast",
+  "In review": "Til vurdering",
+  Planned: "Planlagt",
+  Approved: "Godkjent",
+};
+
+const approvalTitleLabels: Record<string, string> = {
+  "Strategy lead review": "Strategifaglig gjennomgang",
+  "Client services QA": "Kvalitetssikring",
+  "Scheduled distribution": "Planlagt utsending",
+  "Commerce strategy review": "Kommersiell strategigjennomgang",
+  "Analytics QA": "Analyse- og datakvalitet",
+  "Media strategy review": "Mediestrategisk gjennomgang",
+  "Compliance review": "Compliance-gjennomgang",
+  "Executive comms QA": "Kvalitetssikring av lederkommunikasjon",
+  "Channel lead review": "Kanalansvarlig gjennomgang",
+  "Operations QA": "Operasjonell kvalitetssikring",
+};
+
+const openingNarrativeByClientId: Record<string, string> = {
+  "sotra-ror": "Rapporten viser stabil ettersporsel, men svakere effektivitet i ikke-merkevarekampanjer. Anbefalt neste steg er a styrke merkevarefangst og prioritere tekniske SEO-forbedringer pa tjenestesider med hoy konvertering.",
+  "melk-no": "Rapporten viser stabil omsetningsvekst, samtidig som kvaliteten i nykundetrafikken varierer mer enn onsket. Neste steg er bedre feed-kvalitet, tydeligere prioritering av merkevaretrafikk og strammere attribusjonskobling.",
+  "sound-people": "Rapporten viser god rekkeviddeutvikling, men ujevn konvertering mellom malgrupper. Neste steg er a samle investering rundt hoy-intensjonssegmenter og redusere kanaloverlapp.",
+  "morrow-bank": "Rapporten viser robust leadvolum og stabile kontrollmekanismer, men okte kostnader i utvalgte segmenter. Neste steg er mer presis budjustering og strengere ekskludering basert pa nedstromskvalitet.",
+  "unik-vvs": "Rapporten viser positiv lokal ettersporsel, men konverteringslekkasje pa mobil begrenser antall kvalifiserte leads. Neste steg er forbedret landingssideflyt og mer stabil lead-ruting.",
+};
+
 function getReadinessVariant(readiness: string) {
   if (/ready|approved/i.test(readiness)) {
     return "success" as const;
@@ -241,6 +277,7 @@ export function ExecutiveReportPortal() {
 
   const currentClient = useMemo(() => clients.find((client) => client.id === clientId) ?? clients[0], [clientId]);
   const content = reportContentByClientId[currentClient.id] ?? reportContentByClientId["sotra-ror"];
+  const openingNarrative = openingNarrativeByClientId[currentClient.id] ?? openingNarrativeByClientId["sotra-ror"];
 
   return (
     <>
@@ -248,15 +285,15 @@ export function ExecutiveReportPortal() {
         <Card>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <CardTitle>{currentClient.name} board pack demo</CardTitle>
-              <CardDescription className="mt-2">{content.boardPackDescription}</CardDescription>
+              <CardTitle>{currentClient.name} manedsrapport</CardTitle>
+              <CardDescription className="mt-2">Forhandsvisning av manedsrapport for {currentClient.name}.</CardDescription>
             </div>
-            <Badge variant={getReadinessVariant(content.readiness)}>{content.readiness}</Badge>
+            <Badge variant={getReadinessVariant(content.readiness)}>{readinessLabels[content.readiness] ?? content.readiness}</Badge>
           </div>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
             <div className="rounded-2xl bg-zinc-100 p-4 dark:bg-zinc-800/60">
-              <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">Deck version</p>
+              <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">Rapportversjon</p>
               <p className="mt-2 text-xl font-semibold tracking-tight">{content.deckVersion}</p>
             </div>
             <div className="rounded-2xl bg-zinc-100 p-4 dark:bg-zinc-800/60">
@@ -264,25 +301,25 @@ export function ExecutiveReportPortal() {
               <p className="mt-2 text-xl font-semibold tracking-tight">{content.slideCount}</p>
             </div>
             <div className="rounded-2xl bg-zinc-100 p-4 dark:bg-zinc-800/60">
-              <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">Narrative confidence</p>
+              <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">Rapportsikkerhet</p>
               <p className="mt-2 text-xl font-semibold tracking-tight">{content.narrativeConfidence}%</p>
             </div>
           </div>
 
           <div className="mt-6 rounded-2xl border border-zinc-200/80 bg-white/75 p-4 dark:border-zinc-800 dark:bg-zinc-900/70">
-            <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">Executive opening narrative</p>
-            <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{content.openingNarrative}</p>
+            <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">Innledende oppsummering</p>
+            <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{openingNarrative}</p>
           </div>
         </Card>
 
         <Card>
-          <CardTitle>Distribution and approvals</CardTitle>
-          <CardDescription className="mt-2">Live workflow view for the selected account.</CardDescription>
+          <CardTitle>Distribusjon og godkjenninger</CardTitle>
+          <CardDescription className="mt-2">Status for kvalitetssikring og planlagt utsending for valgt kunde.</CardDescription>
 
           <div className="mt-5 space-y-3">
             {content.approvals.map((item) => (
               <div className="rounded-2xl border border-zinc-200/80 p-4 dark:border-zinc-800" key={item.title + item.detail}>
-                <p className="text-sm font-medium">{item.title}</p>
+                <p className="text-sm font-medium">{approvalTitleLabels[item.title] ?? item.title}</p>
                 <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{item.detail}</p>
               </div>
             ))}
@@ -291,18 +328,18 @@ export function ExecutiveReportPortal() {
       </div>
 
       <Card>
-        <CardTitle>Executive reporting timeline</CardTitle>
-        <CardDescription className="mt-2">Reporting cadence for {currentClient.name}.</CardDescription>
+        <CardTitle>Rapportkalender</CardTitle>
+        <CardDescription className="mt-2">Rapporteringsplan for {currentClient.name}.</CardDescription>
 
         <div className="mt-5 overflow-x-auto">
           <table className="w-full min-w-[820px] text-left text-sm">
             <thead className="text-xs uppercase tracking-[0.2em] text-zinc-500">
               <tr>
-                <th className="pb-3">Date</th>
-                <th className="pb-3">Report type</th>
-                <th className="pb-3">Audience</th>
+                <th className="pb-3">Dato</th>
+                <th className="pb-3">Rapporttype</th>
+                <th className="pb-3">Mottaker</th>
                 <th className="pb-3">Status</th>
-                <th className="pb-3">Owner</th>
+                <th className="pb-3">Ansvarlig</th>
               </tr>
             </thead>
             <tbody>
@@ -312,7 +349,7 @@ export function ExecutiveReportPortal() {
                   <td className="py-4 pr-3 font-medium text-zinc-900 dark:text-zinc-100">{row.reportType}</td>
                   <td className="py-4 pr-3 text-zinc-600 dark:text-zinc-300">{row.audience}</td>
                   <td className="py-4 pr-3">
-                    <Badge variant={getBadgeVariant(row.status)}>{row.status}</Badge>
+                    <Badge variant={getBadgeVariant(row.status)}>{statusLabels[row.status]}</Badge>
                   </td>
                   <td className="py-4 text-zinc-600 dark:text-zinc-300">{row.owner}</td>
                 </tr>
@@ -322,7 +359,7 @@ export function ExecutiveReportPortal() {
         </div>
       </Card>
 
-      <ReportSections sections={content.sections} />
+      <ReportSections />
     </>
   );
 }
