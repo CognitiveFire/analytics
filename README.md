@@ -38,9 +38,9 @@ npm run dev
 Signal Room supports two connector modes controlled by `SIGNALROOM_CONNECTOR_MODE`:
 
 - `mock`: use local mock connector data
-- `live`: call your existing ingestion/reporting API for real snapshots
+- `live`: call your existing ingestion/reporting API or query BigQuery directly
 
-### Required env for live mode
+### Live mode option 1: external ingestion API
 
 - `SIGNALROOM_CONNECTOR_MODE=live`
 - `SIGNALROOM_DATA_API_BASE_URL=https://your-ingestion-api.example.com`
@@ -71,6 +71,47 @@ Response JSON:
 	}
 }
 ```
+
+### Live mode option 2: direct BigQuery connector (no external API)
+
+If `SIGNALROOM_CONNECTOR_MODE=live` and `SIGNALROOM_DATA_API_BASE_URL` is empty, Signal Room automatically uses BigQuery when one of these is provided:
+
+- `SIGNALROOM_BQ_SNAPSHOTS_TABLE`
+- `SIGNALROOM_BQ_SNAPSHOT_QUERY`
+
+BigQuery config:
+
+- `SIGNALROOM_BIGQUERY_PROJECT_ID` (optional)
+- `SIGNALROOM_BIGQUERY_LOCATION` (default: `EU`)
+- `SIGNALROOM_BIGQUERY_CLIENT_EMAIL` and `SIGNALROOM_BIGQUERY_PRIVATE_KEY` (optional, use if not relying on `GOOGLE_APPLICATION_CREDENTIALS`)
+
+#### Default table mode schema
+
+When using `SIGNALROOM_BQ_SNAPSHOTS_TABLE=project.dataset.table`, the default query expects these columns:
+
+- `client_id` STRING
+- `source` STRING
+- `snapshot_at` TIMESTAMP
+- `account` STRING
+- `trend_delta` FLOAT64
+- `history_summary` STRING
+- `anomalies` ARRAY<STRING>
+- `metrics` STRUCT or JSON-like fields serializable via `TO_JSON_STRING`
+
+#### Custom SQL mode
+
+Set `SIGNALROOM_BQ_SNAPSHOT_QUERY` to fully control the query, using named parameters:
+
+- `@clientId`
+- `@source`
+
+The query must return aliases:
+
+- `account`
+- `trend_delta`
+- `history_summary`
+- `anomalies_json` (JSON string array)
+- `metrics_json` (JSON string object containing numeric values)
 
 ## Internal API route
 

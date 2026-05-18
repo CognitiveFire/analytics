@@ -1,4 +1,6 @@
-import { getRuntimeEnv } from "@/lib/config/env";
+import { canUseBigQuery, getRuntimeEnv } from "@/lib/config/env";
+import { BigQueryConnector } from "@/lib/connectors/bigquery-connector";
+import { BigQuerySnapshotService } from "@/lib/connectors/bigquery-service";
 import { CONNECTOR_SOURCES } from "@/lib/connectors/constants";
 import { LiveDataApiConnector } from "@/lib/connectors/live-data-api";
 import { MockConnector } from "@/lib/connectors/mock-factory";
@@ -16,6 +18,11 @@ function createConnectors() {
           timeoutMs: env.requestTimeoutMs,
         })
     );
+  }
+
+  if (env.connectorMode === "live" && canUseBigQuery(env)) {
+    const service = new BigQuerySnapshotService();
+    return CONNECTOR_SOURCES.map((source) => new BigQueryConnector(source, service));
   }
 
   return CONNECTOR_SOURCES.map((source) => new MockConnector(source));
