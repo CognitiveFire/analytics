@@ -77,6 +77,26 @@ const defaultSections: ReportSection[] = [
 ];
 
 const reportContentByClientId: Record<string, ClientReportPortalContent> = {
+  "demo-executive": {
+    deckVersion: "v5.0",
+    slideCount: 38,
+    narrativeConfidence: 95,
+    readiness: "Ready for client",
+    boardPackDescription: "May 2026 board pack preview for the executive demo account.",
+    openingNarrative:
+      "The full growth stack demonstrates stable efficiency, stronger lead quality, and improved attribution reliability. Recommended focus for the next cycle is scaling proven segments while protecting margin through disciplined budget governance.",
+    approvals: [
+      { title: "Strategy lead review", detail: "Approved 19 May 2026" },
+      { title: "Client services QA", detail: "Approved 19 May 2026" },
+      { title: "Scheduled distribution", detail: "21 May 2026, 08:00 CET" },
+    ],
+    timeline: [
+      { date: "21 May 2026", reportType: "Monthly board pack", audience: "Executive leadership", status: "Scheduled", owner: "Strategy Director" },
+      { date: "25 May 2026", reportType: "Portfolio performance brief", audience: "Commercial leadership", status: "Scheduled", owner: "Performance Director" },
+      { date: "29 May 2026", reportType: "Attribution integrity review", audience: "Data governance", status: "In review", owner: "Analytics Engineer" },
+    ],
+    sections: defaultSections,
+  },
   "sotra-ror": {
     deckVersion: "v3.8",
     slideCount: 34,
@@ -306,6 +326,7 @@ function translateApprovalDetail(detail: string) {
 }
 
 const openingNarrativeByClientId: Record<string, string> = {
+  "demo-executive": "Rapporten viser helhetlig fremgang i hele vekstmaskinen: hoyere effektivitet, bedre leadkvalitet og sterkere datatillit. Neste steg er kontrollert skalering av vinnersegmenter med tydelig marginstyring.",
   "sotra-ror": "Rapporten viser stabil ettersporsel, men svakere effektivitet i ikke-merkevarekampanjer. Anbefalt neste steg er a styrke merkevarefangst og prioritere tekniske SEO-forbedringer pa tjenestesider med hoy konvertering.",
   "melk-no": "Rapporten viser stabil omsetningsvekst, samtidig som kvaliteten i nykundetrafikken varierer mer enn onsket. Neste steg er bedre feed-kvalitet, tydeligere prioritering av merkevaretrafikk og strammere attribusjonskobling.",
   "sound-people": "Rapporten viser god rekkeviddeutvikling, men ujevn konvertering mellom malgrupper. Neste steg er a samle investering rundt hoy-intensjonssegmenter og redusere kanaloverlapp.",

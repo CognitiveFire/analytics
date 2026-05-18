@@ -2,41 +2,41 @@ import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 
 const modules = [
   {
-    title: "Innsikt i betalt sok",
+    title: "Forretningsutvikling siste 90 dager",
     items: [
-      "Stabilitet i budstrategi og avhengighet av automatisering",
-      "Effektivitet i broad match og konsentrasjon av bortkastet budsjett",
-      "Tap av impression share og kampanjevolatilitet",
-      "Monstre i konverteringskvalitet per intensjonssegment",
+      "ROAS har styrket seg gjennom bedre kanalprioritering og skarpere budsjettallokering",
+      "Andel kvalifiserte leads har okt etter forbedret malgruppe- og landingssidekvalitet",
+      "Organisk synlighet vokser jevnt i hoy-verdi segmenter",
+      "Attribusjonskvalitet er forbedret etter datavask og hendelsesstandardisering",
     ],
   },
   {
-    title: "SEO-innsikt",
+    title: "Arbeid som er levert",
     items: [
-      "Synlighetstrender og dekning for ikke-merkevarevekst",
-      "Tekniske SEO-avvik og crawl-helse",
-      "Indeksering av landingssider og innholdsmuligheter",
-      "Ytelse pa maleniva og mulighetsklynger",
+      "Rydding av teknisk SEO-gjeld pa prioriterte landingssider",
+      "Bedre kampanjestruktur for hoy-intensjonssegmenter i betalt sok",
+      "Forsterket rapportering med manedlig sammenligning mot forrige periode",
+      "Datagrunnlag harmonisert pa tvers av plattformene for tryggere beslutninger",
     ],
   },
   {
-    title: "Landingssideytelse",
+    title: "Neste strategiske prioriteringer",
     items: [
-      "Budskapsrelevans og engasjementskvalitet",
-      "Bounce-monstre og mobil UX-friksjon",
-      "Diagnostikk for fall i konvertering",
-      "Sidehastighet og flaskehalser i interaksjon",
+      "Skalere investering i segmenter med hoy dokumentert margin",
+      "Bygge videre pa SEO-vinnere med innholds- og internlenkestrategi",
+      "Redusere svingninger i CPA med tettere pacing og alerts",
+      "Loft av konverteringsrate via prioriterte mobilforbedringer",
     ],
   },
 ];
 
 export function IntelligenceModules() {
   return (
-    <section className="grid gap-4 xl:grid-cols-3">
+    <section className="grid gap-6 pt-2 xl:grid-cols-3">
       {modules.map((module) => (
-        <Card key={module.title}>
+        <Card className="p-7" key={module.title}>
           <CardTitle className="text-lg">{module.title}</CardTitle>
-          <CardDescription className="mt-2">Operasjonell diagnostikk og prioritert tolkning</CardDescription>
+          <CardDescription className="mt-2">Lederoversikt over fremdrift, leveranser og neste tiltak.</CardDescription>
           <ul className="mt-4 space-y-2 text-sm text-zinc-600 dark:text-zinc-300">
             {module.items.map((item) => (
               <li className="rounded-2xl bg-zinc-50 px-3 py-2 dark:bg-zinc-800/60" key={item}>

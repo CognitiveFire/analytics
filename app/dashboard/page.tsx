@@ -1,5 +1,9 @@
-import { AccountRoster } from "@/components/dashboard/account-roster";
-import { ConnectorStatus } from "@/components/dashboard/connector-status";
+"use client";
+
+import { useMemo } from "react";
+
+import { CompletedWorkCharts } from "@/components/dashboard/completed-work-charts";
+import { CompletedWorkVisxPilot } from "@/components/dashboard/completed-work-visx-pilot";
 import { KpiGrid } from "@/components/dashboard/kpi-grid";
 import { KpiTrendOverview } from "@/components/charts/kpi-trend-overview";
 import { LandingPagePerformanceChart } from "@/components/charts/landing-page-performance-chart";
@@ -7,21 +11,24 @@ import { TrendChart } from "@/components/charts/trend-chart";
 import { AIInsightPanel } from "@/components/insights/ai-insight-panel";
 import { IntelligenceModules } from "@/components/insights/intelligence-modules";
 import { PlatformShell } from "@/components/layout/platform-shell";
+import { usePlatformStore } from "@/hooks/use-platform-store";
 import { clients } from "@/lib/mock-data/clients";
 import { trendHistory } from "@/lib/mock-data/metrics";
 
 export default function DashboardPage() {
-  const client = clients[0];
+  const clientId = usePlatformStore((store) => store.clientId);
+  const client = useMemo(() => clients.find((item) => item.id === clientId) ?? clients[0], [clientId]);
 
   return (
     <PlatformShell>
-      <div className="space-y-8">
-        <AccountRoster />
+      <div className="space-y-12 pb-10">
         <AIInsightPanel clientName={client.name} />
         <KpiGrid />
         <KpiTrendOverview data={trendHistory} />
+        <CompletedWorkCharts />
+        <CompletedWorkVisxPilot />
 
-        <section className="grid gap-4 xl:grid-cols-3">
+        <section className="grid gap-6 xl:grid-cols-3">
           <TrendChart
             title="ROAS-trend"
             description="Effektivitetskurve for rapporteringsperioden"
@@ -61,7 +68,6 @@ export default function DashboardPage() {
         </section>
 
         <IntelligenceModules />
-        <ConnectorStatus clientId={client.id} />
       </div>
     </PlatformShell>
   );
