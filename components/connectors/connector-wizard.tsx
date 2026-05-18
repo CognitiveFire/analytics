@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Check, ChevronLeft, ChevronRight, CircleDashed, ShieldCheck, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils/cn";
 import { connectorWizardSources, connectorWizardSteps, ConnectorWizardSource, googleAdsWizardAccounts, googleAnalyticsWizardAccounts } from "@/lib/connectors/wizard";
+import { usePlatformStore } from "@/hooks/use-platform-store";
 import { DataSource } from "@/types";
 
 type SourceKey = ConnectorWizardSource["source"];
@@ -21,30 +22,90 @@ interface WizardStateItem {
 
 type WizardState = Record<SourceKey, WizardStateItem>;
 
-const initialState = connectorWizardSources.reduce<WizardState>((acc, source) => {
-  acc[source.source] = {
-    enabled: false,
-    accessMode: source.accessModes[0],
-    accessDetail: "",
-    selectedAccounts: [],
-  };
-
-  return acc;
-}, {} as WizardState);
-
 const sourceToRouteLabel: Record<SourceKey, string> = connectorWizardSources.reduce((acc, source) => {
   acc[source.source] = source.label;
   return acc;
 }, {} as Record<SourceKey, string>);
+
+const DEFAULT_STORAGE_PREFIX = "signal-room:connector-wizard";
+
+interface PersistedWizardState {
+  step: number;
+  completed: boolean;
+  state: WizardState;
+}
+
+function getStorageKey(clientId: string) {
+  return `${DEFAULT_STORAGE_PREFIX}:${clientId}`;
+}
+
+function createInitialState() {
+  return connectorWizardSources.reduce<WizardState>((acc, source) => {
+    acc[source.source] = {
+      enabled: false,
+      accessMode: source.accessModes[0],
+      accessDetail: "",
+      selectedAccounts: [],
+    };
+
+    return acc;
+  }, {} as WizardState);
+}
+
+function safeLoad(clientId: string): PersistedWizardState | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  try {
+    const raw = window.localStorage.getItem(getStorageKey(clientId));
+    if (!raw) {
+      return null;
+    }
+
+    return JSON.parse(raw) as PersistedWizardState;
+  } catch {
+    return null;
+  }
+}
 
 function formatKey(source: DataSource | "screamingFrog") {
   return source === "screamingFrog" ? "SEO / Screaming Frog" : sourceToRouteLabel[source];
 }
 
 export function ConnectorWizard() {
+  const clientId = usePlatformStore((store) => store.clientId);
   const [step, setStep] = useState(0);
-  const [state, setState] = useState<WizardState>(initialState);
+  const [state, setState] = useState<WizardState>(() => createInitialState());
   const [completed, setCompleted] = useState(false);
+
+  useEffect(() => {
+    const saved = safeLoad(clientId);
+    if (!saved) {
+      setStep(0);
+      setCompleted(false);
+      setState(createInitialState());
+      return;
+    }
+
+    setStep(saved.step);
+    setCompleted(saved.completed);
+    setState(saved.state);
+  }, [clientId]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const payload: PersistedWizardState = {
+      step,
+      completed,
+      state,
+    };
+
+    window.localStorage.setItem(getStorageKey(clientId), JSON.stringify(payload));
+  }, [clientId, completed, state, step]);
 
   const selectedSources = useMemo(
     () => connectorWizardSources.filter((source) => state[source.source].enabled),
