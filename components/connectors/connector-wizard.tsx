@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils/cn";
-import { connectorWizardSources, connectorWizardSteps, ConnectorWizardSource, googleAdsWizardAccounts } from "@/lib/connectors/wizard";
+import { connectorWizardSources, connectorWizardSteps, ConnectorWizardSource, googleAdsWizardAccounts, googleAnalyticsWizardAccounts } from "@/lib/connectors/wizard";
 import { DataSource } from "@/types";
 
 type SourceKey = ConnectorWizardSource["source"];
@@ -102,12 +102,31 @@ export function ConnectorWizard() {
     });
   };
 
+  const toggleGoogleAnalyticsProperty = (propertyId: string) => {
+    setState((current) => {
+      const sourceState = current.ga4;
+      const selectedAccounts = sourceState.selectedAccounts.includes(propertyId)
+        ? sourceState.selectedAccounts.filter((id) => id !== propertyId)
+        : [...sourceState.selectedAccounts, propertyId];
+
+      return {
+        ...current,
+        ga4: {
+          ...sourceState,
+          enabled: selectedAccounts.length > 0,
+          selectedAccounts,
+          accessDetail: selectedAccounts.join(", "),
+        },
+      };
+    });
+  };
+
   const canContinue =
     step === 0
       ? enabledCount > 0
       : step === 1
         ? selectedSources.every((source) =>
-            source.source === "googleAds"
+            source.source === "googleAds" || source.source === "ga4"
               ? state[source.source].selectedAccounts.length > 0
               : state[source.source].accessDetail.trim().length > 0
           )
@@ -303,6 +322,42 @@ export function ConnectorWizard() {
                         </div>
                       ) : null}
 
+                      {source.source === "ga4" ? (
+                        <div className="mt-4 space-y-4">
+                          <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/60">
+                            <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">GA4 properties</p>
+                            <div className="mt-3 space-y-3">
+                              {googleAnalyticsWizardAccounts.map((account) => {
+                                const selected = current.selectedAccounts.includes(account.propertyId);
+                                return (
+                                  <button
+                                    className={cn(
+                                      "w-full rounded-2xl border px-4 py-3 text-left transition-all",
+                                      selected
+                                        ? "border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900"
+                                        : "border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-950"
+                                    )}
+                                    key={account.propertyId}
+                                    onClick={() => toggleGoogleAnalyticsProperty(account.propertyId)}
+                                    type="button"
+                                  >
+                                    <div className="flex items-start justify-between gap-3">
+                                      <div>
+                                        <p className="font-medium">{account.label}</p>
+                                        <p className={cn("mt-1 text-sm", selected ? "text-white/75" : "text-zinc-500 dark:text-zinc-400")}>
+                                          {account.propertyId} · {account.accessNotes}
+                                        </p>
+                                      </div>
+                                      {selected ? <Check className="h-5 w-5" /> : <CircleDashed className="h-5 w-5 text-zinc-400" />}
+                                    </div>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                      ) : null}
+
                       <div className="mt-4 grid gap-3 md:grid-cols-2">
                         <label className="space-y-2 text-sm">
                           <span className="text-zinc-500 dark:text-zinc-400">Access mode</span>
@@ -330,7 +385,7 @@ export function ConnectorWizard() {
                         </label>
                       </div>
 
-                      {source.source === "googleAds" ? (
+                      {source.source === "googleAds" || source.source === "ga4" ? (
                         <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
                           Selected accounts: {current.selectedAccounts.length > 0 ? current.selectedAccounts.join(", ") : "none"}
                         </p>

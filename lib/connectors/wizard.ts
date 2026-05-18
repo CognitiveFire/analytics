@@ -1,5 +1,6 @@
 import { DataSource } from "@/types";
 import { getGoogleAdsClientAccounts, getGoogleAdsManagerAccounts } from "@/lib/connectors/google-ads-accounts";
+import { googleAnalyticsAccounts } from "@/lib/connectors/google-analytics-accounts";
 
 export type ConnectorAccessMode = "oauth" | "service-account" | "api-key" | "csv-upload" | "manual-import";
 
@@ -26,8 +27,8 @@ export const connectorWizardSources: ConnectorWizardSource[] = [
     label: "GA4",
     description: "Behaviour, sessions, conversions, and event data.",
     accessModes: ["oauth", "service-account"],
-    requiredFields: ["Property ID", "Measurement access"],
-    helperText: "Only connect properties the client has explicitly granted access to.",
+    requiredFields: ["Property", "Measurement access"],
+    helperText: "Only connect the GA4 properties that belong to the current account set.",
   },
   {
     source: "searchConsole",
@@ -91,6 +92,8 @@ export const googleAdsWizardAccounts = {
   managers: getGoogleAdsManagerAccounts(),
   clients: getGoogleAdsClientAccounts(),
 };
+
+export const googleAnalyticsWizardAccounts = googleAnalyticsAccounts;
 
 export const connectorWizardSteps = [
   {
