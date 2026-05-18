@@ -1,13 +1,13 @@
 import { KPI, TrendPoint } from "@/types";
 
 export const executiveKpis: KPI[] = [
-  { id: "spend", label: "Spend", value: "$1.24M", delta: 5.8, trend: "up" },
+  { id: "spend", label: "Spend", value: "kr 1.24M", delta: 5.8, trend: "up" },
   { id: "roas", label: "ROAS", value: "4.9x", delta: -6.3, trend: "down" },
-  { id: "cpa", label: "CPA", value: "$42.10", delta: 3.1, trend: "down" },
+  { id: "cpa", label: "CPA", value: "kr 42.10", delta: 3.1, trend: "down" },
   { id: "conversion-quality", label: "Conversion Quality", value: "79", delta: -4.6, trend: "down" },
   { id: "seo-visibility", label: "SEO Visibility", value: "63.4", delta: 8.7, trend: "up" },
   { id: "lead-quality", label: "Lead Quality", value: "74", delta: -3.4, trend: "down" },
-  { id: "revenue-attribution", label: "Revenue Attribution", value: "$3.89M", delta: 7.9, trend: "up" },
+  { id: "revenue-attribution", label: "Revenue Attribution", value: "kr 3.89M", delta: 7.9, trend: "up" },
   { id: "opportunity-score", label: "Opportunity Score", value: "86", delta: 5.1, trend: "up" },
 ];
 
