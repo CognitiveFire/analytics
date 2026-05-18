@@ -1,4 +1,5 @@
 import { DataSource } from "@/types";
+import { getGoogleAdsClientAccounts, getGoogleAdsManagerAccounts } from "@/lib/connectors/google-ads-accounts";
 
 export type ConnectorAccessMode = "oauth" | "service-account" | "api-key" | "csv-upload" | "manual-import";
 
@@ -17,8 +18,8 @@ export const connectorWizardSources: ConnectorWizardSource[] = [
     label: "Google Ads",
     description: "Campaign, keyword, conversion, and budget data.",
     accessModes: ["oauth", "service-account"],
-    requiredFields: ["Customer ID", "Manager ID (optional)", "Access scope"],
-    helperText: "Use the account ID or manager login, depending on agency access.",
+    requiredFields: ["Manager account", "Client account", "Access scope"],
+    helperText: "Use the listed manager/client account structure and only activate the customer IDs that belong to this client.",
   },
   {
     source: "ga4",
@@ -85,6 +86,11 @@ export const connectorWizardSources: ConnectorWizardSource[] = [
     helperText: "Use CSV upload or structured manual mapping depending on the client CRM.",
   },
 ];
+
+export const googleAdsWizardAccounts = {
+  managers: getGoogleAdsManagerAccounts(),
+  clients: getGoogleAdsClientAccounts(),
+};
 
 export const connectorWizardSteps = [
   {

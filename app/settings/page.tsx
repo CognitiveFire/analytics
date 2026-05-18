@@ -30,7 +30,7 @@ export default function SettingsPage() {
               <CardTitle>Connector orchestration</CardTitle>
               <CardDescription className="mt-2 max-w-3xl">
                 Signal Room syncs processed data from existing reporting infrastructure and applies intelligence logic above it.
-                Each account can activate only the sources it actually has access to.
+                Each account can activate only the sources it actually has access to, and the wizard now reflects the current Google Ads manager/client account set.
               </CardDescription>
             </div>
             <Link
