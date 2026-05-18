@@ -77,6 +77,15 @@ export interface ScoredTask extends OperationalTask {
   priorityLevel: PriorityLevel;
 }
 
+export interface CompletedOperationalTask {
+  id: string;
+  title: string;
+  category: OperationalTask["category"];
+  owner: string;
+  completedDate: string;
+  outcome: string;
+}
+
 export interface ConnectorSnapshot {
   source: DataSource;
   account: string;

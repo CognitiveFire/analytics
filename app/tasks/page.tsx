@@ -1,4 +1,5 @@
 import { PlatformShell } from "@/components/layout/platform-shell";
+import { CompletedTaskList } from "@/components/tasks/completed-task-list";
 import { TaskTable } from "@/components/tasks/task-table";
 
 export default function TasksPage() {
@@ -14,6 +15,7 @@ export default function TasksPage() {
         </div>
 
         <TaskTable />
+        <CompletedTaskList />
       </section>
     </PlatformShell>
   );

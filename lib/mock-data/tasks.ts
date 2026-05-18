@@ -1,4 +1,4 @@
-import { OperationalTask, StrategicInsight } from "@/types";
+import { CompletedOperationalTask, OperationalTask, StrategicInsight } from "@/types";
 
 export const strategicInsightsSeed: StrategicInsight[] = [
   {
@@ -113,5 +113,40 @@ export const operationalTasks: OperationalTask[] = [
     reasoning: "Inconsistent event labels limit clean joins between GMP and CRM outcome tables.",
     owner: "MarTech Manager",
     dueDate: "2026-05-26",
+  },
+];
+
+export const completedOperationalTasks: CompletedOperationalTask[] = [
+  {
+    id: "completed-task-1",
+    title: "Audit and remove duplicate title tags on service pages",
+    category: "seo",
+    owner: "SEO Strategist",
+    completedDate: "2026-05-11",
+    outcome: "Duplicate title rate dropped from 18% to 4% on indexed templates.",
+  },
+  {
+    id: "completed-task-2",
+    title: "Restore GA4 conversion mapping for lead_form_submit",
+    category: "tracking",
+    owner: "Analytics Engineer",
+    completedDate: "2026-05-09",
+    outcome: "Recovered 12 days of missing conversion events in executive reporting.",
+  },
+  {
+    id: "completed-task-3",
+    title: "Tighten branded campaign budget caps and pacing rules",
+    category: "bidding",
+    owner: "Performance Director",
+    completedDate: "2026-05-07",
+    outcome: "Brand impression share increased by 9.3 points with lower CPC variance.",
+  },
+  {
+    id: "completed-task-4",
+    title: "Improve mobile form field order for lead funnel",
+    category: "landing-page",
+    owner: "CRO Specialist",
+    completedDate: "2026-05-05",
+    outcome: "Step-two abandonment declined by 14% across top paid landing pages.",
   },
 ];
