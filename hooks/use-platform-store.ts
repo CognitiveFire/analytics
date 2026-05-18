@@ -12,7 +12,7 @@ interface PlatformState {
 }
 
 export const usePlatformStore = create<PlatformState>((set) => ({
-  clientId: "nordic-retail",
+  clientId: "sotra-ror",
   period: "Last 30 days",
   comparePrevious: true,
   setClientId: (clientId) => set({ clientId }),

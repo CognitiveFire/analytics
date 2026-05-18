@@ -2,15 +2,18 @@
 
 import { useState } from "react";
 
+import { PlatformShell } from "@/components/layout/platform-shell";
 import { ScreamingFrogUploader } from "@/components/seo/screaming-frog-uploader";
-import { googleAdsAccounts } from "@/lib/connectors/google-ads-accounts";
+import { getGoogleAdsClientAccounts } from "@/lib/connectors/google-ads-accounts";
+
+const seoAccountOptions = getGoogleAdsClientAccounts();
 
 export default function SeoPage() {
-  const [activeAccount, setActiveAccount] = useState(googleAdsAccounts[0]?.label ?? "melk.no");
+  const [activeAccount, setActiveAccount] = useState(seoAccountOptions[0]?.label ?? "Melk.no");
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_0%_0%,rgba(244,244,245,0.95),transparent_42%),radial-gradient(circle_at_90%_0%,rgba(231,229,228,0.6),transparent_42%),#f7f5f0] text-zinc-900 dark:bg-[radial-gradient(circle_at_0%_0%,rgba(39,39,42,0.6),transparent_42%),radial-gradient(circle_at_90%_0%,rgba(24,24,27,0.5),transparent_42%),#09090b] dark:text-zinc-100">
-      <div className="mx-auto max-w-7xl px-6 py-8 lg:px-10">
+    <PlatformShell>
+      <div className="rounded-[2rem] border border-zinc-200/60 bg-white/70 p-6 dark:border-zinc-800 dark:bg-zinc-900/55">
         <header className="flex flex-col gap-4 border-b border-zinc-200/60 pb-8 dark:border-zinc-800 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-zinc-500">Apriil signal room</p>
@@ -29,7 +32,7 @@ export default function SeoPage() {
                 onChange={(event) => setActiveAccount(event.target.value)}
                 value={activeAccount}
               >
-                {googleAdsAccounts.map((account) => (
+                {seoAccountOptions.map((account) => (
                   <option key={`${account.customerId}-${account.label}`} value={account.label}>
                     {account.label}
                   </option>
@@ -61,6 +64,6 @@ export default function SeoPage() {
           <ScreamingFrogUploader />
         </section>
       </div>
-    </main>
+    </PlatformShell>
   );
 }

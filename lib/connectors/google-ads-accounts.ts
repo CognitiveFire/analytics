@@ -9,23 +9,23 @@ export interface GoogleAdsAccount {
 export const googleAdsAccounts: GoogleAdsAccount[] = [
   {
     customerId: "180-521-0492",
-    label: "Sotra rør",
+    label: "Sotra Rør",
     managerId: "180-521-0492",
     role: "client",
     accessNotes: "Managed through the 180-521-0492 Google Ads manager account.",
   },
   {
     customerId: "180-521-0492",
-    label: "melk.no",
+    label: "Melk.no",
     managerId: "180-521-0492",
     role: "client",
-    accessNotes: "Separate account context from Sotra rør, currently linked under the same manager login.",
+    accessNotes: "Separate account context from Sotra Rør, currently linked under the same manager login.",
   },
   {
     customerId: "180-521-0492",
     label: "AdWords manager account",
     role: "manager",
-    accessNotes: "Manager account for Sotra rør and melk.no.",
+    accessNotes: "Manager account for Sotra Rør and Melk.no.",
   },
   {
     customerId: "421-149-7144",
@@ -46,6 +46,12 @@ export const googleAdsAccounts: GoogleAdsAccount[] = [
     role: "client",
     accessNotes: "Client account under the A-Viva Media manager account.",
   },
+  {
+    customerId: "TBD-UNIK-VVS",
+    label: "Unik VVS",
+    role: "client",
+    accessNotes: "Google Ads account is approved and awaiting final customer ID confirmation.",
+  },
 ];
 
 export function getGoogleAdsManagerAccounts() {
@@ -54,7 +60,7 @@ export function getGoogleAdsManagerAccounts() {
 
 export function getGoogleAdsClientAccounts(managerId?: string) {
   if (!managerId) {
-    return googleAdsAccounts.filter((account) => account.role === "client" && !account.managerId);
+    return googleAdsAccounts.filter((account) => account.role === "client");
   }
 
   return googleAdsAccounts.filter((account) => account.managerId === managerId);

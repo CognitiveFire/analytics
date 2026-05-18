@@ -1,3 +1,4 @@
+import { AccountRoster } from "@/components/dashboard/account-roster";
 import { ConnectorStatus } from "@/components/dashboard/connector-status";
 import { KpiGrid } from "@/components/dashboard/kpi-grid";
 import { LandingPagePerformanceChart } from "@/components/charts/landing-page-performance-chart";
@@ -14,6 +15,7 @@ export default function DashboardPage() {
   return (
     <PlatformShell>
       <div className="space-y-8">
+        <AccountRoster />
         <AIInsightPanel clientName={client.name} />
         <KpiGrid />
 
