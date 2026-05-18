@@ -2,7 +2,6 @@
 
 import { useMemo } from "react";
 
-import { CompletedWorkCharts } from "@/components/dashboard/completed-work-charts";
 import { KpiGrid } from "@/components/dashboard/kpi-grid";
 import { KpiTrendOverview } from "@/components/charts/kpi-trend-overview";
 import { LandingPagePerformanceChart } from "@/components/charts/landing-page-performance-chart";
@@ -24,41 +23,40 @@ export default function DashboardPage() {
         <AIInsightPanel clientName={client.name} />
         <KpiGrid />
         <KpiTrendOverview data={trendHistory} />
-        <CompletedWorkCharts />
 
         <section className="grid gap-6 xl:grid-cols-3">
           <TrendChart
             title="ROAS-trend"
             description="Effektivitetskurve for rapporteringsperioden"
-            color="#0f172a"
+            color="#111111"
             data={trendHistory}
             dataKey="roas"
           />
           <TrendChart
             title="Kostnadseffektivitet"
             description="Kostnadsutvikling og budsjettkontroll"
-            color="#1d4ed8"
+            color="#ff4a0a"
             data={trendHistory}
             dataKey="spend"
           />
           <TrendChart
             title="SEO-synlighet"
             description="Utvikling i organisk synlighet"
-            color="#0f766e"
+            color="#ff7a45"
             data={trendHistory}
             dataKey="seoVisibility"
           />
           <TrendChart
             title="Konverteringskvalitet"
             description="Lead-kvalitet og konverteringshelse"
-            color="#9f1239"
+            color="#1f2937"
             data={trendHistory}
             dataKey="conversionQuality"
           />
           <TrendChart
             title="Attribusjonstrend"
             description="Utvikling i attribuert omsetning"
-            color="#6d28d9"
+            color="#d9470f"
             data={trendHistory}
             dataKey="attributedRevenue"
           />
