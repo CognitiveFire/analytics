@@ -1,7 +1,7 @@
 import { KPI, TrendPoint } from "@/types";
 
 export const executiveKpis: KPI[] = [
-  { id: "spend", label: "Kostnad", value: "kr 1.24M", delta: 5.8, trend: "up" },
+  { id: "spend", label: "Kostnad", value: "kr 80k", delta: 5.8, trend: "up" },
   { id: "roas", label: "ROAS", value: "4.9x", delta: -6.3, trend: "down" },
   { id: "cpa", label: "CPA", value: "kr 42.10", delta: 3.1, trend: "down" },
   { id: "conversion-quality", label: "Konverteringskvalitet", value: "79", delta: -4.6, trend: "down" },
