@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react";
 import { UploadCloud, CheckCircle2, AlertTriangle, FileUp } from "lucide-react";
 
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
@@ -59,8 +59,26 @@ const initialFiles = exportSpecs.reduce<Record<string, File | null>>((acc, item)
   return acc;
 }, {});
 
-export function ScreamingFrogUploader() {
+const initialFileNames = exportSpecs.reduce<Record<string, string | null>>((acc, item) => {
+  acc[item.key] = null;
+  return acc;
+}, {});
+
+interface ScreamingFrogUploaderProps {
+  activeAccount: string;
+}
+
+function getResultStorageKey(activeAccount: string) {
+  return `signalroom:seo:upload-result:${encodeURIComponent(activeAccount)}`;
+}
+
+function getFileNamesStorageKey(activeAccount: string) {
+  return `signalroom:seo:file-names:${encodeURIComponent(activeAccount)}`;
+}
+
+export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderProps) {
   const [files, setFiles] = useState<Record<string, File | null>>(initialFiles);
+  const [fileNames, setFileNames] = useState<Record<string, string | null>>(initialFileNames);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [result, setResult] = useState<ScreamingFrogUploadResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -70,8 +88,51 @@ export function ScreamingFrogUploader() {
   const onFileChange = (key: string) => (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] ?? null;
     setFiles((current) => ({ ...current, [key]: file }));
+    setFileNames((current) => ({ ...current, [key]: file?.name ?? null }));
     setError(null);
   };
+
+  useEffect(() => {
+    const storedResult = window.localStorage.getItem(getResultStorageKey(activeAccount));
+    const storedFileNames = window.localStorage.getItem(getFileNamesStorageKey(activeAccount));
+
+    if (storedResult) {
+      try {
+        const parsed = JSON.parse(storedResult) as ScreamingFrogUploadResult;
+        setResult(parsed);
+      } catch {
+        setResult(null);
+      }
+    } else {
+      setResult(null);
+    }
+
+    if (storedFileNames) {
+      try {
+        const parsed = JSON.parse(storedFileNames) as Record<string, string | null>;
+        setFileNames({ ...initialFileNames, ...parsed });
+      } catch {
+        setFileNames(initialFileNames);
+      }
+    } else {
+      setFileNames(initialFileNames);
+    }
+
+    setFiles(initialFiles);
+    setError(null);
+  }, [activeAccount]);
+
+  useEffect(() => {
+    if (result) {
+      window.localStorage.setItem(getResultStorageKey(activeAccount), JSON.stringify(result));
+    } else {
+      window.localStorage.removeItem(getResultStorageKey(activeAccount));
+    }
+  }, [activeAccount, result]);
+
+  useEffect(() => {
+    window.localStorage.setItem(getFileNamesStorageKey(activeAccount), JSON.stringify(fileNames));
+  }, [activeAccount, fileNames]);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -96,6 +157,7 @@ export function ScreamingFrogUploader() {
       }
 
       setResult(payload.result ?? null);
+      setFiles(initialFiles);
     } catch (submissionError) {
       setError(submissionError instanceof Error ? submissionError.message : "Unexpected upload failure.");
     } finally {
@@ -149,7 +211,7 @@ export function ScreamingFrogUploader() {
                 <div className="mt-5 flex items-center justify-between gap-4">
                   <div className="min-w-0">
                     <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Selected file</p>
-                    <p className="mt-1 truncate text-sm text-zinc-700 dark:text-zinc-200">{file?.name ?? "No file selected"}</p>
+                    <p className="mt-1 truncate text-sm text-zinc-700 dark:text-zinc-200">{file?.name ?? fileNames[spec.key] ?? "No file selected"}</p>
                   </div>
                   <div className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-600 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
                     <UploadCloud className="mr-2 inline h-4 w-4" />

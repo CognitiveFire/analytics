@@ -1,15 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { PlatformShell } from "@/components/layout/platform-shell";
 import { ScreamingFrogUploader } from "@/components/seo/screaming-frog-uploader";
 import { getGoogleAdsClientAccounts } from "@/lib/connectors/google-ads-accounts";
 
 const seoAccountOptions = getGoogleAdsClientAccounts();
+const SEO_ACTIVE_ACCOUNT_STORAGE_KEY = "signalroom:seo:active-account";
 
 export default function SeoPage() {
   const [activeAccount, setActiveAccount] = useState(seoAccountOptions[0]?.label ?? "Melk.no");
+
+  useEffect(() => {
+    const storedAccount = window.localStorage.getItem(SEO_ACTIVE_ACCOUNT_STORAGE_KEY);
+    if (!storedAccount) {
+      return;
+    }
+
+    const isKnownAccount = seoAccountOptions.some((account) => account.label === storedAccount);
+    if (isKnownAccount) {
+      setActiveAccount(storedAccount);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(SEO_ACTIVE_ACCOUNT_STORAGE_KEY, activeAccount);
+  }, [activeAccount]);
 
   return (
     <PlatformShell>
@@ -61,7 +78,7 @@ export default function SeoPage() {
               Screaming Frog crawl uploads will be associated with <span className="font-medium text-zinc-900 dark:text-zinc-100">{activeAccount}</span>.
             </p>
           </div>
-          <ScreamingFrogUploader />
+          <ScreamingFrogUploader activeAccount={activeAccount} />
         </section>
       </div>
     </PlatformShell>
