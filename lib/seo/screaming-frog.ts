@@ -57,6 +57,10 @@ function detectFileKey(fileName: string): ParsedFile | null {
   };
 }
 
+export function detectScreamingFrogFileKey(fileName: string): ScreamingFrogFileKey | null {
+  return detectFileKey(fileName)?.key ?? null;
+}
+
 function parseCsvFile(fileName: string, fileContent: string): ParsedFile | null {
   const detected = detectFileKey(fileName);
   if (!detected) {
@@ -226,6 +230,7 @@ export function processScreamingFrogExports(files: Array<{ name: string; content
     compareLabel: "Compare to previous crawl",
     fileCount: parsedFiles.length,
     files: fileResults,
+    uploadedFileNames: {},
     summary,
     notes: buildNotes(summary),
   };

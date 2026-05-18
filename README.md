@@ -129,6 +129,10 @@ Signal Room exposes a dedicated SEO upload page at `/seo` and a server route for
 
 `POST /api/seo/screamingfrog/upload`
 
+Processed SEO uploads are stored by account in app-level server storage and can be reloaded via:
+
+`GET /api/seo/screamingfrog/upload?account=:accountLabel`
+
 Expected CSV export set:
 
 - internal_html.csv

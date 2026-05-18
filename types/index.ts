@@ -20,6 +20,7 @@ export type ScreamingFrogFileKey =
   | "crawl_overview";
 
 export type ScreamingFrogFileStatus = "processed" | "missing" | "invalid";
+export type ScreamingFrogUploadedFileNames = Partial<Record<ScreamingFrogFileKey, string>>;
 
 export interface Client {
   id: string;
@@ -115,6 +116,7 @@ export interface ScreamingFrogUploadResult {
   compareLabel: string | null;
   fileCount: number;
   files: ScreamingFrogFileResult[];
+  uploadedFileNames: ScreamingFrogUploadedFileNames;
   summary: ScreamingFrogSummary;
   notes: string[];
 }

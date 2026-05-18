@@ -68,14 +68,6 @@ interface ScreamingFrogUploaderProps {
   activeAccount: string;
 }
 
-function getResultStorageKey(activeAccount: string) {
-  return `signalroom:seo:upload-result:${encodeURIComponent(activeAccount)}`;
-}
-
-function getFileNamesStorageKey(activeAccount: string) {
-  return `signalroom:seo:file-names:${encodeURIComponent(activeAccount)}`;
-}
-
 export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderProps) {
   const [files, setFiles] = useState<Record<string, File | null>>(initialFiles);
   const [fileNames, setFileNames] = useState<Record<string, string | null>>(initialFileNames);
@@ -93,46 +85,34 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
   };
 
   useEffect(() => {
-    const storedResult = window.localStorage.getItem(getResultStorageKey(activeAccount));
-    const storedFileNames = window.localStorage.getItem(getFileNamesStorageKey(activeAccount));
-
-    if (storedResult) {
+    async function loadAccountState() {
       try {
-        const parsed = JSON.parse(storedResult) as ScreamingFrogUploadResult;
-        setResult(parsed);
+        const response = await fetch(`/api/seo/screamingfrog/upload?account=${encodeURIComponent(activeAccount)}`);
+        const payload = (await response.json()) as {
+          result?: ScreamingFrogUploadResult | null;
+          error?: string;
+        };
+
+        if (!response.ok) {
+          throw new Error(payload.error ?? "Unable to load previous SEO upload.");
+        }
+
+        const nextResult = payload.result ?? null;
+        setResult(nextResult);
+        setFileNames({
+          ...initialFileNames,
+          ...(nextResult?.uploadedFileNames ?? {}),
+        });
       } catch {
         setResult(null);
-      }
-    } else {
-      setResult(null);
-    }
-
-    if (storedFileNames) {
-      try {
-        const parsed = JSON.parse(storedFileNames) as Record<string, string | null>;
-        setFileNames({ ...initialFileNames, ...parsed });
-      } catch {
         setFileNames(initialFileNames);
       }
-    } else {
-      setFileNames(initialFileNames);
     }
 
+    void loadAccountState();
     setFiles(initialFiles);
     setError(null);
   }, [activeAccount]);
-
-  useEffect(() => {
-    if (result) {
-      window.localStorage.setItem(getResultStorageKey(activeAccount), JSON.stringify(result));
-    } else {
-      window.localStorage.removeItem(getResultStorageKey(activeAccount));
-    }
-  }, [activeAccount, result]);
-
-  useEffect(() => {
-    window.localStorage.setItem(getFileNamesStorageKey(activeAccount), JSON.stringify(fileNames));
-  }, [activeAccount, fileNames]);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -141,6 +121,7 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
 
     try {
       const formData = new FormData();
+      formData.append("account", activeAccount);
       Object.values(files)
         .filter((file): file is File => Boolean(file))
         .forEach((file) => formData.append("files", file));
@@ -156,7 +137,12 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
         throw new Error(payload.error ?? "Unable to process Screaming Frog exports.");
       }
 
-      setResult(payload.result ?? null);
+      const nextResult = payload.result ?? null;
+      setResult(nextResult);
+      setFileNames({
+        ...initialFileNames,
+        ...(nextResult?.uploadedFileNames ?? {}),
+      });
       setFiles(initialFiles);
     } catch (submissionError) {
       setError(submissionError instanceof Error ? submissionError.message : "Unexpected upload failure.");
