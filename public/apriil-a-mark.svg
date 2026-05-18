@@ -1,0 +1,10 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Apriil A mark</title>
+  <desc id="desc">A bold white capital A on a black rounded square.</desc>
+  <rect width="256" height="256" rx="32" fill="#000000" />
+  <path
+    d="M62 204L122 52H145L204 204H172L160 171H102L89 204H62ZM113 142H149L131 90L113 142Z"
+    fill="#F4F4F2"
+  />
+  <rect x="74" y="154" width="108" height="18" rx="9" fill="#F4F4F2" />
+</svg>

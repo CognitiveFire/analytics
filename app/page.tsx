@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 
@@ -21,9 +22,14 @@ export default function Home() {
     <div className="relative overflow-hidden bg-[radial-gradient(circle_at_0%_10%,rgba(226,232,240,0.7),transparent_40%),radial-gradient(circle_at_90%_0%,rgba(212,212,216,0.55),transparent_45%),#f8fafc] dark:bg-[radial-gradient(circle_at_0%_0%,rgba(39,39,42,0.6),transparent_40%),radial-gradient(circle_at_85%_0%,rgba(63,63,70,0.4),transparent_42%),#09090b]">
       <div className="mx-auto min-h-screen max-w-7xl px-6 pb-24 pt-10 lg:px-10">
         <header className="mb-14 flex items-center justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Apriil presents</p>
-            <p className="mt-2 text-2xl font-semibold tracking-tight">Signal Room</p>
+          <div className="flex items-center gap-3">
+            <div className="relative h-11 w-11 overflow-hidden rounded-2xl ring-1 ring-zinc-900/10 dark:ring-zinc-100/10">
+              <Image alt="Apriil A" fill priority sizes="44px" src="/apriil-a-mark.svg" />
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Apriil presents</p>
+              <p className="mt-2 text-2xl font-semibold tracking-tight">Signal Room</p>
+            </div>
           </div>
           <Link className={cn(buttonVariants({ variant: "outline" }))} href="/dashboard">
             View Platform

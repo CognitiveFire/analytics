@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Sparkles } from "lucide-react";
+import Image from "next/image";
 
 import { ClientControls } from "@/components/layout/client-controls";
 import { PlatformNav } from "@/components/layout/platform-nav";
@@ -12,8 +12,8 @@ export function PlatformShell({ children }: { children: React.ReactNode }) {
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-4 lg:px-10">
           <div className="flex items-center justify-between gap-4">
             <Link className="flex items-center gap-3" href="/">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900">
-                <Sparkles className="h-5 w-5" />
+              <div className="relative h-10 w-10 overflow-hidden rounded-2xl ring-1 ring-zinc-900/10 dark:ring-zinc-100/10">
+                <Image alt="Apriil A" fill priority sizes="40px" src="/apriil-a-mark.svg" />
               </div>
               <div>
                 <p className="font-semibold tracking-tight">Signal Room</p>
