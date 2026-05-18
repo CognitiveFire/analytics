@@ -12,7 +12,7 @@ const connectors = [
   "CM360",
   "DV360",
   "Floodlight",
-  "CRM Imports",
+  "CRM-import",
 ];
 
 export default function SettingsPage() {
@@ -20,24 +20,24 @@ export default function SettingsPage() {
     <PlatformShell>
       <section className="space-y-6">
         <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Platform Settings</p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight">Data and experience configuration</h1>
+          <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Plattforminnstillinger</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight">Konfigurasjon av data og brukeropplevelse</h1>
         </div>
 
         <Card>
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div>
-              <CardTitle>Connector orchestration</CardTitle>
+              <CardTitle>Koblingsorkestrering</CardTitle>
               <CardDescription className="mt-2 max-w-3xl">
-                Signal Room syncs processed data from existing reporting infrastructure and applies intelligence logic above it.
-                Each account can activate only the sources it actually has access to, including Google Ads, GA4, and Screaming Frog crawl uploads.
+                Signal Room synkroniserer bearbeidede data fra eksisterende rapporteringsinfrastruktur og legger innsiktslogikk over.
+                Hver konto kan kun aktivere kildene den faktisk har tilgang til, inkludert Google Ads, GA4 og Screaming Frog-opplastinger.
               </CardDescription>
             </div>
             <Link
               className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
               href="/settings/connectors"
             >
-              Open connector wizard
+              Apne koblingsveiviser
             </Link>
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-2">

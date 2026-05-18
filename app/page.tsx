@@ -9,12 +9,12 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
 
 const featureItems = [
-  "AI strategic insights",
-  "Operational task prioritisation",
-  "Executive reporting",
-  "Premium branded dashboards",
-  "Cross-channel intelligence",
-  "Custom visualisations",
+  "AI-drevet strategisk innsikt",
+  "Operasjonell oppgaveprioritering",
+  "Lederrettet rapportering",
+  "Premium merkede oversikter",
+  "Kanalovergripende innsikt",
+  "Tilpassede visualiseringer",
 ];
 
 export default function Home() {
@@ -27,30 +27,30 @@ export default function Home() {
               <Image alt="Apriil A" fill priority sizes="44px" src="/apriil-a-mark.svg" />
             </div>
             <div>
-              <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Apriil presents</p>
+              <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Apriil presenterer</p>
               <p className="mt-2 text-2xl font-semibold tracking-tight">Signal Room</p>
             </div>
           </div>
           <Link className={cn(buttonVariants({ variant: "outline" }))} href="/dashboard">
-            View Platform
+            Apne plattform
           </Link>
         </header>
 
         <section className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}>
             <p className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs uppercase tracking-[0.2em] text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900">
-              Operational intelligence platform
+              Operasjonell innsiktsplattform
             </p>
             <h1 className="mt-6 max-w-2xl text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">
-              Operational intelligence for modern marketing teams.
+              Operasjonell innsikt for moderne markedsforingsteam.
             </h1>
             <p className="mt-6 max-w-xl text-lg text-zinc-600 dark:text-zinc-300">
-              Signal Room transforms fragmented reporting into strategic clarity.
+              Signal Room gjor fragmentert rapportering om til tydelig strategisk retning.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <button className={cn(buttonVariants({ size: "lg" }))}>Request Demo</button>
+              <button className={cn(buttonVariants({ size: "lg" }))}>Bestill demo</button>
               <Link className={cn(buttonVariants({ size: "lg", variant: "outline" }))} href="/dashboard">
-                View Platform
+                Apne plattform
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </div>
@@ -63,14 +63,14 @@ export default function Home() {
             className="rounded-[2rem] border border-zinc-200/80 bg-white/90 p-6 shadow-[0_30px_80px_rgba(15,23,42,0.12)] dark:border-zinc-800 dark:bg-zinc-900/85"
           >
             <div className="mb-4 flex items-center justify-between">
-              <p className="text-sm font-medium">Executive Preview</p>
+              <p className="text-sm font-medium">Forhandsvisning</p>
               <Sparkles className="h-4 w-4 text-zinc-500" />
             </div>
             <div className="space-y-3">
               <div className="rounded-2xl bg-zinc-100 p-4 dark:bg-zinc-800">
-                <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">AI Summary</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">AI-oppsummering</p>
                 <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300">
-                  Broad match expansion introduced low-intent traffic while branded demand stayed underfunded.
+                  Utvidet broad match ga mer trafikk med lav intensjon, mens merkevareettersporselen fortsatt er underfinansiert.
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -79,7 +79,7 @@ export default function Home() {
                   <p className="mt-1 text-2xl font-semibold">4.9x</p>
                 </div>
                 <div className="rounded-2xl bg-zinc-100 p-3 dark:bg-zinc-800">
-                  <p className="text-xs text-zinc-500">Opportunity</p>
+                  <p className="text-xs text-zinc-500">Mulighet</p>
                   <p className="mt-1 text-2xl font-semibold">86</p>
                 </div>
               </div>
@@ -89,10 +89,10 @@ export default function Home() {
 
         <section className="mt-24 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {[
-            "Dashboard overload",
-            "Disconnected analytics",
-            "Weak reporting UX",
-            "Poor strategic visibility",
+            "For mange dashboards",
+            "Fragmentert analyse",
+            "Svak rapporteringsopplevelse",
+            "Lav strategisk synlighet",
           ].map((problem) => (
             <div className="rounded-3xl border border-zinc-200 bg-white/90 p-5 dark:border-zinc-800 dark:bg-zinc-900/80" key={problem}>
               <p className="text-sm text-zinc-700 dark:text-zinc-300">{problem}</p>
@@ -102,11 +102,11 @@ export default function Home() {
 
         <section className="mt-20 grid gap-8 lg:grid-cols-2">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Value proposition</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight">From reporting noise to operational clarity</h2>
+            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Verdiforslag</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight">Fra rapporteringsstoy til operasjonell klarhet</h2>
             <p className="mt-4 max-w-xl text-zinc-600 dark:text-zinc-300">
-              Signal Room helps teams understand what changed, why it changed, prioritise what matters, and communicate
-              performance clearly to stakeholders.
+              Signal Room hjelper team med a forsta hva som har endret seg, hvorfor det har skjedd, prioritere det som
+              betyr mest og kommunisere resultat tydelig til interessenter.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -119,9 +119,9 @@ export default function Home() {
         </section>
 
         <section className="mt-20 rounded-3xl border border-zinc-200 bg-white/85 p-8 dark:border-zinc-800 dark:bg-zinc-900/75">
-          <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">Positioning</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">Posisjonering</p>
           <p className="mt-3 max-w-4xl text-2xl leading-relaxed tracking-tight text-zinc-800 dark:text-zinc-100">
-            Built for agencies and in-house teams that need operational clarity rather than more dashboard noise.
+            Bygget for byraer og in-house-team som trenger operasjonell klarhet fremfor mer dashboard-stoy.
           </p>
         </section>
       </div>

@@ -239,6 +239,50 @@ const statusLabels: Record<ReportStatus, string> = {
   Approved: "Godkjent",
 };
 
+const reportTypeLabels: Record<string, string> = {
+  "Monthly board pack": "Manedlig styrepakke",
+  "Weekly operations brief": "Ukentlig driftsbrief",
+  "SEO technical briefing": "Teknisk SEO-brief",
+  "Growth pulse": "Vekstpuls",
+  "Attribution checkpoint": "Attribusjonssjekkpunkt",
+  "Executive snapshot": "Lederoversikt",
+  "Creative efficiency review": "Gjennomgang av kreativeffektivitet",
+  "Portfolio performance brief": "Portefoljeytelse-brief",
+  "Attribution integrity review": "Gjennomgang av attribusjonskvalitet",
+  "Executive summary": "Sammendrag for ledelsen",
+  "SEO and CRO brief": "SEO- og CRO-brief",
+};
+
+const audienceLabels: Record<string, string> = {
+  "Executive leadership": "Ledergruppe",
+  "Channel leads": "Kanalansvarlige",
+  "SEO and development": "SEO og utvikling",
+  "CMO and ecommerce lead": "CMO og e-handelansvarlig",
+  "Performance team": "Performance-team",
+  "Data and analytics": "Data og analyse",
+  Leadership: "Ledelse",
+  "Campaign team": "Kampanjeteam",
+  "Creative and media": "Kreativ og media",
+  "Executive committee": "Lederkomite",
+  "Commercial leadership": "Kommersiell ledelse",
+  "Data governance": "Datastyring",
+  "Founder and operations": "Daglig leder og drift",
+  "SEO and web team": "SEO- og webteam",
+};
+
+const ownerLabels: Record<string, string> = {
+  "Strategy Director": "Strategidirektor",
+  "Performance Lead": "Performance-ansvarlig",
+  "SEO Strategist": "SEO-strateg",
+  "Commerce Director": "Kommersiell direktor",
+  "Paid Media Lead": "Ansvarlig for betalt media",
+  "Analytics Engineer": "Analyseingenior",
+  "Channel Strategist": "Kanalstrateg",
+  "Account Director": "Kundedirektor",
+  "Performance Director": "Performancedirektor",
+  "Account Manager": "Kundeansvarlig",
+};
+
 const approvalTitleLabels: Record<string, string> = {
   "Strategy lead review": "Strategifaglig gjennomgang",
   "Client services QA": "Kvalitetssikring",
@@ -251,6 +295,15 @@ const approvalTitleLabels: Record<string, string> = {
   "Channel lead review": "Kanalansvarlig gjennomgang",
   "Operations QA": "Operasjonell kvalitetssikring",
 };
+
+function translateApprovalDetail(detail: string) {
+  return detail
+    .replace("Approved", "Godkjent")
+    .replace("Final checks in progress", "Siste kvalitetssjekk pabegar")
+    .replace("In progress", "Pagar")
+    .replace("Pending", "Venter")
+    .replace("May", "mai");
+}
 
 const openingNarrativeByClientId: Record<string, string> = {
   "sotra-ror": "Rapporten viser stabil ettersporsel, men svakere effektivitet i ikke-merkevarekampanjer. Anbefalt neste steg er a styrke merkevarefangst og prioritere tekniske SEO-forbedringer pa tjenestesider med hoy konvertering.",
@@ -320,7 +373,7 @@ export function ExecutiveReportPortal() {
             {content.approvals.map((item) => (
               <div className="rounded-2xl border border-zinc-200/80 p-4 dark:border-zinc-800" key={item.title + item.detail}>
                 <p className="text-sm font-medium">{approvalTitleLabels[item.title] ?? item.title}</p>
-                <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{item.detail}</p>
+                <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{translateApprovalDetail(item.detail)}</p>
               </div>
             ))}
           </div>
@@ -346,12 +399,12 @@ export function ExecutiveReportPortal() {
               {content.timeline.map((row) => (
                 <tr className="border-t border-zinc-200/70 align-top dark:border-zinc-800" key={row.date + row.reportType}>
                   <td className="py-4 pr-3 text-zinc-700 dark:text-zinc-200">{row.date}</td>
-                  <td className="py-4 pr-3 font-medium text-zinc-900 dark:text-zinc-100">{row.reportType}</td>
-                  <td className="py-4 pr-3 text-zinc-600 dark:text-zinc-300">{row.audience}</td>
+                  <td className="py-4 pr-3 font-medium text-zinc-900 dark:text-zinc-100">{reportTypeLabels[row.reportType] ?? row.reportType}</td>
+                  <td className="py-4 pr-3 text-zinc-600 dark:text-zinc-300">{audienceLabels[row.audience] ?? row.audience}</td>
                   <td className="py-4 pr-3">
                     <Badge variant={getBadgeVariant(row.status)}>{statusLabels[row.status]}</Badge>
                   </td>
-                  <td className="py-4 text-zinc-600 dark:text-zinc-300">{row.owner}</td>
+                  <td className="py-4 text-zinc-600 dark:text-zinc-300">{ownerLabels[row.owner] ?? row.owner}</td>
                 </tr>
               ))}
             </tbody>

@@ -14,7 +14,7 @@ const newsreader = Newsreader({
 
 export const metadata: Metadata = {
   title: "Signal Room | Apriil",
-  description: "Premium operational intelligence platform layered on existing reporting infrastructure.",
+  description: "Operasjonell innsiktsplattform lagt over eksisterende rapporteringsinfrastruktur.",
 };
 
 export default function RootLayout({
@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="no"
       className={`${manrope.variable} ${newsreader.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>

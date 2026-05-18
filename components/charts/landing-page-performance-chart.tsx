@@ -15,8 +15,8 @@ export function LandingPagePerformanceChart({ data }: { data: TrendPoint[] }) {
 
   return (
     <Card className="h-[320px]">
-      <CardTitle className="text-base">Landing Page Performance</CardTitle>
-      <CardDescription className="mt-1">Engagement and conversion friction trend profile</CardDescription>
+      <CardTitle className="text-base">Ytelse pa landingsside</CardTitle>
+      <CardDescription className="mt-1">Trendprofil for engasjement og konverteringsfriksjon</CardDescription>
       <div className="mt-5 h-[230px]">
         {mounted ? (
           <ResponsiveContainer width="100%" height="100%">
@@ -31,6 +31,7 @@ export function LandingPagePerformanceChart({ data }: { data: TrendPoint[] }) {
               <XAxis dataKey="date" tick={{ fontSize: 12, fill: "#71717a" }} tickLine={false} axisLine={false} />
               <YAxis tick={{ fontSize: 12, fill: "#71717a" }} tickLine={false} axisLine={false} />
               <Tooltip
+                labelFormatter={(value) => `Periode: ${value}`}
                 contentStyle={{
                   borderRadius: "14px",
                   border: "1px solid rgba(148, 163, 184, 0.35)",

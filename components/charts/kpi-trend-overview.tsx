@@ -52,7 +52,7 @@ export function KpiTrendOverview({ data }: KpiTrendOverviewProps) {
                 }}
               />
               <Legend />
-              <Line yAxisId="financial" type="monotone" dataKey="spend" name="Spend" stroke="#1d4ed8" strokeWidth={2.6} dot={false} />
+              <Line yAxisId="financial" type="monotone" dataKey="spend" name="Kostnad" stroke="#1d4ed8" strokeWidth={2.6} dot={false} />
               <Line yAxisId="financial" type="monotone" dataKey="attributedRevenue" name="Attribuert omsetning" stroke="#0f766e" strokeWidth={2.6} dot={false} />
               <Line yAxisId="ratio" type="monotone" dataKey="roas" name="ROAS" stroke="#7c3aed" strokeWidth={2.3} dot={false} />
             </LineChart>

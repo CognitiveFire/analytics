@@ -8,8 +8,8 @@ export default function ClientsPage() {
     <PlatformShell>
       <section className="space-y-6">
         <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Client Portfolio</p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight">Multi-client operational intelligence</h1>
+          <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Kundeportefolje</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight">Operasjonell innsikt pa tvers av kunder</h1>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -20,14 +20,14 @@ export default function ClientsPage() {
                   {client.logoMark}
                 </div>
                 <Badge variant={client.accountHealth > 80 ? "success" : client.accountHealth > 70 ? "warning" : "danger"}>
-                  Health {client.accountHealth}
+                  Helse {client.accountHealth}
                 </Badge>
               </div>
               <CardTitle className="mt-4 text-xl">{client.name}</CardTitle>
               <CardDescription className="mt-2">
                 {client.industry} • {client.region}
               </CardDescription>
-              <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-300">Report status: {client.reportStatus}</p>
+              <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-300">Rapportstatus: {client.reportStatus}</p>
             </Card>
           ))}
         </div>

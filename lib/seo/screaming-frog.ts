@@ -167,23 +167,23 @@ function buildNotes(summary: ScreamingFrogSummary): string[] {
   const notes: string[] = [];
 
   if (summary.missingTitles > 0 || summary.duplicateTitles > 0) {
-    notes.push("Title issues require immediate prioritisation because they affect crawl interpretation and click-through quality.");
+    notes.push("Tittelavvik bor prioriteres umiddelbart fordi de paverker crawl-tolkning og kvaliteten pa klikkraten.");
   }
 
   if (summary.missingH1 > 0 || summary.duplicateH1 > 0) {
-    notes.push("Heading structure needs review across templated pages and high-value landing pages.");
+    notes.push("Overskriftsstrukturen bor gjennomgas pa malbaserte sider og landingssider med hoy verdi.");
   }
 
   if (summary.canonicalIssues > 0) {
-    notes.push("Canonical inconsistencies may be suppressing indexation and consolidating signals poorly.");
+    notes.push("Ulik canonical-praksis kan hemme indeksering og gi svak signal-konsolidering.");
   }
 
   if (summary.redirectUrls > 0) {
-    notes.push("Redirect volume should be reviewed for unnecessary hops and crawl budget loss.");
+    notes.push("Volumet av omdirigeringer bor gjennomgas for unodige hopp og tap av crawl-budsjett.");
   }
 
   if (notes.length === 0) {
-    notes.push("The Screaming Frog export set appears structurally healthy based on the uploaded files.");
+    notes.push("Screaming Frog-eksportsettet fremstar strukturelt sunt basert pa opplastede filer.");
   }
 
   return notes;
@@ -227,7 +227,7 @@ export function processScreamingFrogExports(files: Array<{ name: string; content
   return {
     projectName,
     crawlDate,
-    compareLabel: "Compare to previous crawl",
+    compareLabel: "Sammenlign med forrige crawl",
     fileCount: parsedFiles.length,
     files: fileResults,
     uploadedFileNames: {},

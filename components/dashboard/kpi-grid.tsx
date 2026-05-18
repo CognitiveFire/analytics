@@ -10,7 +10,7 @@ export function KpiGrid() {
   return (
     <section>
       <div className="mb-5">
-        <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Executive KPI Layer</p>
+        <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Leder-KPI-lag</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">

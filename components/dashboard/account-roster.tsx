@@ -15,13 +15,13 @@ export function AccountRoster() {
     <Card>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Account universe</p>
-          <CardTitle className="mt-2 text-xl">Connected account roster</CardTitle>
+          <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Kontounivers</p>
+          <CardTitle className="mt-2 text-xl">Tilkoblede kontoer</CardTitle>
           <CardDescription className="mt-2">
-            The dashboard now reflects the same five active accounts used across connectors and SEO ingestion.
+            Oversikten viser de samme fem aktive kontoene som brukes i koblinger og SEO-opplasting.
           </CardDescription>
         </div>
-        <Badge variant="success">Active: {current.name}</Badge>
+        <Badge variant="success">Aktiv: {current.name}</Badge>
       </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">

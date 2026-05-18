@@ -17,7 +17,7 @@ export function PlatformShell({ children }: { children: React.ReactNode }) {
               </div>
               <div>
                 <p className="font-semibold tracking-tight">Signal Room</p>
-                <p className="text-xs text-zinc-500">Operational intelligence by Apriil</p>
+                <p className="text-xs text-zinc-500">Operasjonell innsikt fra Apriil</p>
               </div>
             </Link>
             <ThemeToggle />

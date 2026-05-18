@@ -23,36 +23,36 @@ export default function DashboardPage() {
 
         <section className="grid gap-4 xl:grid-cols-3">
           <TrendChart
-            title="ROAS Trend"
-            description="Efficiency curve across reporting period"
+            title="ROAS-trend"
+            description="Effektivitetskurve for rapporteringsperioden"
             color="#0f172a"
             data={trendHistory}
             dataKey="roas"
           />
           <TrendChart
-            title="Spend Efficiency"
-            description="Cost trajectory and spend discipline"
+            title="Kostnadseffektivitet"
+            description="Kostnadsutvikling og budsjettkontroll"
             color="#1d4ed8"
             data={trendHistory}
             dataKey="spend"
           />
           <TrendChart
-            title="SEO Visibility"
-            description="Search visibility momentum"
+            title="SEO-synlighet"
+            description="Utvikling i organisk synlighet"
             color="#0f766e"
             data={trendHistory}
             dataKey="seoVisibility"
           />
           <TrendChart
-            title="Conversion Quality"
-            description="Lead quality and conversion health"
+            title="Konverteringskvalitet"
+            description="Lead-kvalitet og konverteringshelse"
             color="#9f1239"
             data={trendHistory}
             dataKey="conversionQuality"
           />
           <TrendChart
-            title="Attribution Trend"
-            description="Attributed revenue pathway"
+            title="Attribusjonstrend"
+            description="Utvikling i attribuert omsetning"
             color="#6d28d9"
             data={trendHistory}
             dataKey="attributedRevenue"

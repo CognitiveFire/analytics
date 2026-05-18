@@ -259,15 +259,15 @@ export function ConnectorWizard() {
       <Card className="border-zinc-200/80 bg-white/95 dark:border-zinc-800 dark:bg-zinc-900/90">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Connector wizard</p>
-            <CardTitle className="mt-2 text-3xl">Guide each account through the sources it actually has</CardTitle>
+            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Koblingsveiviser</p>
+            <CardTitle className="mt-2 text-3xl">Konfigurer kildene hver konto faktisk har tilgang til</CardTitle>
             <CardDescription className="mt-3 max-w-3xl">
-              Not every client has every platform. This wizard lets you choose the exact sources available for the account,
-              then configures only those connectors.
+              Ikke alle kunder har tilgang til alle plattformer. Veiviseren lar deg velge eksakte kilder per konto,
+              og konfigurerer kun disse koblingene.
             </CardDescription>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Badge variant="neutral">{enabledCount} selected</Badge>
+            <Badge variant="neutral">{enabledCount} valgt</Badge>
             <Badge variant={enabledCount > 0 ? "success" : "warning"}>{connectorWizardSteps[step].title}</Badge>
           </div>
         </div>
@@ -275,7 +275,7 @@ export function ConnectorWizard() {
 
       <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
         <Card className="h-fit">
-          <CardTitle className="text-lg">Setup flow</CardTitle>
+          <CardTitle className="text-lg">Oppsettflyt</CardTitle>
           <div className="mt-4 space-y-3">
             {connectorWizardSteps.map((item, index) => {
               const active = index === step;
@@ -293,7 +293,7 @@ export function ConnectorWizard() {
                   )}
                   key={item.title}
                 >
-                  <p className="text-xs uppercase tracking-[0.2em] opacity-70">Step {index + 1}</p>
+                  <p className="text-xs uppercase tracking-[0.2em] opacity-70">Steg {index + 1}</p>
                   <p className="mt-1 font-medium">{item.title}</p>
                   <p className="mt-2 text-sm leading-relaxed opacity-80">{item.description}</p>
                 </div>
@@ -307,8 +307,8 @@ export function ConnectorWizard() {
             <Card>
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <CardTitle className="text-xl">1. Select accessible sources</CardTitle>
-                  <CardDescription className="mt-2">Choose the data sources available for this client. Google Ads can be set to specific manager/client accounts only.</CardDescription>
+                  <CardTitle className="text-xl">1. Velg tilgjengelige kilder</CardTitle>
+                  <CardDescription className="mt-2">Velg datakildene som er tilgjengelige for denne kunden. Google Ads kan settes til spesifikke manager- og kundekontoer.</CardDescription>
                 </div>
                 <Sparkles className="h-5 w-5 text-zinc-400" />
               </div>
@@ -337,7 +337,7 @@ export function ConnectorWizard() {
                         </div>
                         {enabled ? <Check className="h-5 w-5" /> : <CircleDashed className="h-5 w-5 text-zinc-400" />}
                       </div>
-                      <p className={cn("mt-4 text-xs uppercase tracking-[0.18em]", enabled ? "text-white/70" : "text-zinc-500")}>Access modes: {source.accessModes.join(" / ")}</p>
+                      <p className={cn("mt-4 text-xs uppercase tracking-[0.18em]", enabled ? "text-white/70" : "text-zinc-500")}>Tilgangsmodus: {source.accessModes.join(" / ")}</p>
                     </button>
                   );
                 })}
@@ -347,15 +347,15 @@ export function ConnectorWizard() {
 
           {step === 1 ? (
             <Card>
-              <CardTitle className="text-xl">2. Configure access details</CardTitle>
+              <CardTitle className="text-xl">2. Konfigurer tilgangsdetaljer</CardTitle>
               <CardDescription className="mt-2">
-                Each selected source can have different auth methods and different identifiers.
+                Hver valgt kilde kan ha ulike autentiseringsmetoder og identifikatorer.
               </CardDescription>
 
               <div className="mt-5 space-y-4">
                 {selectedSources.length === 0 ? (
                   <div className="rounded-2xl border border-dashed border-zinc-300 p-6 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
-                    Select at least one source in step 1 to configure access.
+                    Velg minst en kilde i steg 1 for a konfigurere tilgang.
                   </div>
                 ) : null}
 
@@ -374,7 +374,7 @@ export function ConnectorWizard() {
                       {source.source === "googleAds" ? (
                         <div className="mt-4 space-y-4">
                           <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/60">
-                            <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Manager accounts</p>
+                            <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Managerkontoer</p>
                             <div className="mt-3 space-y-3">
                               {googleAdsWizardAccounts.managers.map((account) => {
                                 const selectionValue = `${account.label} [${account.customerId}]`;
@@ -407,7 +407,7 @@ export function ConnectorWizard() {
                           </div>
 
                           <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/60">
-                            <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Client accounts</p>
+                            <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Kundekontoer</p>
                             <div className="mt-3 space-y-3">
                               {googleAdsWizardAccounts.clients.map((account) => {
                                 const selectionValue = `${account.label} [${account.customerId}]`;
@@ -445,7 +445,7 @@ export function ConnectorWizard() {
                       {source.source === "ga4" ? (
                         <div className="mt-4 space-y-4">
                           <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/60">
-                            <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">GA4 properties</p>
+                            <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">GA4-properties</p>
                             <div className="mt-3 space-y-3">
                               {googleAnalyticsWizardAccounts.map((account) => {
                                 const selected = current.selectedAccounts.includes(account.propertyId);
@@ -480,7 +480,7 @@ export function ConnectorWizard() {
 
                       <div className="mt-4 grid gap-3 md:grid-cols-2">
                         <label className="space-y-2 text-sm">
-                          <span className="text-zinc-500 dark:text-zinc-400">Access mode</span>
+                          <span className="text-zinc-500 dark:text-zinc-400">Tilgangsmodus</span>
                           <select
                             className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-sm dark:border-zinc-700 dark:bg-zinc-950"
                             onChange={(event) => setAccessMode(source.source, event.target.value)}
@@ -495,7 +495,7 @@ export function ConnectorWizard() {
                         </label>
 
                         <label className="space-y-2 text-sm">
-                          <span className="text-zinc-500 dark:text-zinc-400">Access detail</span>
+                          <span className="text-zinc-500 dark:text-zinc-400">Tilgangsdetalj</span>
                           <input
                             className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-zinc-400 dark:border-zinc-700 dark:bg-zinc-950"
                             onChange={(event) => setAccessDetail(source.source, event.target.value)}
@@ -507,7 +507,7 @@ export function ConnectorWizard() {
 
                       {source.source === "googleAds" || source.source === "ga4" ? (
                         <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
-                          Selected accounts: {current.selectedAccounts.length > 0 ? current.selectedAccounts.join(", ") : "none"}
+                          Valgte kontoer: {current.selectedAccounts.length > 0 ? current.selectedAccounts.join(", ") : "ingen"}
                         </p>
                       ) : null}
 
@@ -529,8 +529,8 @@ export function ConnectorWizard() {
             <Card>
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <CardTitle className="text-xl">3. Review and activate</CardTitle>
-                  <CardDescription className="mt-2">Only the selected connectors will be activated for this account.</CardDescription>
+                  <CardTitle className="text-xl">3. Gjennomga og aktiver</CardTitle>
+                  <CardDescription className="mt-2">Kun valgte koblinger aktiveres for denne kontoen.</CardDescription>
                 </div>
                 <ShieldCheck className="h-5 w-5 text-emerald-600" />
               </div>
@@ -546,23 +546,23 @@ export function ConnectorWizard() {
                             {state[source.source].accessMode} · {state[source.source].accessDetail}
                           </p>
                         </div>
-                        <Badge variant="success">Included</Badge>
+                        <Badge variant="success">Inkludert</Badge>
                       </div>
                     </div>
                   ))}
 
                   {selectedSources.length === 0 ? (
                     <div className="rounded-2xl border border-dashed border-zinc-300 px-4 py-6 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
-                      No sources selected yet.
+                      Ingen kilder er valgt enda.
                     </div>
                   ) : null}
                 </div>
 
                 <div className="rounded-[1.5rem] border border-zinc-200 bg-zinc-50 p-5 dark:border-zinc-800 dark:bg-zinc-800/40">
-                  <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">Activation summary</p>
-                  <p className="mt-3 text-3xl font-semibold tracking-tight">{enabledCount} connectors</p>
+                  <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">Aktiveringsoversikt</p>
+                  <p className="mt-3 text-3xl font-semibold tracking-tight">{enabledCount} koblinger</p>
                   <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-                    Accounts can be partial. Signal Room only activates the sources selected in this wizard.
+                    Kontooppsett kan vere delvis. Signal Room aktiverer kun kildene som er valgt i veiviseren.
                   </p>
                 </div>
               </div>
@@ -572,11 +572,11 @@ export function ConnectorWizard() {
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-[1.5rem] border border-zinc-200 bg-white/80 px-5 py-4 dark:border-zinc-800 dark:bg-zinc-900/70">
             <Button disabled={step === 0 || completed} onClick={previousStep} type="button" variant="outline">
               <ChevronLeft className="mr-2 h-4 w-4" />
-              Back
+              Tilbake
             </Button>
 
             <div className="text-sm text-zinc-500 dark:text-zinc-400">
-              Step {step + 1} of {connectorWizardSteps.length}
+              Steg {step + 1} av {connectorWizardSteps.length}
             </div>
 
             <Button
@@ -584,7 +584,7 @@ export function ConnectorWizard() {
               onClick={step === connectorWizardSteps.length - 1 ? finishWizard : nextStep}
               type="button"
             >
-              {step === connectorWizardSteps.length - 1 ? (completed ? "Setup activated" : "Activate connectors") : "Continue"}
+              {step === connectorWizardSteps.length - 1 ? (completed ? "Oppsett aktivert" : "Aktiver koblinger") : "Fortsett"}
               <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
@@ -594,10 +594,10 @@ export function ConnectorWizard() {
               <div className="flex items-start gap-3">
                 <Check className="mt-0.5 h-5 w-5 text-emerald-600" />
                 <div>
-                  <CardTitle className="text-lg text-emerald-950 dark:text-emerald-100">Connectors activated</CardTitle>
+                  <CardTitle className="text-lg text-emerald-950 dark:text-emerald-100">Koblinger aktivert</CardTitle>
                   <CardDescription className="mt-2 text-emerald-800 dark:text-emerald-200">
-                    Signal Room has saved the selected connector set. Accounts without a given source remain excluded,
-                    so each client can carry only the integrations it actually has access to.
+                    Signal Room har lagret valgt koblingssett. Kontoer uten en gitt kilde holdes ekskludert,
+                    slik at hver kunde kun har integrasjonene de faktisk har tilgang til.
                   </CardDescription>
                 </div>
               </div>

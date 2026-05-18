@@ -1,7 +1,22 @@
-const MONTH_FORMATTER = new Intl.DateTimeFormat("en-GB", {
+const MONTH_FORMATTER_NO = new Intl.DateTimeFormat("nb-NO", {
   month: "long",
   year: "numeric",
 });
+
+const norwegianMonths = [
+  "januar",
+  "februar",
+  "mars",
+  "april",
+  "mai",
+  "juni",
+  "juli",
+  "august",
+  "september",
+  "oktober",
+  "november",
+  "desember",
+];
 
 function startOfMonth(date: Date) {
   return new Date(date.getFullYear(), date.getMonth(), 1);
@@ -12,7 +27,7 @@ function shiftMonths(date: Date, months: number) {
 }
 
 export function formatMonthLabel(date: Date) {
-  return MONTH_FORMATTER.format(startOfMonth(date));
+  return MONTH_FORMATTER_NO.format(startOfMonth(date));
 }
 
 export function getMonthlyPeriods(count = 12, anchorDate = new Date()) {
@@ -27,20 +42,7 @@ export function getMonthlyPeriods(count = 12, anchorDate = new Date()) {
 export function getPreviousMonthLabel(periodLabel: string) {
   const [monthName, yearText] = periodLabel.split(" ");
   const year = Number(yearText);
-  const monthIndex = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ].indexOf(monthName);
+  const monthIndex = norwegianMonths.indexOf(monthName?.toLowerCase());
 
   if (!Number.isFinite(year) || monthIndex < 0) {
     return formatMonthLabel(shiftMonths(new Date(), -1));

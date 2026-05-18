@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import {
+  Area,
   CartesianGrid,
   Line,
   LineChart,
@@ -49,11 +50,18 @@ export function TrendChart({ title, description, color, dataKey, data }: TrendCh
         {mounted ? (
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data}>
+              <defs>
+                <linearGradient id={`trendGradient-${String(dataKey)}`} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={color} stopOpacity={0.28} />
+                  <stop offset="95%" stopColor={color} stopOpacity={0.02} />
+                </linearGradient>
+              </defs>
               <CartesianGrid stroke="rgba(148, 163, 184, 0.2)" strokeDasharray="3 3" />
               <XAxis dataKey="date" tick={{ fontSize: 12, fill: "#71717a" }} tickLine={false} axisLine={false} />
               <YAxis tick={{ fontSize: 12, fill: "#71717a" }} tickLine={false} axisLine={false} />
               <Tooltip
                 formatter={(value) => formatMetricValue(dataKey, value as number)}
+                labelFormatter={(value) => `Periode: ${value}`}
                 contentStyle={{
                   borderRadius: "14px",
                   border: "1px solid rgba(148, 163, 184, 0.35)",
@@ -61,7 +69,8 @@ export function TrendChart({ title, description, color, dataKey, data }: TrendCh
                   boxShadow: "0 10px 30px rgba(15,23,42,0.12)",
                 }}
               />
-              <Line type="monotone" dataKey={dataKey} stroke={color} strokeWidth={2.5} dot={false} />
+              <Area type="monotone" dataKey={dataKey} fill={`url(#trendGradient-${String(dataKey)})`} stroke="none" />
+              <Line type="monotone" dataKey={dataKey} stroke={color} strokeWidth={2.8} dot={false} activeDot={{ r: 4 }} />
             </LineChart>
           </ResponsiveContainer>
         ) : (

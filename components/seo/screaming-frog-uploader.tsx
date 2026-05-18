@@ -12,45 +12,45 @@ import { ScreamingFrogUploadResult } from "@/types";
 const exportSpecs = [
   {
     key: "internal_html",
-    label: "Internal HTML",
+    label: "Intern HTML",
     fileName: "internal_html.csv",
-    description: "All crawled internal pages with status codes, indexability, and page metrics.",
+    description: "Alle crawlte interne sider med statuskoder, indekserbarhet og sidemetrikker.",
   },
   {
     key: "response_codes",
-    label: "Response Codes",
+    label: "Statuskoder",
     fileName: "response_codes.csv",
-    description: "HTTP response codes for every URL including redirects, client and server errors.",
+    description: "HTTP-statuskoder for alle URL-er, inkludert omdirigeringer samt klient- og serverfeil.",
   },
   {
     key: "page_titles",
-    label: "Page Titles",
+    label: "Sidetitler",
     fileName: "page_titles.csv",
-    description: "Title tags, lengths, and duplicate detection across the crawled URL set.",
+    description: "Titteltagger, lengde og deteksjon av duplikater pa tvers av crawlte URL-er.",
   },
   {
     key: "h1",
     label: "H1",
     fileName: "h1.csv",
-    description: "Heading structure, missing headers, and duplicate H1 patterns.",
+    description: "Overskriftsstruktur, manglende overskrifter og dupliserte H1-monstre.",
   },
   {
     key: "canonicals",
-    label: "Canonicals",
+    label: "Canonicaler",
     fileName: "canonicals.csv",
-    description: "Canonical tags and self-referencing or conflicting canonical states.",
+    description: "Canonical-tagger samt selvrefererende eller konfliktende canonical-tilstander.",
   },
   {
     key: "inlinks",
-    label: "Inlinks",
+    label: "Inngaaende lenker",
     fileName: "inlinks.csv",
-    description: "Internal link graph showing source, destination, anchor text, and link type.",
+    description: "Intern lenkegraf med kilde, destinasjon, ankertekst og lenketype.",
   },
   {
     key: "crawl_overview",
-    label: "Crawl Overview",
+    label: "Crawl-oversikt",
     fileName: "crawl_overview.csv",
-    description: "Top-level crawl summary including total URLs, depths, and response breakdowns.",
+    description: "Overordnet crawl-oppsummering med totale URL-er, dybde og fordeling av statuskoder.",
   },
 ] as const;
 
@@ -77,6 +77,13 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
 
   const readyCount = useMemo(() => Object.values(files).filter(Boolean).length, [files]);
 
+  const statusLabels: Record<string, string> = {
+    processed: "behandlet",
+    missing: "mangler",
+    invalid: "ugyldig",
+    waiting: "venter",
+  };
+
   const onFileChange = (key: string) => (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] ?? null;
     setFiles((current) => ({ ...current, [key]: file }));
@@ -94,7 +101,7 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
         };
 
         if (!response.ok) {
-          throw new Error(payload.error ?? "Unable to load previous SEO upload.");
+          throw new Error(payload.error ?? "Kunne ikke laste tidligere SEO-opplasting.");
         }
 
         const nextResult = payload.result ?? null;
@@ -134,7 +141,7 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
       const payload = (await response.json()) as { result?: ScreamingFrogUploadResult; error?: string };
 
       if (!response.ok) {
-        throw new Error(payload.error ?? "Unable to process Screaming Frog exports.");
+        throw new Error(payload.error ?? "Kunne ikke behandle Screaming Frog-eksporter.");
       }
 
       const nextResult = payload.result ?? null;
@@ -145,7 +152,7 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
       });
       setFiles(initialFiles);
     } catch (submissionError) {
-      setError(submissionError instanceof Error ? submissionError.message : "Unexpected upload failure.");
+      setError(submissionError instanceof Error ? submissionError.message : "Uventet feil ved opplasting.");
     } finally {
       setIsSubmitting(false);
     }
@@ -156,16 +163,16 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
       <Card className="border-zinc-200/80 bg-white/95 dark:border-zinc-800 dark:bg-zinc-900/90">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Upload workspace</p>
-            <CardTitle className="mt-2 text-3xl">Ingest Screaming Frog exports</CardTitle>
+            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Opplastingsomrade</p>
+            <CardTitle className="mt-2 text-3xl">Behandle Screaming Frog-eksporter</CardTitle>
             <CardDescription className="mt-3 max-w-3xl">
-              Drag in multiple CSV exports, validate the set, process the crawl, and move directly into the executive dashboard.
+              Last opp flere CSV-eksporter, valider settet, behandle crawlen og ga videre til oversikten.
             </CardDescription>
           </div>
           <div className="flex flex-wrap gap-3 text-sm">
-            <Badge variant="neutral">{readyCount} / {exportSpecs.length} files ready</Badge>
+            <Badge variant="neutral">{readyCount} / {exportSpecs.length} filer klare</Badge>
             <Badge variant={readyCount === exportSpecs.length ? "success" : "warning"}>
-              {readyCount === exportSpecs.length ? "Ready to process" : "Awaiting uploads"}
+              {readyCount === exportSpecs.length ? "Klar til behandling" : "Venter pa opplasting"}
             </Badge>
           </div>
         </div>
@@ -196,12 +203,12 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
 
                 <div className="mt-5 flex items-center justify-between gap-4">
                   <div className="min-w-0">
-                    <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Selected file</p>
-                    <p className="mt-1 truncate text-sm text-zinc-700 dark:text-zinc-200">{file?.name ?? fileNames[spec.key] ?? "No file selected"}</p>
+                    <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Valgt fil</p>
+                    <p className="mt-1 truncate text-sm text-zinc-700 dark:text-zinc-200">{file?.name ?? fileNames[spec.key] ?? "Ingen fil valgt"}</p>
                   </div>
                   <div className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-600 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
                     <UploadCloud className="mr-2 inline h-4 w-4" />
-                    Select file
+                    Velg fil
                   </div>
                 </div>
 
@@ -213,10 +220,10 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
 
         <div className="flex flex-wrap items-center gap-3 rounded-[1.75rem] border border-zinc-200/70 bg-white/80 p-4 dark:border-zinc-800 dark:bg-zinc-900/75">
           <Button disabled={isSubmitting || readyCount === 0} type="submit">
-            {isSubmitting ? "Processing exports..." : "Process exports"}
+            {isSubmitting ? "Behandler eksporter..." : "Behandle eksporter"}
           </Button>
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            {readyCount === 0 ? "Upload at least one Screaming Frog export to begin." : "Signal Room will normalize titles, H1s, canonicals, response codes, and crawl summaries."}
+            {readyCount === 0 ? "Last opp minst en Screaming Frog-eksport for a starte." : "Signal Room normaliserer titler, H1, canonicals, statuskoder og crawl-oppsummeringer."}
           </p>
         </div>
       </form>
@@ -226,7 +233,7 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
           <div className="flex items-start gap-3">
             <AlertTriangle className="mt-0.5 h-5 w-5 text-rose-600" />
             <div>
-              <CardTitle className="text-base text-rose-900 dark:text-rose-100">Upload failed</CardTitle>
+              <CardTitle className="text-base text-rose-900 dark:text-rose-100">Opplasting feilet</CardTitle>
               <p className="mt-2 text-sm text-rose-700 dark:text-rose-200">{error}</p>
             </div>
           </div>
@@ -238,23 +245,23 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
           <Card>
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Crawl summary</p>
-                <CardTitle className="mt-2 text-2xl">{result.projectName ?? "Screaming Frog import"}</CardTitle>
+                <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Crawl-oppsummering</p>
+                <CardTitle className="mt-2 text-2xl">{result.projectName ?? "Screaming Frog-import"}</CardTitle>
                 <CardDescription className="mt-2">
-                  Crawl date: {result.crawlDate ?? "unknown"} · {result.compareLabel ?? "Compare crawl"}
+                  Crawl-dato: {result.crawlDate ?? "ukjent"} · {result.compareLabel ?? "Sammenlign crawl"}
                 </CardDescription>
               </div>
-              <Badge variant="neutral">{result.fileCount} processed</Badge>
+              <Badge variant="neutral">{result.fileCount} behandlet</Badge>
             </div>
 
             <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
               {[
                 { label: "URLs", value: result.summary.totalUrls },
-                { label: "Indexable", value: result.summary.indexableUrls },
+                { label: "Indekserbare", value: result.summary.indexableUrls },
                 { label: "Noindex", value: result.summary.noindexUrls },
-                { label: "Redirects", value: result.summary.redirectUrls },
-                { label: "Missing titles", value: result.summary.missingTitles },
-                { label: "Canonical issues", value: result.summary.canonicalIssues },
+                { label: "Omdirigeringer", value: result.summary.redirectUrls },
+                { label: "Manglende titler", value: result.summary.missingTitles },
+                { label: "Canonical-avvik", value: result.summary.canonicalIssues },
               ].map((item) => (
                 <div className="rounded-2xl bg-zinc-50 p-4 dark:bg-zinc-800/60" key={item.label}>
                   <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">{item.label}</p>
@@ -265,9 +272,9 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
           </Card>
 
           <Card>
-            <CardTitle className="text-lg">AI-style SEO notes</CardTitle>
+            <CardTitle className="text-lg">AI-baserte SEO-notater</CardTitle>
             <CardDescription className="mt-2">
-              Screaming Frog exports are converted into executive-grade crawl observations.
+              Screaming Frog-eksporter omgjores til tydelige crawl-observasjoner.
             </CardDescription>
 
             <div className="mt-5 space-y-3">
@@ -282,9 +289,9 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
       ) : null}
 
       <Card>
-        <CardTitle className="text-lg">Processed file map</CardTitle>
+        <CardTitle className="text-lg">Oversikt over behandlede filer</CardTitle>
         <CardDescription className="mt-2">
-          Signal Room expects Screaming Frog exports as a CSV upload set rather than an API connector.
+          Signal Room forventer Screaming Frog-eksporter som CSV-opplasting, ikke som API-kobling.
         </CardDescription>
 
         <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
@@ -295,8 +302,8 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
                 <p className="font-medium text-zinc-900 dark:text-zinc-100">{spec.label}</p>
                 <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{spec.description}</p>
                 <div className="mt-4 flex items-center justify-between text-sm">
-                  <span className="text-zinc-500 dark:text-zinc-400">{current?.status ?? "waiting"}</span>
-                  <span className="text-zinc-700 dark:text-zinc-200">{current?.rows ?? 0} rows</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">{statusLabels[current?.status ?? "waiting"] ?? (current?.status ?? "venter")}</span>
+                  <span className="text-zinc-700 dark:text-zinc-200">{current?.rows ?? 0} rader</span>
                 </div>
               </div>
             );

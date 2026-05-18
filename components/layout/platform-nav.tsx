@@ -7,12 +7,12 @@ import { BarChart3, Building2, ClipboardCheck, FileText, Search, Settings } from
 import { cn } from "@/lib/utils/cn";
 
 const items = [
-  { href: "/dashboard", label: "Dashboard", icon: BarChart3 },
+  { href: "/dashboard", label: "Oversikt", icon: BarChart3 },
   { href: "/seo", label: "SEO", icon: Search },
-  { href: "/clients", label: "Clients", icon: Building2 },
-  { href: "/reports", label: "Reports", icon: FileText },
-  { href: "/tasks", label: "Tasks", icon: ClipboardCheck },
-  { href: "/settings", label: "Settings", icon: Settings },
+  { href: "/clients", label: "Kunder", icon: Building2 },
+  { href: "/reports", label: "Rapporter", icon: FileText },
+  { href: "/tasks", label: "Oppgaver", icon: ClipboardCheck },
+  { href: "/settings", label: "Innstillinger", icon: Settings },
 ];
 
 export function PlatformNav() {

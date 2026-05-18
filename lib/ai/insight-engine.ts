@@ -4,6 +4,6 @@ import { StrategicInsight } from "@/types";
 export function generateStrategicInsights(clientName: string): StrategicInsight[] {
   return strategicInsightsSeed.map((insight) => ({
     ...insight,
-    summary: insight.summary.replace("campaigns", `${clientName.toLowerCase()} campaigns`),
+    summary: insight.summary.replace("kampanjer", `${clientName.toLowerCase()}-kampanjer`),
   }));
 }
