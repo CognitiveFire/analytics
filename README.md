@@ -4,6 +4,8 @@ Premium white-labelled analytics and operational intelligence platform for Aprii
 
 Signal Room is intentionally positioned as an intelligence layer on top of existing reporting infrastructure such as Looker Studio, BigQuery, GA4, Google Ads, Search Console, CM360, DV360, Floodlight, and CRM systems.
 
+For SEO, Signal Room uses Screaming Frog CSV exports as the ingestion source. Users upload the crawl export set and Signal Room converts it into executive SEO intelligence and operational tasks.
+
 ## Stack
 
 - Next.js 15 App Router
@@ -120,6 +122,31 @@ Signal Room exposes a server route that aggregates all connectors:
 `GET /api/connectors/snapshots?clientId=nordic-retail`
 
 Implemented in [app/api/connectors/snapshots/route.ts](app/api/connectors/snapshots/route.ts).
+
+## Screaming Frog SEO Upload
+
+Signal Room exposes a dedicated SEO upload page at `/seo` and a server route for CSV processing:
+
+`POST /api/seo/screamingfrog/upload`
+
+Expected CSV export set:
+
+- internal_html.csv
+- response_codes.csv
+- page_titles.csv
+- h1.csv
+- canonicals.csv
+- inlinks.csv
+- crawl_overview.csv
+
+The processor normalizes:
+
+- title coverage and duplicates
+- H1 coverage and duplicates
+- canonical issues
+- redirects
+- indexability and noindex counts
+- inlink row volume
 
 ## Build and Quality
 

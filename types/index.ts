@@ -10,6 +10,16 @@ export type DataSource =
 
 export type PriorityLevel = "high" | "medium" | "low";
 export type ConnectorMode = "mock" | "live";
+export type ScreamingFrogFileKey =
+  | "internal_html"
+  | "response_codes"
+  | "page_titles"
+  | "h1"
+  | "canonicals"
+  | "inlinks"
+  | "crawl_overview";
+
+export type ScreamingFrogFileStatus = "processed" | "missing" | "invalid";
 
 export interface Client {
   id: string;
@@ -77,4 +87,34 @@ export interface ConnectorSnapshot {
 
 export interface ConnectorSnapshotResponse {
   snapshot: ConnectorSnapshot;
+}
+
+export interface ScreamingFrogFileResult {
+  key: ScreamingFrogFileKey;
+  label: string;
+  rows: number;
+  status: ScreamingFrogFileStatus;
+}
+
+export interface ScreamingFrogSummary {
+  totalUrls: number;
+  indexableUrls: number;
+  noindexUrls: number;
+  redirectUrls: number;
+  missingTitles: number;
+  duplicateTitles: number;
+  missingH1: number;
+  duplicateH1: number;
+  canonicalIssues: number;
+  inlinks: number;
+}
+
+export interface ScreamingFrogUploadResult {
+  projectName: string | null;
+  crawlDate: string | null;
+  compareLabel: string | null;
+  fileCount: number;
+  files: ScreamingFrogFileResult[];
+  summary: ScreamingFrogSummary;
+  notes: string[];
 }
