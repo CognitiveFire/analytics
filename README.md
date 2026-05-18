@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Signal Room
 
-## Getting Started
+Premium white-labelled analytics and operational intelligence platform for Apriil.
 
-First, run the development server:
+Signal Room is intentionally positioned as an intelligence layer on top of existing reporting infrastructure such as Looker Studio, BigQuery, GA4, Google Ads, Search Console, CM360, DV360, Floodlight, and CRM systems.
+
+## Stack
+
+- Next.js 15 App Router
+- React + TypeScript
+- Tailwind CSS
+- Framer Motion
+- Recharts
+- Zustand
+
+## Local Setup
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Create environment file:
+
+```bash
+cp .env.example .env.local
+```
+
+3. Start development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Connector Runtime Modes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Signal Room supports two connector modes controlled by `SIGNALROOM_CONNECTOR_MODE`:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `mock`: use local mock connector data
+- `live`: call your existing ingestion/reporting API for real snapshots
 
-## Learn More
+### Required env for live mode
 
-To learn more about Next.js, take a look at the following resources:
+- `SIGNALROOM_CONNECTOR_MODE=live`
+- `SIGNALROOM_DATA_API_BASE_URL=https://your-ingestion-api.example.com`
+- `SIGNALROOM_DATA_API_KEY=...` (optional bearer token)
+- `SIGNALROOM_CONNECTOR_TIMEOUT_MS=8000`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Live API contract expected by Signal Room
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+For each source (`googleAds`, `ga4`, `searchConsole`, `bigQuery`, `cm360`, `dv360`, `floodlight`, `crm`) Signal Room requests:
 
-## Deploy on Vercel
+`GET /v1/connectors/:source/snapshot?clientId=:clientId`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Response JSON:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```json
+{
+	"snapshot": {
+		"source": "googleAds",
+		"account": "GOOGLEADS / nordic-retail",
+		"metrics": {
+			"spend": 12345,
+			"roas": 4.9,
+			"conversions": 321
+		},
+		"trendDelta": -2.4,
+		"anomalies": ["Spend anomaly in brand segment"],
+		"historySummary": "Stable with selective volatility in mobile acquisition."
+	}
+}
+```
+
+## Internal API route
+
+Signal Room exposes a server route that aggregates all connectors:
+
+`GET /api/connectors/snapshots?clientId=nordic-retail`
+
+Implemented in [app/api/connectors/snapshots/route.ts](app/api/connectors/snapshots/route.ts).
+
+## Build and Quality
+
+```bash
+npm run lint
+npm run build
+```

@@ -9,6 +9,7 @@ export type DataSource =
   | "crm";
 
 export type PriorityLevel = "high" | "medium" | "low";
+export type ConnectorMode = "mock" | "live";
 
 export interface Client {
   id: string;
@@ -72,4 +73,8 @@ export interface ConnectorSnapshot {
   trendDelta: number;
   anomalies: string[];
   historySummary: string;
+}
+
+export interface ConnectorSnapshotResponse {
+  snapshot: ConnectorSnapshot;
 }

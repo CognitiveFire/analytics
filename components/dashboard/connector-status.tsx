@@ -17,6 +17,7 @@ export async function ConnectorStatus({ clientId }: { clientId: string }) {
             <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">{snapshot.source}</p>
             <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-200">{snapshot.account}</p>
             <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Trend delta: {snapshot.trendDelta}%</p>
+            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Anomalies: {snapshot.anomalies.length}</p>
           </div>
         ))}
       </div>
