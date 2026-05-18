@@ -8,7 +8,13 @@ export interface GoogleAnalyticsAccount {
 export const googleAnalyticsAccounts: GoogleAnalyticsAccount[] = [
   {
     propertyId: "G-XXXXXXX-SOTRA",
-    label: "Sotra rør / melk.no",
+    label: "Sotra rør",
+    accountId: "180-521-0492",
+    accessNotes: "Use the GA4 property attached to the Sotra rør reporting stack.",
+  },
+  {
+    propertyId: "G-XXXXXXX-MELK",
+    label: "melk.no",
     accountId: "180-521-0492",
     accessNotes: "Use the GA4 property attached to the melk.no reporting stack.",
   },

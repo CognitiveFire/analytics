@@ -9,16 +9,23 @@ export interface GoogleAdsAccount {
 export const googleAdsAccounts: GoogleAdsAccount[] = [
   {
     customerId: "180-521-0492",
-    label: "Sotra rør / melk.no",
+    label: "Sotra rør",
     managerId: "180-521-0492",
     role: "client",
     accessNotes: "Managed through the 180-521-0492 Google Ads manager account.",
   },
   {
     customerId: "180-521-0492",
+    label: "melk.no",
+    managerId: "180-521-0492",
+    role: "client",
+    accessNotes: "Separate account context from Sotra rør, currently linked under the same manager login.",
+  },
+  {
+    customerId: "180-521-0492",
     label: "AdWords manager account",
     role: "manager",
-    accessNotes: "Manager account for Sotra rør / melk.no.",
+    accessNotes: "Manager account for Sotra rør and melk.no.",
   },
   {
     customerId: "421-149-7144",

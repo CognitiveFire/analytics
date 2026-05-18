@@ -69,6 +69,37 @@ function safeLoad(clientId: string): PersistedWizardState | null {
   }
 }
 
+async function loadServerState(clientId: string): Promise<PersistedWizardState | null> {
+  try {
+    const response = await fetch(`/api/connectors/wizard-state?clientId=${encodeURIComponent(clientId)}`, {
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const payload = (await response.json()) as { state: PersistedWizardState | null };
+    return payload.state;
+  } catch {
+    return null;
+  }
+}
+
+async function saveServerState(clientId: string, payload: PersistedWizardState) {
+  try {
+    await fetch("/api/connectors/wizard-state", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ clientId, ...payload }),
+    });
+  } catch {
+    // Local persistence remains the fallback.
+  }
+}
+
 function formatKey(source: DataSource | "screamingFrog") {
   return source === "screamingFrog" ? "SEO / Screaming Frog" : sourceToRouteLabel[source];
 }
@@ -78,23 +109,43 @@ export function ConnectorWizard() {
   const [step, setStep] = useState(0);
   const [state, setState] = useState<WizardState>(() => createInitialState());
   const [completed, setCompleted] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const saved = safeLoad(clientId);
-    if (!saved) {
-      setStep(0);
-      setCompleted(false);
-      setState(createInitialState());
-      return;
+    let active = true;
+    setHydrated(false);
+
+    async function hydrate() {
+      const serverSaved = await loadServerState(clientId);
+      const saved = serverSaved ?? safeLoad(clientId);
+
+      if (!active) {
+        return;
+      }
+
+      if (!saved) {
+        setStep(0);
+        setCompleted(false);
+        setState(createInitialState());
+        setHydrated(true);
+        return;
+      }
+
+      setStep(saved.step);
+      setCompleted(saved.completed);
+      setState(saved.state);
+      setHydrated(true);
     }
 
-    setStep(saved.step);
-    setCompleted(saved.completed);
-    setState(saved.state);
+    void hydrate();
+
+    return () => {
+      active = false;
+    };
   }, [clientId]);
 
   useEffect(() => {
-    if (typeof window === "undefined") {
+    if (!hydrated) {
       return;
     }
 
@@ -105,7 +156,13 @@ export function ConnectorWizard() {
     };
 
     window.localStorage.setItem(getStorageKey(clientId), JSON.stringify(payload));
-  }, [clientId, completed, state, step]);
+
+    const timeout = window.setTimeout(() => {
+      void saveServerState(clientId, payload);
+    }, 300);
+
+    return () => window.clearTimeout(timeout);
+  }, [clientId, completed, hydrated, state, step]);
 
   const selectedSources = useMemo(
     () => connectorWizardSources.filter((source) => state[source.source].enabled),
@@ -144,12 +201,12 @@ export function ConnectorWizard() {
     }));
   };
 
-  const toggleGoogleAdsAccount = (customerId: string) => {
+  const toggleGoogleAdsAccount = (selectionValue: string) => {
     setState((current) => {
       const sourceState = current.googleAds;
-      const selectedAccounts = sourceState.selectedAccounts.includes(customerId)
-        ? sourceState.selectedAccounts.filter((accountId) => accountId !== customerId)
-        : [...sourceState.selectedAccounts, customerId];
+      const selectedAccounts = sourceState.selectedAccounts.includes(selectionValue)
+        ? sourceState.selectedAccounts.filter((accountId) => accountId !== selectionValue)
+        : [...sourceState.selectedAccounts, selectionValue];
 
       return {
         ...current,
@@ -320,7 +377,8 @@ export function ConnectorWizard() {
                             <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Manager accounts</p>
                             <div className="mt-3 space-y-3">
                               {googleAdsWizardAccounts.managers.map((account) => {
-                                const selected = current.selectedAccounts.includes(account.customerId);
+                                const selectionValue = `${account.label} [${account.customerId}]`;
+                                const selected = current.selectedAccounts.includes(selectionValue);
                                 return (
                                   <button
                                     className={cn(
@@ -330,7 +388,7 @@ export function ConnectorWizard() {
                                         : "border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-950"
                                     )}
                                     key={`${account.customerId}-${account.label}`}
-                                    onClick={() => toggleGoogleAdsAccount(account.customerId)}
+                                    onClick={() => toggleGoogleAdsAccount(selectionValue)}
                                     type="button"
                                   >
                                     <div className="flex items-start justify-between gap-3">
@@ -352,7 +410,8 @@ export function ConnectorWizard() {
                             <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Client accounts</p>
                             <div className="mt-3 space-y-3">
                               {googleAdsWizardAccounts.clients.map((account) => {
-                                const selected = current.selectedAccounts.includes(account.customerId);
+                                const selectionValue = `${account.label} [${account.customerId}]`;
+                                const selected = current.selectedAccounts.includes(selectionValue);
                                 return (
                                   <button
                                     className={cn(
@@ -362,7 +421,7 @@ export function ConnectorWizard() {
                                         : "border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-950"
                                     )}
                                     key={`${account.customerId}-${account.label}`}
-                                    onClick={() => toggleGoogleAdsAccount(account.customerId)}
+                                    onClick={() => toggleGoogleAdsAccount(selectionValue)}
                                     type="button"
                                   >
                                     <div className="flex items-start justify-between gap-3">
