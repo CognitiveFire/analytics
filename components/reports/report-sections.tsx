@@ -1,6 +1,12 @@
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 
-const sections = [
+interface ReportSection {
+  heading: string;
+  description: string;
+  highlights: string[];
+}
+
+const defaultSections: ReportSection[] = [
   {
     heading: "Executive Summary",
     description: "Strategic narrative focused on what changed, why it changed, and what should happen next.",
@@ -35,7 +41,7 @@ const sections = [
   },
 ];
 
-export function ReportSections() {
+export function ReportSections({ sections = defaultSections }: { sections?: ReportSection[] }) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
       {sections.map((section) => (
