@@ -3,7 +3,6 @@
 import { useMemo } from "react";
 
 import { CompletedWorkCharts } from "@/components/dashboard/completed-work-charts";
-import { CompletedWorkVisxPilot } from "@/components/dashboard/completed-work-visx-pilot";
 import { KpiGrid } from "@/components/dashboard/kpi-grid";
 import { KpiTrendOverview } from "@/components/charts/kpi-trend-overview";
 import { LandingPagePerformanceChart } from "@/components/charts/landing-page-performance-chart";
@@ -26,7 +25,6 @@ export default function DashboardPage() {
         <KpiGrid />
         <KpiTrendOverview data={trendHistory} />
         <CompletedWorkCharts />
-        <CompletedWorkVisxPilot />
 
         <section className="grid gap-6 xl:grid-cols-3">
           <TrendChart
