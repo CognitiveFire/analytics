@@ -1,4 +1,5 @@
 import { ExecutiveReportPortal } from "@/components/reports/executive-report-portal";
+import { ReportMethodologyGuide } from "@/components/reports/report-methodology-guide";
 import { PlatformShell } from "@/components/layout/platform-shell";
 
 export default function ReportsPage() {
@@ -14,6 +15,7 @@ export default function ReportsPage() {
           </p>
         </div>
 
+        <ReportMethodologyGuide />
         <ExecutiveReportPortal />
       </section>
     </PlatformShell>
