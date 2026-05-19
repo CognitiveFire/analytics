@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { AddClientDialog } from "@/components/clients/add-client-dialog";
 import { PlatformShell } from "@/components/layout/platform-shell";
 import { Badge } from "@/components/ui/badge";

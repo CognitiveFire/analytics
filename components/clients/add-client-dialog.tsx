@@ -29,7 +29,6 @@ export function AddClientDialog() {
     name: "",
     industry: "",
     region: "",
-    logoMark: "",
   });
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -53,7 +52,7 @@ export function AddClientDialog() {
         throw new Error(data.error ?? "Ukjent feil");
       }
 
-      setForm({ name: "", industry: "", region: "", logoMark: "" });
+      setForm({ name: "", industry: "", region: "" });
       setOpen(false);
       router.refresh();
     } catch (err) {
@@ -139,21 +138,6 @@ export function AddClientDialog() {
                 </select>
               </div>
 
-              <div>
-                <label className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300" htmlFor="logoMark">
-                  Logo-forkortelse
-                  <span className="ml-1 text-xs text-zinc-400">(valgfritt, maks 2 tegn)</span>
-                </label>
-                <input
-                  className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-orange-400 focus:outline-none focus:ring-1 focus:ring-orange-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
-                  id="logoMark"
-                  maxLength={2}
-                  name="logoMark"
-                  onChange={handleChange}
-                  placeholder="f.eks. AC"
-                  value={form.logoMark}
-                />
-              </div>
 
               {error && (
                 <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600 dark:bg-red-950/30 dark:text-red-400">
