@@ -23,10 +23,21 @@ export default function Home() {
   const [lang, setLang] = useState<"nb" | "en">("nb");
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const queryLang = resolveAdsLanguage(params.get("lang"));
-    const stored = window.localStorage.getItem("signal-room-language");
-    setLang(stored === "en" ? "en" : queryLang);
+    const updateLang = () => {
+      const params = new URLSearchParams(window.location.search);
+      const queryLang = resolveAdsLanguage(params.get("lang"));
+      const stored = window.localStorage.getItem("signal-room-language");
+      setLang(stored === "en" ? "en" : queryLang);
+    };
+
+    updateLang();
+    window.addEventListener("storage", updateLang);
+    window.addEventListener("popstate", updateLang);
+    
+    return () => {
+      window.removeEventListener("storage", updateLang);
+      window.removeEventListener("popstate", updateLang);
+    };
   }, []);
 
   const dashboardHref = lang === "en" ? "/dashboard?lang=en" : "/dashboard";

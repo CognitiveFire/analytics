@@ -52,11 +52,50 @@ const defaultSections: ReportSection[] = [
     ],
   },
   {
+    heading: "Paid Media KPI Report",
+    description: "Detailed paid advertising performance metrics and efficiency indicators.",
+    highlights: [
+      "Monthly spend: kr 289k, up 5.8% from previous period.",
+      "ROAS performance: 4.9x, down 6.3% - optimization needed in broad match campaigns.",
+      "Cost per acquisition (CPA): kr 42.10, up 3.1% across all channels.",
+      "Conversion quality score: 79/100, down 4.6% - review lead scoring criteria.",
+      "Automation dependency at 67% with increasing reliance on bid strategies.",
+      "Budget allocation showing optimal performance in branded and remarketing segments.",
+    ],
+  },
+  {
+    heading: "Paid Media Recommendations",
+    description: "AI-assisted recommendations backed by deterministic signals for campaign optimization.",
+    highlights: [
+      "Current conversion tracking appears overly dependent on low-intent lead submissions.",
+      "Target ROAS campaigns lack sufficient conversion density for stable optimization.",
+      "Broad match expansion is increasingly matching informational queries with declining efficiency.",
+      "Shift 12% budget from low-intent prospecting to branded and remarketing campaigns.",
+      "Implement tighter audience exclusions based on downstream quality signals.",
+      "Increase daily budget for campaigns with ROAS above 5.0x threshold.",
+    ],
+  },
+  {
+    heading: "SEO Performance Report",
+    description: "Organic search visibility, technical health, and content performance metrics.",
+    highlights: [
+      "SEO visibility score: 63.4, up 8.7% - organic channel gaining momentum.",
+      "Crawl analysis shows 287 total URLs with 261 indexable pages (90.9% coverage).",
+      "Critical issues: 3 missing titles, 7 duplicate titles, 4 canonical conflicts identified.",
+      "Technical health: 18 noindex pages, 8 redirects, strong internal link graph with 4,521 inlinks.",
+      "Top opportunity: Fix duplicate H1 tags (12 instances) and missing meta descriptions.",
+      "Landing page friction on mobile remains conversion leakage point - 5 critical fixes identified.",
+    ],
+  },
+  {
     heading: "Operational Recommendations",
     description: "Prioritised actions with expected commercial impact and confidence levels.",
     highlights: [
       "Shift 12% budget from low-intent prospecting to branded and remarketing campaigns.",
       "Implement SEO fixes on high-converting service templates before next crawl cycle.",
+      "Resolve canonical conflicts and standardize title tag formatting for indexability.",
+      "Improve mobile landing page experience to reduce conversion friction.",
+      "Consolidate automation strategy with manual control gates for brand safety.",
     ],
   },
   {
@@ -65,6 +104,10 @@ const defaultSections: ReportSection[] = [
     highlights: [
       "Lead quality variance is concentrated in mobile paid traffic from broad match groups.",
       "Organic landing pages with strongest engagement are under-supported by paid campaigns.",
+      "SEO gains aligned with improved brand awareness metrics from paid media.",
+      "Gap analysis shows 23% of high-intent organic traffic not captured by paid brand campaigns.",
+      "CRM data confirms lower quality from informational match campaigns vs branded intent.",
+      "Attribution shows 34% assisted conversions from organic despite 22% traffic share.",
     ],
   },
   {
@@ -73,6 +116,10 @@ const defaultSections: ReportSection[] = [
     highlights: [
       "Margin pressure is manageable with targeted budget correction and tracking hygiene.",
       "The next 30-day plan prioritises efficient growth and confidence in attribution.",
+      "Organic visibility is strengthening while paid efficiency requires tactical optimization.",
+      "Quality improvements in lead scoring and audience targeting unlock 15-18% ROAS potential.",
+      "Technical SEO foundation is sound - remaining work is high-ROI fixes on templates.",
+      "Recommended focus: discipline paid budget allocation + accelerate SEO content expansion.",
     ],
   },
 ];
@@ -80,7 +127,7 @@ const defaultSections: ReportSection[] = [
 const reportContentByClientId: Record<string, ClientReportPortalContent> = {
   "demo-executive": {
     deckVersion: "v5.0",
-    slideCount: 38,
+    slideCount: 48,
     narrativeConfidence: 95,
     readiness: "Ready for client",
     boardPackDescription: "May 2026 board pack preview for the executive account.",
@@ -100,7 +147,7 @@ const reportContentByClientId: Record<string, ClientReportPortalContent> = {
   },
   "sotra-ror": {
     deckVersion: "v3.8",
-    slideCount: 34,
+    slideCount: 44,
     narrativeConfidence: 93,
     readiness: "Ready for client",
     boardPackDescription: "May 2026 board pack preview for Sotra Ror leadership.",
@@ -120,7 +167,7 @@ const reportContentByClientId: Record<string, ClientReportPortalContent> = {
   },
   "melk-no": {
     deckVersion: "v2.9",
-    slideCount: 29,
+    slideCount: 39,
     narrativeConfidence: 88,
     readiness: "In review",
     boardPackDescription: "May 2026 board pack preview for Melk.no ecommerce stakeholders.",
@@ -136,44 +183,11 @@ const reportContentByClientId: Record<string, ClientReportPortalContent> = {
       { date: "23 May 2026", reportType: "Growth pulse", audience: "Performance team", status: "Scheduled", owner: "Paid Media Lead" },
       { date: "29 May 2026", reportType: "Attribution checkpoint", audience: "Data and analytics", status: "Drafting", owner: "Analytics Engineer" },
     ],
-    sections: [
-      {
-        heading: "Executive Summary",
-        description: "Commercial momentum and efficiency health across paid and organic channels.",
-        highlights: [
-          "Net revenue rose while new-customer efficiency flattened.",
-          "Category-level search demand remains strongest in branded and near-brand terms.",
-        ],
-      },
-      {
-        heading: "Operational Recommendations",
-        description: "Actions to improve acquisition quality and profitable growth.",
-        highlights: [
-          "Tighten prospecting match strategy and rebalance remarketing investment.",
-          "Improve product feed metadata for best-selling SKUs before next campaign burst.",
-        ],
-      },
-      {
-        heading: "Cross-Channel Intelligence",
-        description: "Integrated signals from media, site behavior, and conversion quality.",
-        highlights: [
-          "Landing page engagement is high but assisted conversion lag indicates sequencing gaps.",
-          "Organic winners are not fully reflected in shopping and paid search budgets.",
-        ],
-      },
-      {
-        heading: "Client-Ready Commentary",
-        description: "Board-level narrative for stakeholder distribution.",
-        highlights: [
-          "Current performance supports measured scaling with guardrails on quality.",
-          "A tighter creative-feed-media loop is expected to improve contribution margin next month.",
-        ],
-      },
-    ],
+    sections: defaultSections,
   },
   "sound-people": {
     deckVersion: "v2.4",
-    slideCount: 27,
+    slideCount: 37,
     narrativeConfidence: 84,
     readiness: "Drafting",
     boardPackDescription: "May 2026 reporting preview for Sound People growth team.",
@@ -193,7 +207,7 @@ const reportContentByClientId: Record<string, ClientReportPortalContent> = {
   },
   "morrow-bank": {
     deckVersion: "v4.1",
-    slideCount: 36,
+    slideCount: 46,
     narrativeConfidence: 92,
     readiness: "Approved",
     boardPackDescription: "May 2026 executive reporting preview for Morrow Bank.",
@@ -213,7 +227,7 @@ const reportContentByClientId: Record<string, ClientReportPortalContent> = {
   },
   "unik-vvs": {
     deckVersion: "v1.7",
-    slideCount: 24,
+    slideCount: 34,
     narrativeConfidence: 80,
     readiness: "Drafting",
     boardPackDescription: "May 2026 reporting preview for Unik VVS leadership.",
