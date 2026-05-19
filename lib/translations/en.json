@@ -1,12 +1,104 @@
 {
   "nav": {
     "overview": "Overview",
-    "ads": "Ads",
-    "seo": "SEO",
+    "intelligence": "Intelligence",
+    "priorities": "Priorities",
+    "visibility": "Visibility",
+    "acquisition": "Acquisition",
+    "reporting": "Reporting",
     "clients": "Clients",
-    "reports": "Reports",
-    "settings": "Settings",
-    "tasks": "Tasks"
+    "settings": "Settings"
+  },
+  "pages": {
+    "overview": {
+      "title": "Executive Operational Visibility",
+      "subtitle": "Strategic Intelligence",
+      "description": "Real-time operational summary of performance risks, opportunities, and implementation progress.",
+      "alerts": "Operational Alerts",
+      "opportunities": "Strategic Opportunities",
+      "risks": "Performance Risks",
+      "progress": "Implementation Progress",
+      "noData": "No operational data available"
+    },
+    "intelligence": {
+      "title": "Cross-Channel Performance Intelligence",
+      "subtitle": "Strategic Reasoning",
+      "description": "Integrated analysis of performance causality, signal relationships, and operational patterns.",
+      "searchIntent": "Search Intent Analysis",
+      "demandVisibility": "Demand Visibility Analysis",
+      "conversionQuality": "Conversion Quality Analysis",
+      "attribution": "Attribution Confidence",
+      "landingPagePerformance": "Landing Page Performance",
+      "paidOrganic": "SEO & Paid Interactions"
+    },
+    "priorities": {
+      "title": "Operational Recommendations",
+      "subtitle": "Prioritized Actions",
+      "description": "Strategic recommendations aligned to business problems, not channels. Ranked by business impact.",
+      "businessProblem": "Business Problem",
+      "impact": "Business Impact",
+      "complexity": "Complexity",
+      "confidence": "Confidence",
+      "channels": "Affected Channels",
+      "implementation": "Implementation",
+      "noRecommendations": "All priorities addressed"
+    },
+    "visibility": {
+      "title": "Search Demand & Visibility",
+      "subtitle": "Organic Intelligence",
+      "description": "Organic search visibility, demand analysis, and technical health intelligence.",
+      "visibility": "Search Visibility",
+      "demand": "Search Demand",
+      "indexation": "Indexation Health",
+      "technical": "Technical SEO",
+      "internalLinking": "Internal Linking Structure",
+      "intentAlignment": "Search Intent Alignment"
+    },
+    "acquisition": {
+      "title": "Paid Acquisition Efficiency",
+      "subtitle": "Conversion Intelligence",
+      "description": "Paid channel efficiency, conversion quality, and commercial intent alignment.",
+      "efficiency": "Acquisition Efficiency",
+      "conversionQuality": "Conversion Quality",
+      "budget": "Budget Allocation",
+      "searchTermQuality": "Search Term Quality",
+      "commercialIntent": "Commercial Intent Alignment",
+      "landingPageFit": "Landing Page Alignment"
+    },
+    "reporting": {
+      "title": "Executive Performance Report",
+      "subtitle": "Strategic Reporting",
+      "description": "Executive summary with cross-channel insights, implementation tracking, and business impact.",
+      "generateReport": "Generate Report",
+      "viewReport": "View Report",
+      "downloadPDF": "Download PDF",
+      "sections": {
+        "executiveSummary": "Executive Summary",
+        "executiveSummaryDesc": "Strategic overview of performance, changes, and recommended actions.",
+        "demandVisibility": "Demand & Visibility",
+        "demandVisibilityDesc": "Organic search performance and visibility intelligence.",
+        "acquisitionEfficiency": "Acquisition Efficiency",
+        "acquisitionEfficiencyDesc": "Paid channel performance and conversion quality.",
+        "landingPagePerformance": "Landing Page Performance",
+        "landingPagePerformanceDesc": "Conversion quality and user experience metrics.",
+        "attributionConfidence": "Attribution Confidence",
+        "attributionConfidenceDesc": "Cross-channel attribution accuracy and revenue tracking.",
+        "prioritizedActions": "Prioritized Actions",
+        "prioritizedActionsDesc": "Top recommendations ranked by business impact.",
+        "completedImprovements": "Completed Improvements",
+        "completedImprovementsDesc": "Implementation tracking and completed initiatives.",
+        "businessImpactTracking": "Business Impact Tracking",
+        "businessImpactTrackingDesc": "Measurable outcomes and expected business value."
+      }
+    },
+    "settings": {
+      "title": "Data and Experience Configuration",
+      "subtitle": "Platform Settings"
+    },
+    "clients": {
+      "title": "Operational Insights Across Clients",
+      "subtitle": "Client Portfolio"
+    }
   },
   "dashboard": {
     "title": "Dashboard",
@@ -24,26 +116,6 @@
     "conversionQuality": "Conversion Quality",
     "automationDependency": "Automation Dependency",
     "budgetAllocation": "Budget Allocation"
-  },
-  "pages": {
-    "tasks": {
-      "title": "Operational task prioritization",
-      "subtitle": "Task engine",
-      "description": "Prioritized SEO, PPC, tracking, attribution, and landing-page actions ranked by impact."
-    },
-    "reports": {
-      "title": "Executive reporting portal",
-      "subtitle": "Reporting overview",
-      "description": "This report shows performance trends, channel changes, key risks, and recommended next actions for the selected client."
-    },
-    "settings": {
-      "title": "Data and experience configuration",
-      "subtitle": "Platform settings"
-    },
-    "clients": {
-      "title": "Operational insights across clients",
-      "subtitle": "Client portfolio"
-    }
   },
   "ads": {
     "title": "Ads",
@@ -121,26 +193,7 @@
   },
   "reports": {
     "title": "Reports",
-    "description": "Executive reporting and analysis",
-    "generateReport": "Generate Report",
-    "viewReport": "View Report",
-    "downloadPDF": "Download PDF",
-    "sections": {
-      "executiveSummary": "Executive Summary",
-      "executiveSummaryDesc": "Strategic overview focusing on what has changed, why it happened, and what should be done next.",
-      "paidMediaKPI": "Paid Media Report - KPI",
-      "paidMediaKPIDesc": "Details on paid advertising performance and efficiency indicators.",
-      "paidMediaRecommendations": "Paid Media Recommendations",
-      "paidMediaRecommendationsDesc": "AI-assisted recommendations backed by deterministic signals for campaign optimization.",
-      "seoResults": "SEO Results Report",
-      "seoResultsDesc": "Organic search visibility, technical health, and content performance metrics.",
-      "operationalRecommendations": "Operational Recommendations",
-      "operationalRecommendationsDesc": "Prioritized actions with expected business impact and assessed confidence level.",
-      "crossChannelInsights": "Cross-Channel Insights",
-      "crossChannelInsightsDesc": "Integrated interpretation across paid channels, SEO, analytics, and CRM results.",
-      "clientCommentary": "Client-Friendly Commentary",
-      "clientCommentaryDesc": "Clear explanation to stakeholders that describes results, causes, and next steps."
-    }
+    "description": "Executive reporting and analysis"
   },
   "tasks": {
     "title": "Tasks",
@@ -148,6 +201,76 @@
     "priority": "Priority",
     "impact": "Impact",
     "confidence": "Confidence",
+    "category": "Category",
+    "categories": {
+      "seo": "SEO",
+      "ppc": "PPC",
+      "tracking": "Tracking",
+      "attribution": "Attribution",
+      "landingPage": "Landing Page",
+      "bidding": "Bidding"
+    },
+    "businessEffect": "Business Effect",
+    "reasoning": "Reasoning",
+    "proposedActions": "Proposed Actions"
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Configuration and data source management",
+    "connectors": "Connectors",
+    "language": "Language",
+    "dataConnections": "Data Connections",
+    "googleAds": "Google Ads",
+    "configure": "Configure",
+    "status": "Status",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "lastSync": "Last Sync"
+  },
+  "recommendations": {
+    "title": "Recommendations",
+    "description": "AI-generated optimization suggestions",
+    "review": "Review",
+    "approve": "Approve",
+    "reject": "Reject",
+    "preview": "Preview",
+    "status": "Status",
+    "generated": "Generated",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "noRecommendations": "No recommendations yet"
+  },
+  "execution": {
+    "title": "Execution",
+    "description": "Track and manage campaign optimizations",
+    "readOnly": "This platform is read-only. All recommendations are for manual review only.",
+    "noModifications": "No modifications are made to Google Ads accounts",
+    "manualAction": "All actions require manual implementation by account managers"
+  },
+  "history": {
+    "title": "History",
+    "description": "Audit log of all actions and changes",
+    "timestamp": "Timestamp",
+    "action": "Action",
+    "details": "Details",
+    "user": "User",
+    "result": "Result"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
     "category": "Category",
     "categories": {
       "seo": "SEO",

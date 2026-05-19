@@ -2,24 +2,28 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { BarChart3, Building2, FileText, Search, Settings, Sparkles } from "lucide-react";
+import { Zap, Brain, CheckSquare, Eye, Zap as Acquisition, FileText, Building2, Settings } from "lucide-react";
 
 import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { cn } from "@/lib/utils/cn";
+import { useTranslation } from "@/lib/translations/use-translation";
 
-const items = [
-  { href: "/dashboard", label: { nb: "Oversikt", en: "Overview" }, icon: BarChart3 },
-  { href: "/ads/dashboard", label: { nb: "Ads", en: "Ads" }, icon: Sparkles },
-  { href: "/seo", label: { nb: "SEO", en: "SEO" }, icon: Search },
-  { href: "/clients", label: { nb: "Kunder", en: "Clients" }, icon: Building2 },
-  { href: "/reports", label: { nb: "Rapporter", en: "Reports" }, icon: FileText },
-  { href: "/settings", label: { nb: "Innstillinger", en: "Settings" }, icon: Settings },
+const navItems = [
+  { href: "/overview", labelKey: "nav.overview", icon: Zap },
+  { href: "/intelligence", labelKey: "nav.intelligence", icon: Brain },
+  { href: "/priorities", labelKey: "nav.priorities", icon: CheckSquare },
+  { href: "/visibility", labelKey: "nav.visibility", icon: Eye },
+  { href: "/acquisition", labelKey: "nav.acquisition", icon: Acquisition },
+  { href: "/reporting", labelKey: "nav.reporting", icon: FileText },
+  { href: "/clients", labelKey: "nav.clients", icon: Building2 },
+  { href: "/settings", labelKey: "nav.settings", icon: Settings },
 ];
 
 export function PlatformNav() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const lang = resolveAdsLanguage(searchParams.get("lang"));
+  const { t } = useTranslation(lang);
 
   function buildHref(href: string) {
     if (lang !== "en") {
@@ -31,7 +35,7 @@ export function PlatformNav() {
 
   return (
     <nav className="flex flex-wrap items-center gap-2">
-      {items.map((item) => {
+      {navItems.map((item) => {
         const Icon = item.icon;
         const active = pathname.startsWith(item.href);
 
@@ -47,7 +51,7 @@ export function PlatformNav() {
             key={item.href}
           >
             <Icon className="h-4 w-4" />
-            {item.label[lang]}
+            {t(item.labelKey, item.labelKey)}
           </Link>
         );
       })}

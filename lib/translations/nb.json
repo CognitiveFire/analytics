@@ -1,12 +1,104 @@
 {
   "nav": {
     "overview": "Oversikt",
-    "ads": "Annonser",
-    "seo": "SEO",
+    "intelligence": "Inteliges",
+    "priorities": "Prioriteringer",
+    "visibility": "Synlighet",
+    "acquisition": "Anskaffelse",
+    "reporting": "Rapportering",
     "clients": "Kunder",
-    "reports": "Rapporter",
-    "settings": "Innstillinger",
-    "tasks": "Oppgaver"
+    "settings": "Innstillinger"
+  },
+  "pages": {
+    "overview": {
+      "title": "Operasjonell ledersynlighet",
+      "subtitle": "Strategisk inteliges",
+      "description": "Sanntidssammendrag av operasjonelle risikoer, muligheter og implementeringsframgang.",
+      "alerts": "Operasjonelle advarsler",
+      "opportunities": "Strategiske muligheter",
+      "risks": "Ytelsesrisikoer",
+      "progress": "Implementeringsframgang",
+      "noData": "Ingen operasjonell data tilgjengelig"
+    },
+    "intelligence": {
+      "title": "Kanalovergripende ytelsesigeliges",
+      "subtitle": "Strategisk resonnement",
+      "description": "Integrert analyse av ytelseskausalitet, signalforhold og operasjonelle mønstre.",
+      "searchIntent": "Søkeintent-analyse",
+      "demandVisibility": "Etterspørselssynlighetsanalyse",
+      "conversionQuality": "Konverteringskvalitetsanalyse",
+      "attribution": "Attribusjonstillit",
+      "landingPagePerformance": "Landingssideytelses",
+      "paidOrganic": "SEO og betalte interaksjoner"
+    },
+    "priorities": {
+      "title": "Operasjonelle anbefalinger",
+      "subtitle": "Prioriterte tiltak",
+      "description": "Strategiske anbefalinger knyttet til forretningsproblemer, ikke kanaler. Rangert etter forretningseffekt.",
+      "businessProblem": "Forretningsproblem",
+      "impact": "Forretningseffekt",
+      "complexity": "Kompleksitet",
+      "confidence": "Tillit",
+      "channels": "Berørte kanaler",
+      "implementation": "Implementering",
+      "noRecommendations": "Alle prioriteringer adressert"
+    },
+    "visibility": {
+      "title": "Søkeetterspørsel og synlighet",
+      "subtitle": "Organisk inteliges",
+      "description": "Organisk søkesynlighet, etterspørselsanalyse og teknisk helseinteliges.",
+      "visibility": "Søkesynlighet",
+      "demand": "Søkeetterspørsel",
+      "indexation": "Indekseringshelse",
+      "technical": "Teknisk SEO",
+      "internalLinking": "Intern lenkestruktur",
+      "intentAlignment": "Søkeintent-justering"
+    },
+    "acquisition": {
+      "title": "Effektivitet for betalt anskaffelse",
+      "subtitle": "Konverteringsinteliges",
+      "description": "Effektivitet for betalte kanaler, konverteringskvalitet og kommersiel intentjustering.",
+      "efficiency": "Anskaffelseseffektivitet",
+      "conversionQuality": "Konverteringskvalitet",
+      "budget": "Budsjettfordeling",
+      "searchTermQuality": "Søketerminkvalitet",
+      "commercialIntent": "Kommersiel intentjustering",
+      "landingPageFit": "Landings sidejustering"
+    },
+    "reporting": {
+      "title": "Rapport for ledelsesytelse",
+      "subtitle": "Strategisk rapportering",
+      "description": "Ledelsessammendrag med kanalovergripende innsikt, implementeringssporing og forretningseffekt.",
+      "generateReport": "Generer rapport",
+      "viewReport": "Vis rapport",
+      "downloadPDF": "Last ned PDF",
+      "sections": {
+        "executiveSummary": "Sammendrag for ledelse",
+        "executiveSummaryDesc": "Strategisk oversikt over ytelse, endringer og anbefalte tiltak.",
+        "demandVisibility": "Etterspørsel og synlighet",
+        "demandVisibilityDesc": "Organisk søkeytelses- og synlighetsinteliges.",
+        "acquisitionEfficiency": "Anskaffelseseffektivitet",
+        "acquisitionEfficiencyDesc": "Ytelse for betalte kanaler og konverteringskvalitet.",
+        "landingPagePerformance": "Landingssideytelses",
+        "landingPagePerformanceDesc": "Konverteringskvalitet og brukeropplevelsesmål.",
+        "attributionConfidence": "Attribusjonstillit",
+        "attributionConfidenceDesc": "Nøyaktighet for kanalovergripende attribusjon og inntektssporing.",
+        "prioritizedActions": "Prioriterte tiltak",
+        "prioritizedActionsDesc": "Topp anbefalinger rangert etter forretningseffekt.",
+        "completedImprovements": "Fullførte forbedringer",
+        "completedImprovementsDesc": "Implementeringssporing og fullførte initiativer.",
+        "businessImpactTracking": "Sporing av forretningseffekt",
+        "businessImpactTrackingDesc": "Målbare resultater og forventet forretningsverdi."
+      }
+    },
+    "settings": {
+      "title": "Konfiguration av data og brukeropplevelse",
+      "subtitle": "Plattforminnstillinger"
+    },
+    "clients": {
+      "title": "Operasjonell innsikt pa tvers av kunder",
+      "subtitle": "Kundeportefølje"
+    }
   },
   "dashboard": {
     "title": "Instrumentbord",
@@ -24,26 +116,6 @@
     "conversionQuality": "Konverteringskvalitet",
     "automationDependency": "Automatiseringsavhengighet",
     "budgetAllocation": "Budsjettfordeling"
-  },
-  "pages": {
-    "tasks": {
-      "title": "Operasjonell oppgaveprioritering",
-      "subtitle": "Oppgavemotor",
-      "description": "Prioriterte SEO-, PPC-, sporing-, attribusjons- og landingsside-tiltak med effektbasert rangering."
-    },
-    "reports": {
-      "title": "Lederportal for rapportering",
-      "subtitle": "Rapporteringsoversikt",
-      "description": "Denne rapporten viser resultatutvikling, kanalendringer, viktigste risikoer og anbefalte neste tiltak for valgt kunde."
-    },
-    "settings": {
-      "title": "Konfigurasjon av data og brukeropplevelse",
-      "subtitle": "Plattforminnstillinger"
-    },
-    "clients": {
-      "title": "Operasjonell innsikt pa tvers av kunder",
-      "subtitle": "Kundeportefølje"
-    }
   },
   "ads": {
     "title": "Annonser",
@@ -121,26 +193,7 @@
   },
   "reports": {
     "title": "Rapporter",
-    "description": "Ledelses- og analyserapportering",
-    "generateReport": "Generer rapport",
-    "viewReport": "Vis rapport",
-    "downloadPDF": "Last ned PDF",
-    "sections": {
-      "executiveSummary": "Sammendrag for ledelsen",
-      "executiveSummaryDesc": "Strategisk sammendrag med fokus på hva som har endret seg, hvorfor det har skjedd, og hva som bør gjøres videre.",
-      "paidMediaKPI": "Betalt medierapport - KPI",
-      "paidMediaKPIDesc": "Detaljer om betalt annonseringsytelse og effektivitetsindikatorer.",
-      "paidMediaRecommendations": "Anbefalinger for betalt media",
-      "paidMediaRecommendationsDesc": "AI-assisterte anbefalinger støttet av deterministiske signaler for kampanjeoptimalisering.",
-      "seoResults": "SEO-resultatrapport",
-      "seoResultsDesc": "Organisk søkesynlighet, teknisk helse og innholdsytelses-metrikker.",
-      "operationalRecommendations": "Operasjonelle anbefalinger",
-      "operationalRecommendationsDesc": "Prioriterte tiltak med forventet forretningseffekt og vurdert sikkerhetsniva.",
-      "crossChannelInsights": "Kanalovergripende innsikt",
-      "crossChannelInsightsDesc": "Samlet tolkning på tvers av betalte kanaler, SEO, analyse og CRM-resultater.",
-      "clientCommentary": "Kundevennlig kommentar",
-      "clientCommentaryDesc": "Tydelig kommentar til interessenter som forklarer resultater, årsaker og neste steg."
-    }
+    "description": "Ledelses- og analyserapportering"
   },
   "tasks": {
     "title": "Oppgaver",

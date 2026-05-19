@@ -8,8 +8,10 @@ export type DataSource =
   | "floodlight"
   | "crm";
 
-export type PriorityLevel = "high" | "medium" | "low";
+export type PriorityLevel = "critical" | "high" | "medium" | "low";
 export type ConnectorMode = "mock" | "live";
+export type RecommendationChannel = "organic" | "paid" | "conversion" | "attribution";
+export type RecommendationComplexity = "low" | "medium" | "high";
 export type ScreamingFrogFileKey =
   | "internal_html"
   | "response_codes"
@@ -73,7 +75,28 @@ export interface OperationalTask {
 }
 
 export interface ScoredTask extends OperationalTask {
-  priorityScore: number;
+ 
+
+export interface OperationalRecommendation {
+  id: string;
+  title: string;
+  businessProblem: string;
+  strategicExplanation: string;
+  connectedSystems: DataSource[];
+  businessImpact: string;
+  complexity: RecommendationComplexity;
+  confidenceScore: number;
+  affectedChannels: RecommendationChannel[];
+  expectedOutcome: string;
+  implementationTracking: {
+    startDate?: string;
+    completionDate?: string;
+    progressPercent: number;
+  };
+  priority: PriorityLevel;
+  owner?: string;
+  createdDate: string;
+} priorityScore: number;
   priorityLevel: PriorityLevel;
 }
 
