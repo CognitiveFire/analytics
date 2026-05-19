@@ -100,6 +100,26 @@ async function saveServerState(clientId: string, payload: PersistedWizardState) 
   }
 }
 
+async function saveGoogleAdsConnectorState(clientId: string, payload: PersistedWizardState) {
+  const googleAdsState = payload.state.googleAds;
+
+  try {
+    await fetch("/api/connectors/google-ads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        clientId,
+        connected: googleAdsState.enabled && googleAdsState.selectedAccounts.length > 0,
+        selectedAccounts: googleAdsState.selectedAccounts,
+      }),
+    });
+  } catch {
+    // Wizard state still persists locally/server-side via connector-wizard-state.
+  }
+}
+
 function formatKey(source: DataSource | "screamingFrog") {
   return source === "screamingFrog" ? "SEO / Screaming Frog" : sourceToRouteLabel[source];
 }
@@ -159,6 +179,7 @@ export function ConnectorWizard() {
 
     const timeout = window.setTimeout(() => {
       void saveServerState(clientId, payload);
+      void saveGoogleAdsConnectorState(clientId, payload);
     }, 300);
 
     return () => window.clearTimeout(timeout);

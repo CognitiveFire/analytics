@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    const previous = await getSeoUploadState(account);
     const uploadFileNames = csvFiles.reduce<Record<string, string>>((acc, file) => {
       const detectedKey = detectScreamingFrogFileKey(file.name);
       if (detectedKey) {
@@ -51,9 +52,34 @@ export async function POST(request: NextRequest) {
       return acc;
     }, {});
 
-    const result = {
+    const nextResult = {
       ...processScreamingFrogExports(csvFiles),
-      uploadedFileNames: uploadFileNames,
+      uploadedFileNames: {
+        ...(previous?.uploadedFileNames ?? {}),
+        ...uploadFileNames,
+      },
+    };
+
+    const mergedFiles = nextResult.files.map((file) => {
+      const previousFile = previous?.files.find((item) => item.key === file.key);
+      if (!previousFile) {
+        return file;
+      }
+
+      if (file.status === "processed") {
+        return file;
+      }
+
+      if (previousFile.status === "processed") {
+        return previousFile;
+      }
+
+      return file;
+    });
+
+    const result = {
+      ...nextResult,
+      files: mergedFiles,
     };
 
     await upsertSeoUploadState({
