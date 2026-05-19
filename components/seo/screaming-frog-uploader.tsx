@@ -77,7 +77,9 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
   const [result, setResult] = useState<ScreamingFrogUploadResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const readyCount = useMemo(() => Object.values(files).filter(Boolean).length, [files]);
+  const pendingCount = useMemo(() => Object.values(files).filter(Boolean).length, [files]);
+  const uploadedCount = useMemo(() => Object.values(fileNames).filter(Boolean).length, [fileNames]);
+  const readyCount = Math.max(pendingCount, uploadedCount);
 
   const statusLabels: Record<string, string> = {
     processed: "behandlet",
@@ -174,7 +176,11 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
           <div className="flex flex-wrap gap-3 text-sm">
             <Badge variant="neutral">{readyCount} / {exportSpecs.length} filer klare</Badge>
             <Badge variant={readyCount === exportSpecs.length ? "success" : "warning"}>
-              {readyCount === exportSpecs.length ? "Klar til behandling" : "Venter pa opplasting"}
+              {readyCount === exportSpecs.length
+                ? "Klar til behandling"
+                : readyCount > 0
+                  ? "Delvis opplastet"
+                  : "Venter pa opplasting"}
             </Badge>
           </div>
         </div>
