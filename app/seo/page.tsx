@@ -9,7 +9,7 @@ import { clients } from "@/lib/mock-data/clients";
 
 export default function SeoPage() {
   const clientId = usePlatformStore((store) => store.clientId);
-  const activeAccount = useMemo(() => {
+  const activeAccountName = useMemo(() => {
     const selectedClient = clients.find((client) => client.id === clientId) ?? clients[0];
     return selectedClient?.name ?? clientId;
   }, [clientId]);
@@ -30,7 +30,7 @@ export default function SeoPage() {
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <div className="rounded-3xl border border-zinc-200/80 bg-white/80 px-4 py-3 shadow-sm backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/80">
               <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-500">Konto</p>
-              <p className="mt-2 text-sm font-medium">{activeAccount}</p>
+              <p className="mt-2 text-sm font-medium">{activeAccountName}</p>
             </div>
             <div className="rounded-3xl border border-zinc-200/80 bg-white/80 px-4 py-3 shadow-sm backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/80">
               <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-500">Crawl-dato</p>
@@ -51,10 +51,10 @@ export default function SeoPage() {
           <div className="mb-4 rounded-3xl border border-zinc-200/80 bg-white/80 px-5 py-4 shadow-sm backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/80">
             <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Aktiv konto</p>
             <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
-              Screaming Frog-opplastinger knyttes til <span className="font-medium text-zinc-900 dark:text-zinc-100">{activeAccount}</span>.
+              Screaming Frog-opplastinger knyttes til <span className="font-medium text-zinc-900 dark:text-zinc-100">{activeAccountName}</span>.
             </p>
           </div>
-          <ScreamingFrogUploader activeAccount={activeAccount} />
+          <ScreamingFrogUploader activeAccountId={clientId} />
         </section>
       </div>
     </PlatformShell>

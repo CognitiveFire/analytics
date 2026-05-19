@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { usePlatformStore } from "@/hooks/use-platform-store";
 import { DEMO_ACCOUNT_ID } from "@/lib/demo-account";
@@ -351,6 +351,28 @@ export function ExecutiveReportPortal() {
   const { clientId } = usePlatformStore();
 
   const currentClient = useMemo(() => clients.find((client) => client.id === clientId) ?? clients[0], [clientId]);
+  const content = reportContentByClientId[currentClient.id] ?? reportContentByClientId[DEMO_ACCOUNT_ID];
+  const openingNarrative = openingNarrativeByClientId[currentClient.id] ?? openingNarrativeByClientId[DEMO_ACCOUNT_ID];
+  const [selectedSectionHeadings, setSelectedSectionHeadings] = useState<string[]>([]);
+  const [generatedSections, setGeneratedSections] = useState<ReportSection[] | null>(null);
+
+  useEffect(() => {
+    const headings = content.sections.map((section) => section.heading);
+    setSelectedSectionHeadings(headings);
+    setGeneratedSections(null);
+  }, [content]);
+
+  function toggleSection(heading: string) {
+    setSelectedSectionHeadings((current) =>
+      current.includes(heading) ? current.filter((item) => item !== heading) : [...current, heading]
+    );
+  }
+
+  function onGenerateReport() {
+    const selected = content.sections.filter((section) => selectedSectionHeadings.includes(section.heading));
+    setGeneratedSections(selected);
+  }
+
   if (clientId !== DEMO_ACCOUNT_ID) {
     return (
       <Card>
@@ -361,9 +383,6 @@ export function ExecutiveReportPortal() {
       </Card>
     );
   }
-
-  const content = reportContentByClientId[currentClient.id] ?? reportContentByClientId[DEMO_ACCOUNT_ID];
-  const openingNarrative = openingNarrativeByClientId[currentClient.id] ?? openingNarrativeByClientId[DEMO_ACCOUNT_ID];
 
   return (
     <>
@@ -445,7 +464,60 @@ export function ExecutiveReportPortal() {
         </div>
       </Card>
 
-      <ReportSections />
+      <Card>
+        <CardTitle>Velg rapportseksjoner</CardTitle>
+        <CardDescription className="mt-2">
+          Velg seksjonene du vil inkludere, og generer rapportutkastet basert pa valget.
+        </CardDescription>
+
+        <div className="mt-5 grid gap-3 md:grid-cols-2">
+          {content.sections.map((section) => {
+            const checked = selectedSectionHeadings.includes(section.heading);
+            return (
+              <label
+                className="flex items-start gap-3 rounded-2xl border border-zinc-200/80 bg-zinc-50 px-4 py-3 text-sm dark:border-zinc-800 dark:bg-zinc-900/40"
+                key={section.heading}
+              >
+                <input
+                  checked={checked}
+                  className="mt-0.5"
+                  onChange={() => toggleSection(section.heading)}
+                  type="checkbox"
+                />
+                <span>
+                  <span className="block font-medium text-zinc-900 dark:text-zinc-100">{section.heading}</span>
+                  <span className="mt-1 block text-zinc-600 dark:text-zinc-300">{section.description}</span>
+                </span>
+              </label>
+            );
+          })}
+        </div>
+
+        <div className="mt-5 flex flex-wrap items-center gap-3">
+          <button
+            className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            disabled={selectedSectionHeadings.length === 0}
+            onClick={onGenerateReport}
+            type="button"
+          >
+            Generer rapport
+          </button>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            {selectedSectionHeadings.length} av {content.sections.length} seksjoner valgt
+          </p>
+        </div>
+      </Card>
+
+      {generatedSections ? (
+        <ReportSections sections={generatedSections} />
+      ) : (
+        <Card>
+          <CardTitle>Rapportutkast ikke generert</CardTitle>
+          <CardDescription className="mt-2">
+            Velg seksjoner og trykk Generer rapport for a vise seksjonene i rapportutkastet.
+          </CardDescription>
+        </Card>
+      )}
     </>
   );
 }

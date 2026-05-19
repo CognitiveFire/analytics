@@ -67,10 +67,10 @@ const initialFileNames = exportSpecs.reduce<Record<string, string | null>>((acc,
 }, {});
 
 interface ScreamingFrogUploaderProps {
-  activeAccount: string;
+  activeAccountId: string;
 }
 
-export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderProps) {
+export function ScreamingFrogUploader({ activeAccountId }: ScreamingFrogUploaderProps) {
   const [files, setFiles] = useState<Record<string, File | null>>(initialFiles);
   const [fileNames, setFileNames] = useState<Record<string, string | null>>(initialFileNames);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -98,7 +98,7 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
   useEffect(() => {
     async function loadAccountState() {
       try {
-        const response = await fetch(`/api/seo/screamingfrog/upload?account=${encodeURIComponent(activeAccount)}`);
+        const response = await fetch(`/api/seo/screamingfrog/upload?account=${encodeURIComponent(activeAccountId)}`);
         const payload = (await response.json()) as {
           result?: ScreamingFrogUploadResult | null;
           error?: string;
@@ -123,7 +123,7 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
     void loadAccountState();
     setFiles(initialFiles);
     setError(null);
-  }, [activeAccount]);
+  }, [activeAccountId]);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -132,7 +132,7 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
 
     try {
       const formData = new FormData();
-      formData.append("account", activeAccount);
+      formData.append("account", activeAccountId);
       Object.values(files)
         .filter((file): file is File => Boolean(file))
         .forEach((file) => formData.append("files", file));
