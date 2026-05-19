@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
 import { clients as staticClients } from "@/lib/mock-data/clients";
@@ -12,6 +13,9 @@ const periods = getMonthlyPeriods(12);
 
 export function ClientControls() {
   const { clientId, setClientId, period, comparePeriod, setPeriod } = usePlatformStore();
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [clients, setClients] = useState<Client[]>(staticClients);
 
   useEffect(() => {
@@ -47,6 +51,22 @@ export function ClientControls() {
       setClientId(clients[0].id);
     }
   }, [clientId, clients, setClientId]);
+
+  useEffect(() => {
+    if (!pathname.startsWith("/ads")) {
+      return;
+    }
+
+    const currentAccountId = searchParams.get("accountId") ?? "";
+    if (currentAccountId === clientId) {
+      return;
+    }
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("accountId", clientId);
+    const query = params.toString();
+    router.replace(query ? `${pathname}?${query}` : pathname);
+  }, [clientId, pathname, router, searchParams]);
 
   const currentClient = useMemo(() => clients.find((c) => c.id === clientId) ?? clients[0], [clientId, clients]);
 

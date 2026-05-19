@@ -8,8 +8,8 @@ export interface GoogleAnalyticsAccount {
 export const googleAnalyticsAccounts: GoogleAnalyticsAccount[] = [
   {
     propertyId: "G-DEMO-EXEC",
-    label: "Demo Executive Account",
+    label: "Executive account",
     accountId: "999-000-0001",
-    accessNotes: "Demo property mapped to the executive demo account for end-to-end walkthroughs.",
+    accessNotes: "Primary property mapped to the executive account for end-to-end walkthroughs.",
   },
 ];

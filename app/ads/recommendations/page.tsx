@@ -12,7 +12,7 @@ export default async function AdsRecommendationsPage({ searchParams }: AdsRecomm
   const params = await searchParams;
   const accountId = await resolveAdsAccountId(params?.accountId);
   const lang = resolveAdsLanguage(params?.lang);
-  const { recommendations } = await getPersistedOrGenerateRecommendations(accountId);
+  const { recommendations } = await getPersistedOrGenerateRecommendations(accountId, lang);
 
   if (!isDemoAdsAccount(accountId) || recommendations.length === 0) {
     return (

@@ -41,7 +41,7 @@ export default async function AdsCampaignsPage({ searchParams }: AdsCampaignsPag
             <tr>
               <th className="pb-3">{lang === "nb" ? "Kampanje" : "Campaign"}</th>
               <th className="pb-3">{lang === "nb" ? "Kostnad 30 d" : "Spend 30d"}</th>
-              <th className="pb-3">ROAS 30d</th>
+              <th className="pb-3">{lang === "nb" ? "ROAS 30 d" : "ROAS 30d"}</th>
               <th className="pb-3">{lang === "nb" ? "Konverteringer 30 d" : "Conversions 30d"}</th>
             </tr>
           </thead>
@@ -49,7 +49,7 @@ export default async function AdsCampaignsPage({ searchParams }: AdsCampaignsPag
             {campaigns.map((campaign) => (
               <tr className="border-t border-zinc-200/80" key={campaign.id}>
                 <td className="py-3 font-medium">{campaign.name}</td>
-                <td className="py-3">kr {campaign.spend30d.toLocaleString("en-GB")}</td>
+                <td className="py-3">{lang === "nb" ? "kr" : "$"} {campaign.spend30d.toLocaleString(lang === "nb" ? "nb-NO" : "en-GB")}</td>
                 <td className="py-3">{campaign.roas30d.toFixed(1)}x</td>
                 <td className="py-3">{campaign.conversions30d}</td>
               </tr>

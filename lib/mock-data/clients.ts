@@ -3,7 +3,7 @@ import { Client } from "@/types";
 export const clients: Client[] = [
   {
     id: "demo-executive",
-    name: "Demo Executive Account",
+    name: "Executive account",
     industry: "Multi-channel demo",
     region: "Nordics",
     accountHealth: 91,

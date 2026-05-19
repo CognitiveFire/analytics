@@ -1,4 +1,5 @@
 import { runAdsAnalysis } from "@/lib/analysis/run-ads-analysis";
+import { AdsLanguage } from "@/lib/ads/ui-language";
 import { generateExecutiveSummary, generateRecommendationDrafts } from "@/lib/openai/gpt-analysis-service";
 import { listRecommendations, saveRecommendations } from "@/lib/recommendations/recommendation-repository";
 import { calculatePriorityScore, toPriorityLevel } from "@/lib/scoring/ads-priority";
@@ -28,11 +29,16 @@ function complexityScale(complexity: Recommendation["complexity"]) {
   return 1;
 }
 
-export async function generateRecommendations(accountId: string): Promise<{ recommendations: Recommendation[]; summary: string }> {
+const persistedSummaryByLanguage: Record<AdsLanguage, string> = {
+  nb: "Lagrede anbefalinger ble lastet fra PostgreSQL.",
+  en: "Loaded persisted recommendations from PostgreSQL.",
+};
+
+export async function generateRecommendations(accountId: string, lang: AdsLanguage = "nb"): Promise<{ recommendations: Recommendation[]; summary: string }> {
   const findings = await runAdsAnalysis(accountId);
   const [drafts, summary] = await Promise.all([
-    generateRecommendationDrafts(findings),
-    generateExecutiveSummary(findings),
+    generateRecommendationDrafts(findings, lang),
+    generateExecutiveSummary(findings, lang),
   ]);
 
   const recommendations = drafts.map((draft, index) => {
@@ -68,11 +74,11 @@ export async function generateRecommendations(accountId: string): Promise<{ reco
   return { recommendations, summary };
 }
 
-export async function getPersistedOrGenerateRecommendations(accountId: string): Promise<{ recommendations: Recommendation[]; summary: string }> {
+export async function getPersistedOrGenerateRecommendations(accountId: string, lang: AdsLanguage = "nb"): Promise<{ recommendations: Recommendation[]; summary: string }> {
   if (!isDemoAdsAccount(accountId)) {
     return {
       recommendations: [],
-      summary: "Ingen Ads-data er tilgjengelig for denne kunden ennå.",
+      summary: lang === "nb" ? "Ingen Ads-data er tilgjengelig for denne kunden ennå." : "No Ads data is available for this client yet.",
     };
   }
 
@@ -80,9 +86,9 @@ export async function getPersistedOrGenerateRecommendations(accountId: string): 
   if (stored.length > 0) {
     return {
       recommendations: stored,
-      summary: "Loaded persisted recommendations from PostgreSQL.",
+      summary: persistedSummaryByLanguage[lang],
     };
   }
 
-  return generateRecommendations(accountId);
+  return generateRecommendations(accountId, lang);
 }

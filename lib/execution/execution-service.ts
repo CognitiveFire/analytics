@@ -10,6 +10,7 @@ import {
 import { mockExecutionPreview, mockRecommendations } from "@/lib/mock-data/ads";
 import { listRecommendations } from "@/lib/recommendations/recommendation-repository";
 import { enforceDualApprovalForHighRiskChanges, enforceExecutionSafety } from "@/lib/validation/safety";
+import { AdsLanguage } from "@/lib/ads/ui-language";
 import { ApprovalDecision, ExecutionPreview, RollbackRecord } from "@/types/ads";
 
 function asStringArray(value: unknown): string[] {
@@ -76,14 +77,37 @@ async function applyPreviewChangeMutations(preview: ExecutionPreview, dryRun: bo
   return appliedChanges;
 }
 
-export async function buildExecutionPreview(recommendationId: string): Promise<ExecutionPreview> {
+const fallbackPreviewByLanguage: Record<AdsLanguage, ExecutionPreview> = {
+  nb: {
+    recommendationId: "none",
+    summary: "Ingen deterministisk forhåndsvisning er tilgjengelig for denne anbefalingen ennå.",
+    changes: [],
+    safetyChecks: ["Forhåndsvisningsgenerator brukt som reserve"],
+    requiresManualApproval: true,
+  },
+  en: {
+    recommendationId: "none",
+    summary: "No deterministic preview is available for this recommendation yet.",
+    changes: [],
+    safetyChecks: ["Preview generator fallback applied"],
+    requiresManualApproval: true,
+  },
+};
+
+export async function buildExecutionPreview(recommendationId: string, lang: AdsLanguage = "nb"): Promise<ExecutionPreview> {
   if (recommendationId !== mockExecutionPreview.recommendationId) {
+    return { ...fallbackPreviewByLanguage[lang], recommendationId };
+  }
+
+  if (lang === "nb") {
     return {
-      recommendationId,
-      summary: "No deterministic preview available for this recommendation yet.",
-      requiresManualApproval: true,
-      safetyChecks: ["Preview generator fallback applied"],
-      changes: [],
+      ...mockExecutionPreview,
+      summary: "Bruk negative søkeord og omfordel budsjett mot kampanjer med høy intensjon.",
+      safetyChecks: [
+        "Budsjettendring per kampanje er under 20% terskel",
+        "Ingen pause av merkevarekampanjer oppdaget",
+        "Anbefalingssikkerhet er over 0.7",
+      ],
     };
   }
 

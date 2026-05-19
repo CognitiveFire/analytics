@@ -25,7 +25,7 @@ export default function DashboardPage() {
         <Card className="border-zinc-200/90 bg-white/80 dark:bg-zinc-900/70">
           <CardTitle>Ingen seeded data for valgt kunde</CardTitle>
           <CardDescription className="mt-2">
-            Demo Executive Account er den eneste kontoen som leveres med eksempeldata. Nye kunder kan fortsatt brukes for oppsett, SEO-opplastinger og videre konfigurasjon.
+            Demo-kontoen er den eneste kontoen som leveres med eksempeldata. Nye kunder kan fortsatt brukes for oppsett, SEO-opplastinger og videre konfigurasjon.
           </CardDescription>
         </Card>
       </PlatformShell>

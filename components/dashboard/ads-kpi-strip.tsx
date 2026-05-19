@@ -11,7 +11,7 @@ const kpisByLanguage: Record<AdsLanguage, Array<{ label: string; value: string; 
   en: [
     { label: "Spend efficiency", value: "4.8x", delta: "+0.3" },
     { label: "Conversion quality", value: "78/100", delta: "-2" },
-    { label: "Wasted spend risk", value: "kr 42k", delta: "+9%" },
+    { label: "Wasted spend risk", value: "NOK 42k", delta: "+9%" },
     { label: "Automation dependency", value: "67%", delta: "+4%" },
   ],
 };

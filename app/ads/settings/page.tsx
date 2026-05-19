@@ -3,13 +3,22 @@ import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { clients } from "@/lib/mock-data/clients";
 import { listGoogleAdsConnectorStates } from "@/lib/server/google-ads-connector-store";
 
-const safeguards = [
-  "Maximum budget delta per execution: 20%",
-  "Protected branded campaign logic enabled",
-  "Low-confidence recommendations blocked from execution",
-  "Manual approval required before all mutations",
-  "Rollback metadata required for every execution batch",
-];
+const safeguardsByLanguage = {
+  nb: [
+    "Maksimal budsjettendring per utførelse: 20%",
+    "Beskyttet logikk for merkevarekampanjer er aktiv",
+    "Anbefalinger med lav sikkerhet blokkeres fra utførelse",
+    "Manuell godkjenning kreves før alle endringer",
+    "Rollback-metadata kreves for hver utførelsespakke",
+  ],
+  en: [
+    "Maximum budget delta per execution: 20%",
+    "Protected branded campaign logic enabled",
+    "Low-confidence recommendations blocked from execution",
+    "Manual approval required before all mutations",
+    "Rollback metadata required for every execution batch",
+  ],
+} as const;
 
 type AdsSettingsPageProps = {
   searchParams?: Promise<{ lang?: string }>;
@@ -19,6 +28,7 @@ export default async function AdsSettingsPage({ searchParams }: AdsSettingsPageP
   const params = await searchParams;
   const lang = resolveAdsLanguage(params?.lang);
   const connectorStates = await listGoogleAdsConnectorStates();
+  const safeguards = safeguardsByLanguage[lang];
 
   return (
     <div className="space-y-4">
@@ -50,8 +60,8 @@ export default async function AdsSettingsPage({ searchParams }: AdsSettingsPageP
           {connectorStates.length === 0 ? (
             <div className="rounded-xl border border-dashed border-zinc-300 px-4 py-3 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
               {lang === "nb"
-                ? <>Ingen Google Ads-koblinger er lagret enn. Gå til Innstillinger {">"} Koblingsveiviser for å aktivere.</>
-                : <>No Google Ads connectors are saved yet. Go to Settings {">"} Connector Wizard to activate one.</>}
+                ? <>Ingen Google Ads-koblinger er lagret ennå. Gå til Innstillinger / Koblingsveiviser for å aktivere.</>
+                : <>No Google Ads connectors are saved yet. Go to Settings / Connector Wizard to activate one.</>}
             </div>
           ) : (
             connectorStates.map((state) => {

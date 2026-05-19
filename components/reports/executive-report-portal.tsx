@@ -83,7 +83,7 @@ const reportContentByClientId: Record<string, ClientReportPortalContent> = {
     slideCount: 38,
     narrativeConfidence: 95,
     readiness: "Ready for client",
-    boardPackDescription: "May 2026 board pack preview for the executive demo account.",
+    boardPackDescription: "May 2026 board pack preview for the executive account.",
     openingNarrative:
       "The full growth stack demonstrates stable efficiency, stronger lead quality, and improved attribution reliability. Recommended focus for the next cycle is scaling proven segments while protecting margin through disciplined budget governance.",
     approvals: [
@@ -356,7 +356,7 @@ export function ExecutiveReportPortal() {
       <Card>
         <CardTitle>Ingen seeded rapportdata for valgt kunde</CardTitle>
         <CardDescription className="mt-2">
-          Demo Executive Account er den eneste kontoen med eksempelrapportering i denne demoen.
+          Demo-kontoen er den eneste kontoen med eksempelrapportering i denne demoen.
         </CardDescription>
       </Card>
     );

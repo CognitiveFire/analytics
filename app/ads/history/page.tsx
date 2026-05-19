@@ -3,6 +3,27 @@ import { listAuditLogs } from "@/lib/audit/audit-log-service";
 import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { isDemoAdsAccount, resolveAdsAccountId } from "@/lib/server/ads-active-account";
 
+const auditTypeLabels = {
+  nb: {
+    recommendation_generated: "Anbefaling generert",
+    ai_reasoning_snapshot: "AI-resonnering lagret",
+    recommendation_approved: "Anbefaling godkjent",
+    recommendation_rejected: "Anbefaling avvist",
+    execution_previewed: "Utførelse forhåndsvist",
+    execution_applied: "Utførelse gjennomført",
+    rollback_created: "Rollback opprettet",
+  },
+  en: {
+    recommendation_generated: "Recommendation generated",
+    ai_reasoning_snapshot: "AI reasoning snapshot saved",
+    recommendation_approved: "Recommendation approved",
+    recommendation_rejected: "Recommendation rejected",
+    execution_previewed: "Execution previewed",
+    execution_applied: "Execution applied",
+    rollback_created: "Rollback created",
+  },
+} as const;
+
 type AdsHistoryPageProps = {
   searchParams?: Promise<{ accountId?: string; lang?: string }>;
 };
@@ -38,7 +59,7 @@ export default async function AdsHistoryPage({ searchParams }: AdsHistoryPagePro
       <div className="mt-5 space-y-3 text-sm">
         {stored.map((entry) => (
           <div className="rounded-2xl border border-zinc-200/80 bg-white/80 px-4 py-3" key={entry.id}>
-            <p className="font-semibold">{entry.type}</p>
+            <p className="font-semibold">{auditTypeLabels[lang][entry.type as keyof typeof auditTypeLabels.nb] ?? entry.type}</p>
             <p className="text-zinc-600">{new Date(entry.timestamp).toLocaleString("en-GB")}</p>
           </div>
         ))}

@@ -1,16 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
 
 import { PlatformShell } from "@/components/layout/platform-shell";
 import { Badge } from "@/components/ui/badge";
-import { clients as staticClients } from "@/lib/mock-data/clients";
 import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { cn } from "@/lib/utils/cn";
-import { Client } from "@/types";
 
 const navItems = [
   { href: "/ads/dashboard", label: { nb: "Oversikt", en: "Dashboard" } },
@@ -23,72 +20,21 @@ const navItems = [
 
 export function AdsShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const router = useRouter();
   const searchParams = useSearchParams();
   const selectedAccountId = searchParams.get("accountId") ?? "";
   const lang = resolveAdsLanguage(searchParams.get("lang"));
-  const [clients, setClients] = useState<Client[]>(staticClients);
-
-  useEffect(() => {
-    let mounted = true;
-
-    async function loadClients() {
-      try {
-        const response = await fetch("/api/clients", { cache: "no-store" });
-        if (!response.ok) {
-          return;
-        }
-
-        const payload = (await response.json()) as { clients?: Client[] };
-        if (!mounted || !payload.clients?.length) {
-          return;
-        }
-
-        setClients(payload.clients);
-      } catch {
-        // Keep static fallback list.
-      }
-    }
-
-    void loadClients();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
   function buildHref(href: string) {
     const params = new URLSearchParams();
-    if (!selectedAccountId) {
-      if (lang !== "nb") {
-        params.set("lang", lang);
-      }
-      const suffix = params.toString();
-      return suffix ? `${href}?${suffix}` : href;
+    if (selectedAccountId) {
+      params.set("accountId", selectedAccountId);
     }
-
-    params.set("accountId", selectedAccountId);
     if (lang !== "nb") {
       params.set("lang", lang);
     }
 
-    return `${href}?${params.toString()}`;
-  }
-
-  function onAccountChange(nextAccountId: string) {
-    const params = new URLSearchParams();
-    if (lang !== "nb") {
-      params.set("lang", lang);
-    }
-
-    if (!nextAccountId) {
-      const suffix = params.toString();
-      router.push(suffix ? `${pathname}?${suffix}` : pathname);
-      return;
-    }
-
-    params.set("accountId", nextAccountId);
-    router.push(`${pathname}?${params.toString()}`);
+    const suffix = params.toString();
+    return suffix ? `${href}?${suffix}` : href;
   }
 
   return (
@@ -98,30 +44,15 @@ export function AdsShell({ children }: { children: React.ReactNode }) {
           <div className="flex flex-col gap-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">Signal Room Ads</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">
+                  {lang === "nb" ? "Signal Room annonsering" : "Signal Room Ads"}
+                </p>
               </div>
               <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
-                <div className="rounded-full border border-zinc-300/80 bg-white px-3 py-1.5 dark:border-zinc-700 dark:bg-zinc-900">
-                  <label className="mr-2 text-xs uppercase tracking-[0.16em] text-zinc-500" htmlFor="ads-account-filter">
-                    {lang === "nb" ? "Kunde" : "Client"}
-                  </label>
-                  <select
-                    className="min-w-0 bg-transparent text-sm text-zinc-700 outline-none sm:min-w-[220px] dark:text-zinc-200"
-                    id="ads-account-filter"
-                    onChange={(event) => onAccountChange(event.target.value)}
-                    value={selectedAccountId}
-                  >
-                    <option value="">{lang === "nb" ? "Auto" : "Auto"}</option>
-                    {clients.map((client) => (
-                      <option key={client.id} value={client.id}>
-                        {client.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
                 <Badge className="bg-orange-100 text-orange-700" variant="neutral">
                   {lang === "nb" ? "Manuell godkjenning kreves" : "Manual approval required"}
                 </Badge>
+                <Badge variant="neutral">{lang === "nb" ? "Konto fra hovednavigasjon" : "Account from main navigation"}</Badge>
               </div>
             </div>
 

@@ -14,7 +14,7 @@ export default async function AdsDashboardPage({ searchParams }: AdsDashboardPag
   const params = await searchParams;
   const accountId = await resolveAdsAccountId(params?.accountId);
   const lang = resolveAdsLanguage(params?.lang);
-  const { summary } = await getPersistedOrGenerateRecommendations(accountId);
+  const { summary } = await getPersistedOrGenerateRecommendations(accountId, lang);
 
   if (!isDemoAdsAccount(accountId)) {
     return (
@@ -22,8 +22,8 @@ export default async function AdsDashboardPage({ searchParams }: AdsDashboardPag
         <CardTitle>{lang === "nb" ? "Ingen Ads-data for valgt kunde" : "No Ads data for selected client"}</CardTitle>
         <CardDescription className="mt-2 text-zinc-700">
           {lang === "nb"
-            ? "Ads-innhold er foreløpig bare tilgjengelig for Demo Executive Account. Velg demo-kontoen for å se innsikt, KPI-er og anbefalinger."
-            : "Ads content is currently only available for the Demo Executive Account. Select the demo account to view insights, KPIs, and recommendations."}
+            ? "Ads-innhold er foreløpig bare tilgjengelig for demo-kontoen. Velg demo-kontoen for å se innsikt, KPI-er og anbefalinger."
+            : "Ads content is currently only available for the demo account. Select the demo account to view insights, KPIs, and recommendations."}
         </CardDescription>
       </Card>
     );

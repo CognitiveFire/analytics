@@ -33,7 +33,7 @@ export default async function AdsExecutionPage({ searchParams }: AdsExecutionPag
     );
   }
 
-  const preview = await buildExecutionPreview("rec-1");
+  const preview = await buildExecutionPreview("rec-1", lang);
 
   return (
     <div className="grid gap-6 xl:grid-cols-2">
