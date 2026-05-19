@@ -4,37 +4,33 @@ import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
+import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 
 const STORAGE_KEY = "signal-room-language";
 
-type AppLanguage = "no" | "en";
+type AppLanguage = "nb" | "en";
 
 export function LanguageToggle() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [language, setLanguage] = useState<AppLanguage>("no");
+  const [language, setLanguage] = useState<AppLanguage>("nb");
 
   const currentQueryLang = useMemo(() => {
-    const value = searchParams.get("lang");
-    return value === "en" ? "en" : "no";
+    return resolveAdsLanguage(searchParams.get("lang"));
   }, [searchParams]);
 
   useEffect(() => {
     const stored = window.localStorage.getItem(STORAGE_KEY);
     const nextLanguage = stored === "en" ? "en" : currentQueryLang;
     setLanguage(nextLanguage);
-    document.documentElement.lang = nextLanguage === "en" ? "en" : "no";
+    document.documentElement.lang = nextLanguage === "en" ? "en" : "nb";
   }, [currentQueryLang]);
 
   function applyLanguage(nextLanguage: AppLanguage) {
     setLanguage(nextLanguage);
-    document.documentElement.lang = nextLanguage === "en" ? "en" : "no";
+    document.documentElement.lang = nextLanguage === "en" ? "en" : "nb";
     window.localStorage.setItem(STORAGE_KEY, nextLanguage);
-
-    if (!pathname.startsWith("/ads")) {
-      return;
-    }
 
     const params = new URLSearchParams(searchParams.toString());
     if (nextLanguage === "en") {
@@ -51,9 +47,9 @@ export function LanguageToggle() {
     <div className="inline-flex rounded-full border border-zinc-200 bg-white p-1 dark:border-zinc-700 dark:bg-zinc-900">
       <Button
         className="rounded-full px-3 py-1 text-xs"
-        onClick={() => applyLanguage("no")}
+        onClick={() => applyLanguage("nb")}
         size="sm"
-        variant={language === "no" ? "default" : "ghost"}
+        variant={language === "nb" ? "default" : "ghost"}
       >
         NO
       </Button>

@@ -2,6 +2,7 @@ import { BarChart3, Brain, CheckSquare, Database, FileText, GitMerge, Shield } f
 
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { AdsLanguage } from "@/lib/ads/ui-language";
 
 const dataSources = [
   { label: "Google Ads", description: "Kampanjeytelse, ROAS, CPA, budsjettbruk og konverteringsdata per kampanje og annonsegruppe." },
@@ -72,13 +73,13 @@ const approvalSteps = [
   { step: "3", label: "Godkjenning og distribusjon", detail: "Godkjent rapport sendes til planlagt mottakerliste på avtalt dato og tidspunkt." },
 ];
 
-export function ReportMethodologyGuide() {
+export function ReportMethodologyGuide({ lang = "nb" }: { lang?: AdsLanguage }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
         <Shield className="h-5 w-5 text-orange-500" />
-        <h2 className="text-lg font-semibold tracking-tight">Rapportmetodikk</h2>
-        <Badge variant="neutral">Slik fungerer det</Badge>
+        <h2 className="text-lg font-semibold tracking-tight">{lang === "nb" ? "Rapportmetodikk" : "Report methodology"}</h2>
+        <Badge variant="neutral">{lang === "nb" ? "Slik fungerer det" : "How it works"}</Badge>
       </div>
 
       {/* Data sources */}

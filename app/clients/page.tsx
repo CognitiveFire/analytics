@@ -4,10 +4,17 @@ import { AddClientDialog } from "@/components/clients/add-client-dialog";
 import { PlatformShell } from "@/components/layout/platform-shell";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
+import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { clients as staticClients } from "@/lib/mock-data/clients";
 import { getStoredClients } from "@/lib/server/client-store";
 
-export default async function ClientsPage() {
+type ClientsPageProps = {
+  searchParams?: Promise<{ lang?: string }>;
+};
+
+export default async function ClientsPage({ searchParams }: ClientsPageProps) {
+  const params = await searchParams;
+  const lang = resolveAdsLanguage(params?.lang);
   const stored = await getStoredClients();
   const clients = [...staticClients, ...stored];
 
@@ -16,8 +23,8 @@ export default async function ClientsPage() {
       <section className="space-y-6">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Kundeportefolje</p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight">Operasjonell innsikt pa tvers av kunder</h1>
+            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">{lang === "nb" ? "Kundeportefolje" : "Client portfolio"}</p>
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight">{lang === "nb" ? "Operasjonell innsikt pa tvers av kunder" : "Operational insights across clients"}</h1>
           </div>
           <AddClientDialog />
         </div>
@@ -30,14 +37,14 @@ export default async function ClientsPage() {
                   {client.logoMark}
                 </div>
                 <Badge variant={client.accountHealth > 80 ? "success" : client.accountHealth > 70 ? "warning" : "danger"}>
-                  Helse {client.accountHealth}
+                  {lang === "nb" ? "Helse" : "Health"} {client.accountHealth}
                 </Badge>
               </div>
               <CardTitle className="mt-4 text-xl">{client.name}</CardTitle>
               <CardDescription className="mt-2">
                 {client.industry} • {client.region}
               </CardDescription>
-              <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-300">Rapportstatus: {client.reportStatus}</p>
+              <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-300">{lang === "nb" ? "Rapportstatus" : "Report status"}: {client.reportStatus}</p>
             </Card>
           ))}
         </div>

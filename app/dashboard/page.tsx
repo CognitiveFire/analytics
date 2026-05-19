@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { KpiGrid } from "@/components/dashboard/kpi-grid";
 import { KpiTrendOverview } from "@/components/charts/kpi-trend-overview";
@@ -11,11 +11,21 @@ import { IntelligenceModules } from "@/components/insights/intelligence-modules"
 import { PlatformShell } from "@/components/layout/platform-shell";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { usePlatformStore } from "@/hooks/use-platform-store";
+import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { DEMO_ACCOUNT_ID } from "@/lib/demo-account";
 import { clients } from "@/lib/mock-data/clients";
 import { trendHistory } from "@/lib/mock-data/metrics";
 
 export default function DashboardPage() {
+  const [lang, setLang] = useState<"nb" | "en">("nb");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const queryLang = resolveAdsLanguage(params.get("lang"));
+    const stored = window.localStorage.getItem("signal-room-language");
+    setLang(stored === "en" ? "en" : queryLang);
+  }, []);
+
   const clientId = usePlatformStore((store) => store.clientId);
   const client = useMemo(() => clients.find((item) => item.id === clientId) ?? clients[0], [clientId]);
 
@@ -23,9 +33,11 @@ export default function DashboardPage() {
     return (
       <PlatformShell>
         <Card className="border-zinc-200/90 bg-white/80 dark:bg-zinc-900/70">
-          <CardTitle>Ingen seeded data for valgt kunde</CardTitle>
+          <CardTitle>{lang === "nb" ? "Ingen seeded data for valgt kunde" : "No seeded data for selected client"}</CardTitle>
           <CardDescription className="mt-2">
-            Demo-kontoen er den eneste kontoen som leveres med eksempeldata. Nye kunder kan fortsatt brukes for oppsett, SEO-opplastinger og videre konfigurasjon.
+            {lang === "nb"
+              ? "Demo-kontoen er den eneste kontoen som leveres med eksempeldata. Nye kunder kan fortsatt brukes for oppsett, SEO-opplastinger og videre konfigurasjon."
+              : "The demo account is the only account shipped with sample data. New clients can still be used for setup, SEO uploads, and configuration."}
           </CardDescription>
         </Card>
       </PlatformShell>
@@ -41,15 +53,15 @@ export default function DashboardPage() {
 
         <section className="grid gap-6 xl:grid-cols-3">
           <TrendChart
-            title="ROAS-trend"
-            description="Effektivitetskurve for rapporteringsperioden"
+            title={lang === "nb" ? "ROAS-trend" : "ROAS trend"}
+            description={lang === "nb" ? "Effektivitetskurve for rapporteringsperioden" : "Efficiency curve for the reporting period"}
             color="#111111"
             data={trendHistory}
             dataKey="roas"
           />
           <TrendChart
-            title="Kostnadseffektivitet"
-            description="Kostnadsutvikling og budsjettkontroll"
+            title={lang === "nb" ? "Kostnadseffektivitet" : "Cost efficiency"}
+            description={lang === "nb" ? "Kostnadsutvikling og budsjettkontroll" : "Cost development and budget control"}
             color="#ff4a0a"
             data={trendHistory}
             dataKey="spend"

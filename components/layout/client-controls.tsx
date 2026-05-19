@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
+import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { clients as staticClients } from "@/lib/mock-data/clients";
 import { usePlatformStore } from "@/hooks/use-platform-store";
 import { getMonthlyPeriods } from "@/lib/reporting/month-periods";
@@ -16,6 +17,7 @@ export function ClientControls() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const lang = resolveAdsLanguage(searchParams.get("lang"));
   const [clients, setClients] = useState<Client[]>(staticClients);
 
   useEffect(() => {
@@ -98,10 +100,10 @@ export function ClientControls() {
         ))}
       </select>
 
-      <Badge variant="neutral">Sammenlignes med: {comparePeriod}</Badge>
+      <Badge variant="neutral">{lang === "nb" ? "Sammenlignes med" : "Compared with"}: {comparePeriod}</Badge>
 
-      <Badge variant={healthVariant}>Kontohelse: {currentClient.accountHealth}</Badge>
-      <Badge variant="neutral">Rapport: {currentClient.reportStatus}</Badge>
+      <Badge variant={healthVariant}>{lang === "nb" ? "Kontohelse" : "Account health"}: {currentClient.accountHealth}</Badge>
+      <Badge variant="neutral">{lang === "nb" ? "Rapport" : "Report"}: {currentClient.reportStatus}</Badge>
     </div>
   );
 }

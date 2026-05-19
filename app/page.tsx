@@ -3,8 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 
+import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
 
@@ -18,6 +20,17 @@ const featureItems = [
 ];
 
 export default function Home() {
+  const [lang, setLang] = useState<"nb" | "en">("nb");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const queryLang = resolveAdsLanguage(params.get("lang"));
+    const stored = window.localStorage.getItem("signal-room-language");
+    setLang(stored === "en" ? "en" : queryLang);
+  }, []);
+
+  const dashboardHref = lang === "en" ? "/dashboard?lang=en" : "/dashboard";
+
   return (
     <div className="relative overflow-hidden bg-[radial-gradient(circle_at_0%_10%,rgba(226,232,240,0.7),transparent_40%),radial-gradient(circle_at_90%_0%,rgba(212,212,216,0.55),transparent_45%),#f8fafc] dark:bg-[radial-gradient(circle_at_0%_0%,rgba(39,39,42,0.6),transparent_40%),radial-gradient(circle_at_85%_0%,rgba(63,63,70,0.4),transparent_42%),#09090b]">
       <div className="mx-auto min-h-screen max-w-7xl px-6 pb-24 pt-10 lg:px-10">
@@ -27,30 +40,30 @@ export default function Home() {
               <Image alt="Apriil A" fill priority sizes="44px" src="/apriil-a-mark.svg" />
             </div>
             <div>
-              <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Apriil presenterer</p>
+              <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">{lang === "nb" ? "Apriil presenterer" : "Presented by Apriil"}</p>
               <p className="mt-2 text-2xl font-semibold tracking-tight">Signal Room</p>
             </div>
           </div>
-          <Link className={cn(buttonVariants({ variant: "outline" }))} href="/dashboard">
-            Apne plattform
+          <Link className={cn(buttonVariants({ variant: "outline" }))} href={dashboardHref}>
+            {lang === "nb" ? "Apne plattform" : "Open platform"}
           </Link>
         </header>
 
         <section className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}>
             <p className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs uppercase tracking-[0.2em] text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900">
-              Operasjonell innsiktsplattform
+              {lang === "nb" ? "Operasjonell innsiktsplattform" : "Operational intelligence platform"}
             </p>
             <h1 className="mt-6 max-w-2xl text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">
-              Operasjonell innsikt for moderne markedsforingsteam.
+              {lang === "nb" ? "Operasjonell innsikt for moderne markedsforingsteam." : "Operational intelligence for modern marketing teams."}
             </h1>
             <p className="mt-6 max-w-xl text-lg text-zinc-600 dark:text-zinc-300">
-              Signal Room gjor fragmentert rapportering om til tydelig strategisk retning.
+              {lang === "nb" ? "Signal Room gjor fragmentert rapportering om til tydelig strategisk retning." : "Signal Room turns fragmented reporting into clear strategic direction."}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <button className={cn(buttonVariants({ size: "lg" }))}>Bestill demo</button>
-              <Link className={cn(buttonVariants({ size: "lg", variant: "outline" }))} href="/dashboard">
-                Apne plattform
+              <button className={cn(buttonVariants({ size: "lg" }))}>{lang === "nb" ? "Bestill demo" : "Book demo"}</button>
+              <Link className={cn(buttonVariants({ size: "lg", variant: "outline" }))} href={dashboardHref}>
+                {lang === "nb" ? "Apne plattform" : "Open platform"}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </div>

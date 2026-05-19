@@ -1,13 +1,23 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
+import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { PlatformShell } from "@/components/layout/platform-shell";
 import { ScreamingFrogUploader } from "@/components/seo/screaming-frog-uploader";
 import { usePlatformStore } from "@/hooks/use-platform-store";
 import { clients } from "@/lib/mock-data/clients";
 
 export default function SeoPage() {
+  const [lang, setLang] = useState<"nb" | "en">("nb");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const queryLang = resolveAdsLanguage(params.get("lang"));
+    const stored = window.localStorage.getItem("signal-room-language");
+    setLang(stored === "en" ? "en" : queryLang);
+  }, []);
+
   const clientId = usePlatformStore((store) => store.clientId);
   const activeAccountName = useMemo(() => {
     const selectedClient = clients.find((client) => client.id === clientId) ?? clients[0];
@@ -19,11 +29,12 @@ export default function SeoPage() {
       <div className="rounded-[2rem] border border-zinc-200/60 bg-white/70 p-6 dark:border-zinc-800 dark:bg-zinc-900/55">
         <header className="flex flex-col gap-4 border-b border-zinc-200/60 pb-8 dark:border-zinc-800 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-zinc-500">Apriil signal room</p>
-            <h1 className="mt-2 text-4xl font-semibold tracking-tight sm:text-5xl">Importer Screaming Frog-eksporter</h1>
+            <p className="text-xs uppercase tracking-[0.24em] text-zinc-500">{lang === "nb" ? "Apriil signal room" : "Apriil signal room"}</p>
+            <h1 className="mt-2 text-4xl font-semibold tracking-tight sm:text-5xl">{lang === "nb" ? "Importer Screaming Frog-eksporter" : "Import Screaming Frog exports"}</h1>
             <p className="mt-4 max-w-3xl text-base leading-7 text-zinc-600 dark:text-zinc-300">
-              SEO-data leveres som et kuratert CSV-opplastingssett. Signal Room leser crawlen, standardiserer eksportene
-              og omgjør dem til tydelig SEO-innsikt og operative anbefalinger.
+              {lang === "nb"
+                ? "SEO-data leveres som et kuratert CSV-opplastingssett. Signal Room leser crawlen, standardiserer eksportene og omgjør dem til tydelig SEO-innsikt og operative anbefalinger."
+                : "SEO data is delivered as a curated CSV upload set. Signal Room reads the crawl, standardizes the exports, and converts them into clear SEO insights and operational recommendations."}
             </p>
           </div>
 

@@ -30,7 +30,9 @@ export function PlatformShell({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          <PlatformNav />
+          <Suspense fallback={null}>
+            <PlatformNav />
+          </Suspense>
           <Suspense fallback={null}>
             <ClientControls />
           </Suspense>
