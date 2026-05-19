@@ -9,13 +9,28 @@ import { TrendChart } from "@/components/charts/trend-chart";
 import { AIInsightPanel } from "@/components/insights/ai-insight-panel";
 import { IntelligenceModules } from "@/components/insights/intelligence-modules";
 import { PlatformShell } from "@/components/layout/platform-shell";
+import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { usePlatformStore } from "@/hooks/use-platform-store";
+import { DEMO_ACCOUNT_ID } from "@/lib/demo-account";
 import { clients } from "@/lib/mock-data/clients";
 import { trendHistory } from "@/lib/mock-data/metrics";
 
 export default function DashboardPage() {
   const clientId = usePlatformStore((store) => store.clientId);
   const client = useMemo(() => clients.find((item) => item.id === clientId) ?? clients[0], [clientId]);
+
+  if (clientId !== DEMO_ACCOUNT_ID) {
+    return (
+      <PlatformShell>
+        <Card className="border-zinc-200/90 bg-white/80 dark:bg-zinc-900/70">
+          <CardTitle>Ingen seeded data for valgt kunde</CardTitle>
+          <CardDescription className="mt-2">
+            Demo Executive Account er den eneste kontoen som leveres med eksempeldata. Nye kunder kan fortsatt brukes for oppsett, SEO-opplastinger og videre konfigurasjon.
+          </CardDescription>
+        </Card>
+      </PlatformShell>
+    );
+  }
 
   return (
     <PlatformShell>

@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 
 import { usePlatformStore } from "@/hooks/use-platform-store";
+import { DEMO_ACCOUNT_ID } from "@/lib/demo-account";
 import { clients } from "@/lib/mock-data/clients";
 import { ReportSections } from "@/components/reports/report-sections";
 import { Badge } from "@/components/ui/badge";
@@ -350,8 +351,19 @@ export function ExecutiveReportPortal() {
   const { clientId } = usePlatformStore();
 
   const currentClient = useMemo(() => clients.find((client) => client.id === clientId) ?? clients[0], [clientId]);
-  const content = reportContentByClientId[currentClient.id] ?? reportContentByClientId["sotra-ror"];
-  const openingNarrative = openingNarrativeByClientId[currentClient.id] ?? openingNarrativeByClientId["sotra-ror"];
+  if (clientId !== DEMO_ACCOUNT_ID) {
+    return (
+      <Card>
+        <CardTitle>Ingen seeded rapportdata for valgt kunde</CardTitle>
+        <CardDescription className="mt-2">
+          Demo Executive Account er den eneste kontoen med eksempelrapportering i denne demoen.
+        </CardDescription>
+      </Card>
+    );
+  }
+
+  const content = reportContentByClientId[currentClient.id] ?? reportContentByClientId[DEMO_ACCOUNT_ID];
+  const openingNarrative = openingNarrativeByClientId[currentClient.id] ?? openingNarrativeByClientId[DEMO_ACCOUNT_ID];
 
   return (
     <>

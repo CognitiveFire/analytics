@@ -1,8 +1,9 @@
 import "server-only";
 
+import { DEMO_ACCOUNT_ID } from "@/lib/demo-account";
 import { listGoogleAdsConnectorStates } from "@/lib/server/google-ads-connector-store";
 
-export const DEFAULT_ADS_ACCOUNT_ID = "demo-executive";
+export const DEFAULT_ADS_ACCOUNT_ID = DEMO_ACCOUNT_ID;
 
 export function isDemoAdsAccount(accountId: string): boolean {
   return accountId === DEFAULT_ADS_ACCOUNT_ID;

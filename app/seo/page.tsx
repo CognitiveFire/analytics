@@ -11,7 +11,7 @@ export default function SeoPage() {
   const clientId = usePlatformStore((store) => store.clientId);
   const activeAccount = useMemo(() => {
     const selectedClient = clients.find((client) => client.id === clientId) ?? clients[0];
-    return selectedClient?.name ?? "Melk.no";
+    return selectedClient?.name ?? clientId;
   }, [clientId]);
 
   return (

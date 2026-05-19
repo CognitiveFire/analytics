@@ -1,7 +1,9 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 import { ClientControls } from "@/components/layout/client-controls";
+import { LanguageToggle } from "@/components/layout/language-toggle";
 import { PlatformNav } from "@/components/layout/platform-nav";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 
@@ -20,7 +22,12 @@ export function PlatformShell({ children }: { children: React.ReactNode }) {
                 <p className="text-xs text-zinc-500">Operasjonell innsikt fra Apriil</p>
               </div>
             </Link>
-            <ThemeToggle />
+            <div className="flex items-center gap-2">
+              <Suspense fallback={null}>
+                <LanguageToggle />
+              </Suspense>
+              <ThemeToggle />
+            </div>
           </div>
 
           <PlatformNav />

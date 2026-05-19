@@ -15,7 +15,7 @@ interface PlatformState {
 const initialPeriod = formatMonthLabel(new Date());
 
 export const usePlatformStore = create<PlatformState>((set) => ({
-  clientId: "sotra-ror",
+  clientId: "demo-executive",
   period: initialPeriod,
   comparePeriod: getPreviousMonthLabel(initialPeriod),
   setClientId: (clientId) => set({ clientId }),

@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { PlatformShell } from "@/components/layout/platform-shell";
 import { Badge } from "@/components/ui/badge";
 import { clients as staticClients } from "@/lib/mock-data/clients";
-import { AdsLanguage, resolveAdsLanguage } from "@/lib/ads/ui-language";
+import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { cn } from "@/lib/utils/cn";
 import { Client } from "@/types";
 
@@ -91,19 +91,6 @@ export function AdsShell({ children }: { children: React.ReactNode }) {
     router.push(`${pathname}?${params.toString()}`);
   }
 
-  function onLanguageChange(nextLang: AdsLanguage) {
-    const params = new URLSearchParams();
-    if (selectedAccountId) {
-      params.set("accountId", selectedAccountId);
-    }
-    if (nextLang !== "nb") {
-      params.set("lang", nextLang);
-    }
-
-    const suffix = params.toString();
-    router.push(suffix ? `${pathname}?${suffix}` : pathname);
-  }
-
   return (
     <PlatformShell>
       <section className="space-y-6">
@@ -131,26 +118,6 @@ export function AdsShell({ children }: { children: React.ReactNode }) {
                       </option>
                     ))}
                   </select>
-                </div>
-                <div className="inline-flex w-fit rounded-full border border-zinc-300/80 bg-white p-1 dark:border-zinc-700 dark:bg-zinc-900">
-                  {([
-                    { value: "nb", label: "NO" },
-                    { value: "en", label: "EN" },
-                  ] as const).map((option) => (
-                    <button
-                      className={cn(
-                        "rounded-full px-3 py-1 text-xs font-medium transition-colors",
-                        lang === option.value
-                          ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-                          : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-                      )}
-                      key={option.value}
-                      onClick={() => onLanguageChange(option.value)}
-                      type="button"
-                    >
-                      {option.label}
-                    </button>
-                  ))}
                 </div>
                 <Badge className="bg-orange-100 text-orange-700" variant="neutral">
                   {lang === "nb" ? "Manuell godkjenning kreves" : "Manual approval required"}
