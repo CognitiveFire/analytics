@@ -1,18 +1,54 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
-import { clients } from "@/lib/mock-data/clients";
+import { clients as staticClients } from "@/lib/mock-data/clients";
 import { usePlatformStore } from "@/hooks/use-platform-store";
 import { getMonthlyPeriods } from "@/lib/reporting/month-periods";
+import { Client } from "@/types";
 
 const periods = getMonthlyPeriods(12);
 
 export function ClientControls() {
   const { clientId, setClientId, period, comparePeriod, setPeriod } = usePlatformStore();
+  const [clients, setClients] = useState<Client[]>(staticClients);
 
-  const currentClient = useMemo(() => clients.find((c) => c.id === clientId) ?? clients[0], [clientId]);
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadClients() {
+      try {
+        const response = await fetch("/api/clients", { cache: "no-store" });
+        if (!response.ok) {
+          return;
+        }
+
+        const payload = (await response.json()) as { clients?: Client[] };
+        if (!mounted || !payload.clients || payload.clients.length === 0) {
+          return;
+        }
+
+        setClients(payload.clients);
+      } catch {
+        // Keep static fallback list.
+      }
+    }
+
+    void loadClients();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!clients.some((client) => client.id === clientId) && clients.length > 0) {
+      setClientId(clients[0].id);
+    }
+  }, [clientId, clients, setClientId]);
+
+  const currentClient = useMemo(() => clients.find((c) => c.id === clientId) ?? clients[0], [clientId, clients]);
 
   const healthVariant = currentClient.accountHealth > 80 ? "success" : currentClient.accountHealth > 70 ? "warning" : "danger";
 

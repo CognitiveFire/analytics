@@ -3,11 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { AdsAuthError, authorizeAdsRequest } from "@/lib/auth/ads-auth";
 import { appendAuditLog } from "@/lib/audit/audit-log-service";
 import { applyApprovedExecution } from "@/lib/execution/execution-service";
+import { resolveAdsAccountId } from "@/lib/server/ads-active-account";
 import { ApprovalDecision } from "@/types/ads";
 
 export async function POST(request: NextRequest) {
   const body = (await request.json()) as ApprovalDecision & { accountId?: string; dryRun?: boolean };
-  const accountId = body.accountId || "demo-executive";
+  const accountId = await resolveAdsAccountId(body.accountId);
 
   try {
     const auth = authorizeAdsRequest(request, {

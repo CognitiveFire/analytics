@@ -11,7 +11,7 @@ export function AdsKpiStrip() {
   return (
     <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
       {kpis.map((kpi) => (
-        <Card className="border-zinc-200/90 bg-[#ece9e1]" key={kpi.label}>
+        <Card className="border-zinc-200/90 bg-white/80 dark:bg-zinc-900/70" key={kpi.label}>
           <CardDescription className="uppercase tracking-[0.08em] text-zinc-600">{kpi.label}</CardDescription>
           <CardTitle className="mt-3 text-3xl text-zinc-950">{kpi.value}</CardTitle>
           <p className="mt-3 text-sm font-medium text-orange-700">{kpi.delta} vs previous period</p>

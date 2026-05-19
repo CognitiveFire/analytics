@@ -2,11 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { AdsAuthError, authorizeAdsRequest } from "@/lib/auth/ads-auth";
 import { buildExecutionPreview } from "@/lib/execution/execution-service";
+import { resolveAdsAccountId } from "@/lib/server/ads-active-account";
 
 export async function POST(request: NextRequest) {
   const body = (await request.json()) as { recommendationId?: string; accountId?: string };
   const recommendationId = body.recommendationId || "rec-1";
-  const accountId = body.accountId || "demo-executive";
+  const accountId = await resolveAdsAccountId(body.accountId);
 
   try {
     authorizeAdsRequest(request, {

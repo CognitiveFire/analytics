@@ -3,9 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { AdsAuthError, authorizeAdsRequest } from "@/lib/auth/ads-auth";
 import { appendAuditLog } from "@/lib/audit/audit-log-service";
 import { getPersistedOrGenerateRecommendations } from "@/lib/recommendations/recommendation-generator";
+import { resolveAdsAccountId } from "@/lib/server/ads-active-account";
 
 export async function GET(request: NextRequest) {
-  const accountId = request.nextUrl.searchParams.get("accountId") || "demo-executive";
+  const accountId = await resolveAdsAccountId(request.nextUrl.searchParams.get("accountId"));
 
   try {
     const auth = authorizeAdsRequest(request, {

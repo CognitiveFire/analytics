@@ -9,7 +9,7 @@ const tasks = [
 
 export function PrioritizedOperationalTasks() {
   return (
-    <Card className="border-zinc-200/90 bg-[#f2f0ea]">
+    <Card className="border-zinc-200/90 bg-white/80 dark:bg-zinc-900/70">
       <CardTitle className="text-lg">Prioritized Operational Tasks</CardTitle>
       <CardDescription className="mt-2">Execution planning queue. Actions require manual approval before any account mutation.</CardDescription>
       <div className="mt-5 space-y-3">

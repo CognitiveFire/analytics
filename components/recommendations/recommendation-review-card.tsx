@@ -9,7 +9,7 @@ interface RecommendationReviewCardProps {
 
 export function RecommendationReviewCard({ recommendation }: RecommendationReviewCardProps) {
   return (
-    <Card className="border-zinc-200/90 bg-[#ece9e1]">
+    <Card className="border-zinc-200/90 bg-white/80 dark:bg-zinc-900/70">
       <CardTitle className="text-lg">{recommendation.title}</CardTitle>
       <CardDescription className="mt-2">{recommendation.reasoning}</CardDescription>
 

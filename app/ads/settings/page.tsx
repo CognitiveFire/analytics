@@ -15,7 +15,7 @@ export default async function AdsSettingsPage() {
 
   return (
     <div className="space-y-4">
-      <Card className="border-zinc-200/90 bg-[#ece9e1]">
+      <Card className="border-zinc-200/90 bg-white/80 dark:bg-zinc-900/70">
         <CardTitle>Execution Safeguards</CardTitle>
         <CardDescription className="mt-2">Signal Room Ads is an intelligence and assisted execution layer, not autonomous account automation.</CardDescription>
         <ul className="mt-5 space-y-2 text-sm text-zinc-700">

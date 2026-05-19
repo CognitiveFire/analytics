@@ -1,11 +1,18 @@
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { fetchCampaigns } from "@/lib/google-ads/services";
+import { resolveAdsAccountId } from "@/lib/server/ads-active-account";
 
-export default async function AdsCampaignsPage() {
-  const campaigns = await fetchCampaigns("demo-executive");
+type AdsCampaignsPageProps = {
+  searchParams?: Promise<{ accountId?: string }>;
+};
+
+export default async function AdsCampaignsPage({ searchParams }: AdsCampaignsPageProps) {
+  const params = await searchParams;
+  const accountId = await resolveAdsAccountId(params?.accountId);
+  const campaigns = await fetchCampaigns(accountId);
 
   return (
-    <Card className="border-zinc-200/90 bg-[#f2f0ea]">
+    <Card className="border-zinc-200/90 bg-white/80 dark:bg-zinc-900/70">
       <CardTitle>Campaign Diagnostic Layer</CardTitle>
       <CardDescription className="mt-2">Operational campaign diagnostics across spend efficiency and structure quality.</CardDescription>
 
