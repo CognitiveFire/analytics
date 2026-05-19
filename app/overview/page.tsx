@@ -1,13 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { AlertTriangle, TrendingDown, Lightbulb, CheckCircle2 } from "lucide-react";
 
 import { PlatformShell } from "@/components/layout/platform-shell";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { resolveAdsLanguage } from "@/lib/ads/ui-language";
-import { useTranslation } from "@/lib/translations/use-translation";
 import {
   getDemoOperationalAlerts,
   getDemoOperationalMetrics,
@@ -15,27 +12,6 @@ import {
 } from "@/lib/mock-data/operational-recommendations";
 
 export default function OverviewPage() {
-  const [lang, setLang] = useState<"nb" | "en">("nb");
-  const { t } = useTranslation(lang);
-
-  useEffect(() => {
-    const updateLang = () => {
-      const params = new URLSearchParams(window.location.search);
-      const queryLang = resolveAdsLanguage(params.get("lang"));
-      const stored = window.localStorage.getItem("signal-room-language");
-      setLang(stored === "en" ? "en" : queryLang);
-    };
-
-    updateLang();
-    window.addEventListener("storage", updateLang);
-    window.addEventListener("popstate", updateLang);
-
-    return () => {
-      window.removeEventListener("storage", updateLang);
-      window.removeEventListener("popstate", updateLang);
-    };
-  }, []);
-
   const alerts = getDemoOperationalAlerts();
   const metrics = getDemoOperationalMetrics();
   const recommendations = getDemoOperationalRecommendations();
@@ -48,12 +24,10 @@ export default function OverviewPage() {
       <div className="space-y-8">
         {/* Page Header */}
         <div className="border-b border-zinc-200/60 pb-6 dark:border-zinc-800">
-          <p className="text-xs uppercase tracking-[0.24em] text-zinc-500">{t("pages.overview.subtitle", "Strategic Intelligence")}</p>
-          <h1 className="mt-2 text-4xl font-semibold tracking-tight sm:text-5xl">{t("pages.overview.title", "Executive Operational Visibility")}</h1>
+          <p className="text-xs uppercase tracking-[0.24em] text-zinc-500">Strategisk innsikt</p>
+          <h1 className="mt-2 text-4xl font-semibold tracking-tight sm:text-5xl">Operasjonell oversikt for ledelsen</h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-zinc-600 dark:text-zinc-300">
-            {lang === "nb"
-              ? "Sanntidssammendrag av operasjonelle risikoer, muligheter og implementeringsframgang på tvers av kanaler."
-              : "Real-time operational summary of risks, opportunities, and implementation progress across channels."}
+            Sanntidssammendrag av operasjonelle risikoer, muligheter og implementeringsfremdrift på tvers av kanaler.
           </p>
         </div>
 
@@ -61,8 +35,8 @@ export default function OverviewPage() {
         {criticalAlerts.length > 0 && (
           <div className="space-y-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">{lang === "nb" ? "Kritiske risikoer" : "Critical Risks"}</p>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight">{lang === "nb" ? "Operasjonelle advarsler" : "Operational Alerts"}</h2>
+              <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Kritiske risikoer</p>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight">Operasjonelle varsler</h2>
             </div>
 
             <div className="grid gap-4 lg:grid-cols-2">
@@ -79,21 +53,19 @@ export default function OverviewPage() {
                         <p className="mt-1 text-sm leading-relaxed text-rose-800 dark:text-rose-200">{alert.description}</p>
                       </div>
                     </div>
-                    <Badge className="bg-rose-200 text-rose-900 dark:bg-rose-900/50 dark:text-rose-200">Critical</Badge>
+                    <Badge className="bg-rose-200 text-rose-900 dark:bg-rose-900/50 dark:text-rose-200">Kritisk</Badge>
                   </div>
 
                   <div className="flex flex-wrap gap-2 pt-2">
                     {alert.affectedChannels.map((channel) => (
                       <Badge key={channel} variant="neutral" className="text-xs">
-                        {lang === "nb"
-                          ? channel === "organic"
-                            ? "Organisk"
-                            : channel === "paid"
-                            ? "Betalt"
-                            : channel === "conversion"
-                            ? "Konvertering"
-                            : channel
-                          : channel}
+                        {channel === "organic"
+                          ? "Organisk"
+                          : channel === "paid"
+                          ? "Betalt"
+                          : channel === "conversion"
+                          ? "Konvertering"
+                          : "Attribusjon"}
                       </Badge>
                     ))}
                   </div>
@@ -107,10 +79,8 @@ export default function OverviewPage() {
         {highOpportunities.length > 0 && (
           <div className="space-y-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">{lang === "nb" ? "Unnådd potensial" : "Untapped Potential"}</p>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight">
-                {lang === "nb" ? "Strategiske muligheter" : "Strategic Opportunities"}
-              </h2>
+              <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Unyttet potensial</p>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight">Strategiske muligheter</h2>
             </div>
 
             <div className="grid gap-4 lg:grid-cols-2">
@@ -127,21 +97,19 @@ export default function OverviewPage() {
                         <p className="mt-1 text-sm leading-relaxed text-amber-800 dark:text-amber-200">{opp.description}</p>
                       </div>
                     </div>
-                    <Badge className="bg-amber-200 text-amber-900 dark:bg-amber-900/50 dark:text-amber-200">Opportunity</Badge>
+                    <Badge className="bg-amber-200 text-amber-900 dark:bg-amber-900/50 dark:text-amber-200">Mulighet</Badge>
                   </div>
 
                   <div className="flex flex-wrap gap-2 pt-2">
                     {opp.affectedChannels.map((channel) => (
                       <Badge key={channel} variant="neutral" className="text-xs">
-                        {lang === "nb"
-                          ? channel === "organic"
-                            ? "Organisk"
-                            : channel === "paid"
-                            ? "Betalt"
-                            : channel === "conversion"
-                            ? "Konvertering"
-                            : channel
-                          : channel}
+                        {channel === "organic"
+                          ? "Organisk"
+                          : channel === "paid"
+                          ? "Betalt"
+                          : channel === "conversion"
+                          ? "Konvertering"
+                          : "Attribusjon"}
                       </Badge>
                     ))}
                   </div>
@@ -154,10 +122,8 @@ export default function OverviewPage() {
         {/* Performance Intelligence Summary */}
         <div className="space-y-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">{lang === "nb" ? "Ytelsesoppsummering" : "Performance Summary"}</p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight">
-              {lang === "nb" ? "Operasjonelle nøkkelmål" : "Operational Key Metrics"}
-            </h2>
+            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Ytelsesoppsummering</p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight">Operasjonelle nøkkelmål</h2>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -165,9 +131,7 @@ export default function OverviewPage() {
             <Card className="flex flex-col">
               <div className="flex items-start justify-between gap-3">
                 <div className="space-y-1">
-                  <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">
-                    {lang === "nb" ? "Søkesynlighet" : "Search Visibility"}
-                  </p>
+                  <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Søkesynlighet</p>
                   <p className="text-3xl font-bold tracking-tight">{metrics.organicVisibility.currentScore}</p>
                 </div>
                 <TrendingDown className="h-5 w-5 text-rose-500" />
@@ -201,9 +165,7 @@ export default function OverviewPage() {
             <Card className="flex flex-col">
               <div className="flex items-start justify-between gap-3">
                 <div className="space-y-1">
-                  <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">
-                    {lang === "nb" ? "Konverteringssats" : "Conversion Rate"}
-                  </p>
+                  <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Konverteringsrate</p>
                   <p className="text-3xl font-bold tracking-tight">{metrics.conversionQuality.currentRate.toFixed(2)}%</p>
                 </div>
                 <TrendingDown className="h-5 w-5 text-rose-500" />
@@ -220,9 +182,7 @@ export default function OverviewPage() {
             <Card className="flex flex-col">
               <div className="flex items-start justify-between gap-3">
                 <div className="space-y-1">
-                  <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">
-                    {lang === "nb" ? "Attribusjonstillit" : "Attribution Confidence"}
-                  </p>
+                  <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Attribusjonstillit</p>
                   <p className="text-3xl font-bold tracking-tight">{metrics.attributionConfidence.currentScore}%</p>
                 </div>
                 <TrendingDown className="h-5 w-5 text-rose-500" />
@@ -240,10 +200,8 @@ export default function OverviewPage() {
         {/* Top Recommendations */}
         <div className="space-y-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">{lang === "nb" ? "Prioritet" : "Priority"}</p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight">
-              {lang === "nb" ? "Tre viktigste anbefalinger" : "Top Recommendations"}
-            </h2>
+            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Prioritet</p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight">Tre viktigste anbefalinger</h2>
           </div>
 
           <div className="space-y-3">
@@ -268,10 +226,10 @@ export default function OverviewPage() {
                   </div>
                   <div className="flex flex-col items-end gap-2">
                     <Badge className={rec.priority === "critical" ? "bg-rose-100 text-rose-700 dark:bg-rose-900/50" : ""}>
-                      {rec.priority === "critical" ? "Critical" : "High"}
+                      {rec.priority === "critical" ? "Kritisk" : "Høy"}
                     </Badge>
                     <Badge variant="neutral" className="text-xs">
-                      {rec.confidenceScore}% confidence
+                      {rec.confidenceScore}% sikkerhet
                     </Badge>
                   </div>
                 </div>
@@ -279,28 +237,24 @@ export default function OverviewPage() {
                 <div className="flex flex-wrap gap-2 pt-2">
                   {rec.affectedChannels.map((channel) => (
                     <Badge key={channel} variant="neutral" className="text-xs">
-                      {lang === "nb"
-                        ? channel === "organic"
-                          ? "Organisk"
-                          : channel === "paid"
-                          ? "Betalt"
-                          : channel === "conversion"
-                          ? "Konvertering"
-                          : channel
-                        : channel}
+                      {channel === "organic"
+                        ? "Organisk"
+                        : channel === "paid"
+                        ? "Betalt"
+                        : channel === "conversion"
+                        ? "Konvertering"
+                        : "Attribusjon"}
                     </Badge>
                   ))}
                 </div>
 
                 <div className="mt-2 flex items-center justify-between text-xs">
                   <span className="text-zinc-500">
-                    {lang === "nb"
-                      ? `Påvirker: ${rec.businessImpact.substring(0, 50)}...`
-                      : `Impact: ${rec.businessImpact.substring(0, 50)}...`}
+                    {`Påvirker: ${rec.businessImpact.substring(0, 50)}...`}
                   </span>
                   {rec.implementationTracking.progressPercent > 0 && (
                     <span className="text-emerald-600">
-                      {rec.implementationTracking.progressPercent}% complete
+                      {rec.implementationTracking.progressPercent}% fullført
                     </span>
                   )}
                 </div>
@@ -315,12 +269,10 @@ export default function OverviewPage() {
             <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
             <div>
               <p className="font-semibold text-emerald-900 dark:text-emerald-100">
-                {lang === "nb" ? "Fullførte forbedringer denne måneden" : "Completed Improvements This Month"}
+                Fullførte forbedringer denne måneden
               </p>
               <p className="mt-2 text-sm leading-relaxed text-emerald-800 dark:text-emerald-200">
-                {lang === "nb"
-                  ? "2 større initiativer fullført: Dupliser content konsolidering (18% crawl-effektivitetsgevinst) og negative keyword-implementering (22% CPA-forbedring)."
-                  : "2 major initiatives completed: Duplicate content consolidation (18% crawl efficiency gain) and negative keyword implementation (22% CPA improvement)."}
+                2 større initiativer fullført: konsolidering av duplisert innhold (18% gevinst i crawl-effektivitet) og implementering av negative søkeord (22% forbedring i CPA).
               </p>
             </div>
           </div>
