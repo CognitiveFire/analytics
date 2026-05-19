@@ -4,20 +4,15 @@ import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
-import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { clients as staticClients } from "@/lib/mock-data/clients";
 import { usePlatformStore } from "@/hooks/use-platform-store";
-import { getMonthlyPeriods } from "@/lib/reporting/month-periods";
 import { Client } from "@/types";
 
-const periods = getMonthlyPeriods(12);
-
 export function ClientControls() {
-  const { clientId, setClientId, period, comparePeriod, setPeriod } = usePlatformStore();
+  const { clientId, setClientId } = usePlatformStore();
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const lang = resolveAdsLanguage(searchParams.get("lang"));
   const [clients, setClients] = useState<Client[]>(staticClients);
 
   useEffect(() => {
@@ -77,7 +72,7 @@ export function ClientControls() {
   return (
     <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
       <select
-        className="w-full min-w-0 rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-700 outline-none focus:ring-2 focus:ring-zinc-300 sm:w-auto sm:min-w-[220px] dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
+        className="w-full min-w-0 rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-700 outline-none focus:ring-2 focus:ring-zinc-300 sm:w-auto sm:min-w-[220px]"
         onChange={(event) => setClientId(event.target.value)}
         value={clientId}
       >
@@ -88,22 +83,8 @@ export function ClientControls() {
         ))}
       </select>
 
-      <select
-        className="w-full min-w-0 rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-700 outline-none focus:ring-2 focus:ring-zinc-300 sm:w-auto sm:min-w-[160px] dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
-        onChange={(event) => setPeriod(event.target.value)}
-        value={period}
-      >
-        {periods.map((item) => (
-          <option key={item} value={item}>
-            {item}
-          </option>
-        ))}
-      </select>
-
-      <Badge variant="neutral">{lang === "nb" ? "Sammenlignes med" : "Compared with"}: {comparePeriod}</Badge>
-
-      <Badge variant={healthVariant}>{lang === "nb" ? "Kontohelse" : "Account health"}: {currentClient.accountHealth}</Badge>
-      <Badge variant="neutral">{lang === "nb" ? "Rapport" : "Report"}: {currentClient.reportStatus}</Badge>
+      <Badge variant={healthVariant}>Kontohelse: {currentClient.accountHealth}</Badge>
+      <Badge variant="neutral">Rapport: {currentClient.reportStatus}</Badge>
     </div>
   );
 }

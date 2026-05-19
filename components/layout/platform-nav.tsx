@@ -44,8 +44,8 @@ export function PlatformNav() {
             className={cn(
               "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-colors",
               active
-                ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-                : "bg-transparent text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                ? "bg-zinc-900 text-white"
+                : "bg-transparent text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900"
             )}
             href={buildHref(item.href)}
             key={item.href}
