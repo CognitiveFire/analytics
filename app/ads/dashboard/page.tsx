@@ -5,6 +5,7 @@ import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { getPersistedOrGenerateRecommendations } from "@/lib/recommendations/recommendation-generator";
 import { isDemoAdsAccount, resolveAdsAccountId } from "@/lib/server/ads-active-account";
+import { getTranslation } from "@/lib/translations/use-translation";
 
 type AdsDashboardPageProps = {
   searchParams?: Promise<{ accountId?: string; lang?: string }>;
@@ -14,16 +15,15 @@ export default async function AdsDashboardPage({ searchParams }: AdsDashboardPag
   const params = await searchParams;
   const accountId = await resolveAdsAccountId(params?.accountId);
   const lang = resolveAdsLanguage(params?.lang);
+  const t = (key: string, fallback?: string) => getTranslation(lang, key, fallback);
   const { summary } = await getPersistedOrGenerateRecommendations(accountId, lang);
 
   if (!isDemoAdsAccount(accountId)) {
     return (
       <Card className="border-zinc-200/90 bg-white/80 dark:bg-zinc-900/70">
-        <CardTitle>{lang === "nb" ? "Ingen Ads-data for valgt kunde" : "No Ads data for selected client"}</CardTitle>
+        <CardTitle>{t("ads.dashboardNoDataTitle", "No Ads data for selected client")}</CardTitle>
         <CardDescription className="mt-2 text-zinc-700">
-          {lang === "nb"
-            ? "Ads-innhold er foreløpig bare tilgjengelig for demo-kontoen. Velg demo-kontoen for å se innsikt, KPI-er og anbefalinger."
-            : "Ads content is currently only available for the demo account. Select the demo account to view insights, KPIs, and recommendations."}
+          {t("ads.dashboardNoDataDescription", "Ads content is currently only available for the demo account. Select the demo account to view insights, KPIs, and recommendations.")}
         </CardDescription>
       </Card>
     );
@@ -32,7 +32,7 @@ export default async function AdsDashboardPage({ searchParams }: AdsDashboardPag
   return (
     <div className="space-y-6">
       <Card className="border-zinc-200/90 bg-white/80 dark:bg-zinc-900/70">
-        <CardTitle>{lang === "nb" ? "Operasjonell lederinnsikt" : "Executive Operational Intelligence"}</CardTitle>
+        <CardTitle>{t("ads.executiveInsightTitle", "Executive Operational Intelligence")}</CardTitle>
         <CardDescription className="mt-2 text-zinc-700">{summary}</CardDescription>
       </Card>
 

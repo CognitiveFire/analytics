@@ -1,50 +1,45 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { AdsAuthError, authorizeAdsRequest } from "@/lib/auth/ads-auth";
-import { appendAuditLog } from "@/lib/audit/audit-log-service";
-import { applyApprovedExecution } from "@/lib/execution/execution-service";
-import { resolveAdsAccountId } from "@/lib/server/ads-active-account";
-import { ApprovalDecision } from "@/types/ads";
-
+/**
+ * READ-ONLY MODE: This endpoint is permanently disabled.
+ *
+ * Signal Room is a data collection and intelligence platform that:
+ * - Collects and analyzes Google Ads performance data
+ * - Generates AI-powered recommendations
+ * - Creates prioritized tasks for manual implementation
+ *
+ * It NEVER modifies Google Ads accounts or campaigns.
+ * All recommendations are for manual review and implementation by account managers only.
+ */
 export async function POST(request: NextRequest) {
-  const body = (await request.json()) as ApprovalDecision & { accountId?: string; dryRun?: boolean };
-  const accountId = await resolveAdsAccountId(body.accountId);
+  const lang = request.nextUrl.searchParams.get("lang") || "en";
 
-  try {
-    const auth = authorizeAdsRequest(request, {
-      allowedRoles: ["executor", "admin"],
-      accountId,
-    });
-
-    if (!body.recommendationId || !body.decision || !body.reviewer) {
-      return NextResponse.json({ error: "Missing required approval fields." }, { status: 400 });
+  const messages = {
+    en: {
+      error: "Execution is disabled",
+      message:
+        "Signal Room is a read-only intelligence platform. It collects and analyzes data but never modifies Google Ads accounts. All recommendations must be manually implemented by account managers.",
+      details:
+        "This system generates AI-powered recommendations and creates operational tasks for human review. No automated changes are ever made to your advertising platforms."
+    },
+    nb: {
+      error: "Gjennomføring er deaktivert",
+      message:
+        "Signal Room er en intelligensplattform som bare leser. Den samler inn og analyserer data, men gjør aldri endringer på Google Ads-kontoer. Alle anbefalinger må implementeres manuelt av kontoadministratorer.",
+      details:
+        "Dette systemet genererer AI-drevne anbefalinger og opprett operasjonelle oppgaver for menneskelig gjennomgang. Ingen automatiserte endringer gjøres noensinne på dine reklame plattformer."
     }
+  };
 
-    await appendAuditLog({
-      id: `audit-${Date.now()}`,
-      type: "approval_recorded",
-      timestamp: new Date().toISOString(),
-      accountId,
-      userId: auth.userId,
-      payload: {
-        recommendationId: body.recommendationId,
-        decision: body.decision,
-        secondaryReviewer: body.secondaryReviewer,
-        notes: body.notes,
-      },
-    });
+  const selectedLang = (lang === "nb" ? "nb" : "en") as keyof typeof messages;
 
-    if (body.decision === "reject") {
-      return NextResponse.json({ applied: false, reason: "Recommendation rejected by reviewer." });
-    }
-
-    const result = await applyApprovedExecution(accountId, body, { dryRun: body.dryRun ?? true });
-    return NextResponse.json(result);
-  } catch (error) {
-    if (error instanceof AdsAuthError) {
-      return NextResponse.json({ error: error.message }, { status: error.status });
-    }
-
-    return NextResponse.json({ error: "Execution failed." }, { status: 500 });
-  }
+  return NextResponse.json(
+    {
+      error: messages[selectedLang].error,
+      message: messages[selectedLang].message,
+      details: messages[selectedLang].details,
+      status: "read-only"
+    },
+    { status: 403 }
+  );
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { resolveAdsLanguage } from "@/lib/ads/ui-language";
+import { getTranslation } from "@/lib/translations/use-translation";
 import { PlatformShell } from "@/components/layout/platform-shell";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 
@@ -23,19 +24,20 @@ type SettingsPageProps = {
 export default async function SettingsPage({ searchParams }: SettingsPageProps) {
   const params = await searchParams;
   const lang = resolveAdsLanguage(params?.lang);
+  const t = (key: string, fallback?: string) => getTranslation(lang, key, fallback);
 
   return (
     <PlatformShell>
       <section className="space-y-6">
         <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">{lang === "nb" ? "Plattforminnstillinger" : "Platform settings"}</p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight">{lang === "nb" ? "Konfigurasjon av data og brukeropplevelse" : "Data and experience configuration"}</h1>
+          <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">{t("pages.settings.subtitle", "Platform settings")}</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight">{t("pages.settings.title", "Data and experience configuration")}</h1>
         </div>
 
         <Card>
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div>
-              <CardTitle>{lang === "nb" ? "Koblingsorkestrering" : "Connector orchestration"}</CardTitle>
+              <CardTitle>{t("connectors.orchestration", "Connector orchestration")}</CardTitle>
               <CardDescription className="mt-2 max-w-3xl">
                 {lang === "nb"
                   ? "Signal Room synkroniserer bearbeidede data fra eksisterende rapporteringsinfrastruktur og legger innsiktslogikk over. Hver konto kan kun aktivere kildene den faktisk har tilgang til, inkludert Google Ads, GA4 og Screaming Frog-opplastinger."
@@ -46,7 +48,7 @@ export default async function SettingsPage({ searchParams }: SettingsPageProps) 
               className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
               href="/settings/connectors"
             >
-              {lang === "nb" ? "Apne koblingsveiviser" : "Open connector wizard"}
+              {t("connectors.openWizard", "Open connector wizard")}
             </Link>
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-2">

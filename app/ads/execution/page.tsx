@@ -3,6 +3,7 @@ import { ExecutionPreviewCard } from "@/components/execution/execution-preview-c
 import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { buildExecutionPreview } from "@/lib/execution/execution-service";
 import { isDemoAdsAccount, resolveAdsAccountId } from "@/lib/server/ads-active-account";
+import { getTranslation } from "@/lib/translations/use-translation";
 
 type AdsExecutionPageProps = {
   searchParams?: Promise<{ accountId?: string; lang?: string }>;
@@ -12,6 +13,7 @@ export default async function AdsExecutionPage({ searchParams }: AdsExecutionPag
   const params = await searchParams;
   const accountId = await resolveAdsAccountId(params?.accountId);
   const lang = resolveAdsLanguage(params?.lang);
+  const t = (key: string, fallback?: string) => getTranslation(lang, key, fallback);
 
   if (!isDemoAdsAccount(accountId)) {
     return (
@@ -20,11 +22,9 @@ export default async function AdsExecutionPage({ searchParams }: AdsExecutionPag
           lang={lang}
           preview={{
             recommendationId: "none",
-            summary: lang === "nb"
-              ? "Ingen utførelsesforhåndsvisning er tilgjengelig for denne kunden ennå."
-              : "No execution preview is available for this client yet.",
+            summary: t("ads.executionNoPreview", "No execution preview is available for this client yet."),
             changes: [],
-            safetyChecks: [lang === "nb" ? "Ingen endringer tilgjengelige" : "No changes available"],
+            safetyChecks: [t("ads.executionNoChanges", "No changes available")],
             requiresManualApproval: true,
           }}
         />

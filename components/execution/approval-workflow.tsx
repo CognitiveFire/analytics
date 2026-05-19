@@ -1,28 +1,35 @@
 import { AdsLanguage } from "@/lib/ads/ui-language";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 
 export function ApprovalWorkflow({ lang = "nb" }: { lang?: AdsLanguage }) {
   return (
     <Card className="border-zinc-200/90 bg-white/80 dark:bg-zinc-900/70">
-      <CardTitle className="text-lg">{lang === "nb" ? "Godkjenningsflyt" : "Approval Workflow"}</CardTitle>
+      <CardTitle className="text-lg">{lang === "nb" ? "Read-Only Mode" : "Read-Only Mode"}</CardTitle>
       <CardDescription className="mt-2">
         {lang === "nb"
-          ? "Utførelse er fortsatt menneskestyrt. Endringer blir aldri automatisk brukt fra AI-utdata."
-          : "Execution remains human-supervised. Changes are never auto-applied from AI output."}
+          ? "Signal Room opererer i read-only-modus. Systemet analyserer data men bruker aldri Google Ads-API til å gjøre endringer. Alle anbefalinger er for manuell gjennomgang."
+          : "Signal Room operates in read-only mode. The system analyzes data but never uses the Google Ads API to make changes. All recommendations are for manual review."}
       </CardDescription>
 
-      <ol className="mt-4 space-y-2 text-sm text-zinc-700">
-        <li>{lang === "nb" ? "1. Gå gjennom anbefalingsbegrunnelse og deterministiske bevis." : "1. Review recommendation reasoning and deterministic evidence."}</li>
-        <li>{lang === "nb" ? "2. Inspiser utførelsesforhåndsvisning og sikkerhetssjekker." : "2. Inspect execution preview and safety checks."}</li>
-        <li>{lang === "nb" ? "3. Godkjenn, avvis eller rediger endringer før utførelse." : "3. Approve, reject, or edit changes before execution."}</li>
-        <li>{lang === "nb" ? "4. Loggfør beslutning og rollback-metadata." : "4. Log approval decision and rollback metadata."}</li>
-      </ol>
-
-      <div className="mt-5 flex gap-2">
-        <Button size="sm">{lang === "nb" ? "Godkjenn" : "Approve"}</Button>
-        <Button size="sm" variant="outline">{lang === "nb" ? "Avvis" : "Reject"}</Button>
+      <div className="mt-4 rounded-2xl border border-orange-200/80 bg-orange-50/80 p-4 dark:border-orange-900/40 dark:bg-orange-950/20">
+        <p className="text-sm font-medium text-orange-900 dark:text-orange-100">
+          {lang === "nb"
+            ? "Analyse- og samlingsfunksjonalitet er aktivert. Utførelseskapabilitet er deaktivert."
+            : "Analysis and collection functionality is enabled. Execution capability is disabled."}
+        </p>
+        <p className="mt-2 text-xs text-orange-700 dark:text-orange-300">
+          {lang === "nb"
+            ? "For å implementere anbefalinger, eksporter resultatene og gå gjennom dem manuelt i Google Ads-grensesnittet."
+            : "To implement recommendations, export the results and review them manually in the Google Ads interface."}
+        </p>
       </div>
+
+      <ol className="mt-5 space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
+        <li>{lang === "nb" ? "1. Gjennomgå analysegrunnlag og deterministiske indikatorer." : "1. Review analysis reasoning and deterministic indicators."}</li>
+        <li>{lang === "nb" ? "2. Inspiser anbefalingsdetaljer og sikkerhetssjekker." : "2. Inspect recommendation details and safety checks."}</li>
+        <li>{lang === "nb" ? "3. Vurdere hvordan endringene bør implementeres manuelt." : "3. Decide how changes should be manually implemented."}</li>
+        <li>{lang === "nb" ? "4. Eksporter rapport og gjennomgå i Google Ads-grensesnittet." : "4. Export report and review in the Google Ads interface."}</li>
+      </ol>
     </Card>
   );
 }

@@ -6,8 +6,10 @@ import { usePlatformStore } from "@/hooks/use-platform-store";
 import { DEMO_ACCOUNT_ID } from "@/lib/demo-account";
 import { clients } from "@/lib/mock-data/clients";
 import { ReportSections } from "@/components/reports/report-sections";
+import { getDefaultReportSections } from "@/components/reports/report-sections";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
+import { AdsLanguage } from "@/lib/ads/ui-language";
 
 type ReportStatus = "Scheduled" | "Drafting" | "In review" | "Planned" | "Approved";
 
@@ -361,11 +363,18 @@ function getReadinessVariant(readiness: string) {
   return "neutral" as const;
 }
 
-export function ExecutiveReportPortal() {
+export function ExecutiveReportPortal({ lang = "nb" }: { lang?: AdsLanguage }) {
   const { clientId } = usePlatformStore();
 
   const currentClient = useMemo(() => clients.find((client) => client.id === clientId) ?? clients[0], [clientId]);
-  const content = reportContentByClientId[currentClient.id] ?? reportContentByClientId[DEMO_ACCOUNT_ID];
+  const baseContent = reportContentByClientId[currentClient.id] ?? reportContentByClientId[DEMO_ACCOUNT_ID];
+  const content = useMemo(
+    () => ({
+      ...baseContent,
+      sections: getDefaultReportSections(lang),
+    }),
+    [baseContent, lang]
+  );
   const openingNarrative = openingNarrativeByClientId[currentClient.id] ?? openingNarrativeByClientId[DEMO_ACCOUNT_ID];
   const [selectedSectionHeadings, setSelectedSectionHeadings] = useState<string[]>([]);
   const [generatedSections, setGeneratedSections] = useState<ReportSection[] | null>(null);
@@ -390,9 +399,11 @@ export function ExecutiveReportPortal() {
   if (clientId !== DEMO_ACCOUNT_ID) {
     return (
       <Card>
-        <CardTitle>Ingen seeded rapportdata for valgt kunde</CardTitle>
+        <CardTitle>{lang === "nb" ? "Ingen seeded rapportdata for valgt kunde" : "No seeded report data for selected client"}</CardTitle>
         <CardDescription className="mt-2">
-          Demo-kontoen er den eneste kontoen med eksempelrapportering i denne demoen.
+          {lang === "nb"
+            ? "Demo-kontoen er den eneste kontoen med eksempelrapportering i denne demoen."
+            : "The demo account is the only account with sample reporting in this demo."}
         </CardDescription>
       </Card>
     );
@@ -404,15 +415,17 @@ export function ExecutiveReportPortal() {
         <Card>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <CardTitle>{currentClient.name} manedsrapport</CardTitle>
-              <CardDescription className="mt-2">Forhandsvisning av manedsrapport for {currentClient.name}.</CardDescription>
+              <CardTitle>{currentClient.name} {lang === "nb" ? "måneds" : "monthly"}rapport</CardTitle>
+              <CardDescription className="mt-2">{lang === "nb" ? "Forhåndsvisning av måneds" : "Monthly report preview for"} {currentClient.name}.</CardDescription>
             </div>
-            <Badge variant={getReadinessVariant(content.readiness)}>{readinessLabels[content.readiness] ?? content.readiness}</Badge>
+            <Badge variant={getReadinessVariant(content.readiness)}>
+              {lang === "nb" ? (readinessLabels[content.readiness] ?? content.readiness) : content.readiness}
+            </Badge>
           </div>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
             <div className="rounded-2xl bg-zinc-100 p-4 dark:bg-zinc-800/60">
-              <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">Rapportversjon</p>
+              <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">{lang === "nb" ? "Rapportversjon" : "Report version"}</p>
               <p className="mt-2 text-xl font-semibold tracking-tight">{content.deckVersion}</p>
             </div>
             <div className="rounded-2xl bg-zinc-100 p-4 dark:bg-zinc-800/60">
@@ -420,26 +433,26 @@ export function ExecutiveReportPortal() {
               <p className="mt-2 text-xl font-semibold tracking-tight">{content.slideCount}</p>
             </div>
             <div className="rounded-2xl bg-zinc-100 p-4 dark:bg-zinc-800/60">
-              <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">Rapportsikkerhet</p>
+              <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">{lang === "nb" ? "Rapportkonfidans" : "Report confidence"}</p>
               <p className="mt-2 text-xl font-semibold tracking-tight">{content.narrativeConfidence}%</p>
             </div>
           </div>
 
           <div className="mt-6 rounded-2xl border border-zinc-200/80 bg-white/75 p-4 dark:border-zinc-800 dark:bg-zinc-900/70">
-            <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">Innledende oppsummering</p>
-            <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{openingNarrative}</p>
+            <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">{lang === "nb" ? "Innledende oppsummering" : "Opening summary"}</p>
+            <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{lang === "nb" ? openingNarrative : content.openingNarrative}</p>
           </div>
         </Card>
 
         <Card>
-          <CardTitle>Distribusjon og godkjenninger</CardTitle>
-          <CardDescription className="mt-2">Status for kvalitetssikring og planlagt utsending for valgt kunde.</CardDescription>
+          <CardTitle>{lang === "nb" ? "Distribusjon og godkjenninger" : "Distribution and approvals"}</CardTitle>
+          <CardDescription className="mt-2">{lang === "nb" ? "Status for kvalitetssikring og planlagt utsending for valgt kunde." : "Quality assurance status and scheduled distribution for the selected client."}</CardDescription>
 
           <div className="mt-5 space-y-3">
             {content.approvals.map((item) => (
               <div className="rounded-2xl border border-zinc-200/80 p-4 dark:border-zinc-800" key={item.title + item.detail}>
-                <p className="text-sm font-medium">{approvalTitleLabels[item.title] ?? item.title}</p>
-                <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{translateApprovalDetail(item.detail)}</p>
+                <p className="text-sm font-medium">{lang === "nb" ? (approvalTitleLabels[item.title] ?? item.title) : item.title}</p>
+                <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{lang === "nb" ? translateApprovalDetail(item.detail) : item.detail}</p>
               </div>
             ))}
           </div>
@@ -447,30 +460,30 @@ export function ExecutiveReportPortal() {
       </div>
 
       <Card>
-        <CardTitle>Rapportkalender</CardTitle>
-        <CardDescription className="mt-2">Rapporteringsplan for {currentClient.name}.</CardDescription>
+        <CardTitle>{lang === "nb" ? "Rapportkalender" : "Report calendar"}</CardTitle>
+        <CardDescription className="mt-2">{lang === "nb" ? "Rapporteringsplan for " : "Reporting schedule for "}{currentClient.name}.</CardDescription>
 
         <div className="mt-5 overflow-x-auto">
           <table className="w-full min-w-[820px] text-left text-sm">
             <thead className="text-xs uppercase tracking-[0.2em] text-zinc-500">
               <tr>
-                <th className="pb-3">Dato</th>
-                <th className="pb-3">Rapporttype</th>
-                <th className="pb-3">Mottaker</th>
-                <th className="pb-3">Status</th>
-                <th className="pb-3">Ansvarlig</th>
+                <th className="pb-3">{lang === "nb" ? "Dato" : "Date"}</th>
+                <th className="pb-3">{lang === "nb" ? "Rapporttype" : "Report type"}</th>
+                <th className="pb-3">{lang === "nb" ? "Mottaker" : "Audience"}</th>
+                <th className="pb-3">{lang === "nb" ? "Status" : "Status"}</th>
+                <th className="pb-3">{lang === "nb" ? "Ansvarlig" : "Owner"}</th>
               </tr>
             </thead>
             <tbody>
               {content.timeline.map((row) => (
                 <tr className="border-t border-zinc-200/70 align-top dark:border-zinc-800" key={row.date + row.reportType}>
                   <td className="py-4 pr-3 text-zinc-700 dark:text-zinc-200">{row.date}</td>
-                  <td className="py-4 pr-3 font-medium text-zinc-900 dark:text-zinc-100">{reportTypeLabels[row.reportType] ?? row.reportType}</td>
-                  <td className="py-4 pr-3 text-zinc-600 dark:text-zinc-300">{audienceLabels[row.audience] ?? row.audience}</td>
+                  <td className="py-4 pr-3 font-medium text-zinc-900 dark:text-zinc-100">{lang === "nb" ? (reportTypeLabels[row.reportType] ?? row.reportType) : row.reportType}</td>
+                  <td className="py-4 pr-3 text-zinc-600 dark:text-zinc-300">{lang === "nb" ? (audienceLabels[row.audience] ?? row.audience) : row.audience}</td>
                   <td className="py-4 pr-3">
-                    <Badge variant={getBadgeVariant(row.status)}>{statusLabels[row.status]}</Badge>
+                    <Badge variant={getBadgeVariant(row.status)}>{lang === "nb" ? statusLabels[row.status] : row.status}</Badge>
                   </td>
-                  <td className="py-4 text-zinc-600 dark:text-zinc-300">{ownerLabels[row.owner] ?? row.owner}</td>
+                  <td className="py-4 text-zinc-600 dark:text-zinc-300">{lang === "nb" ? (ownerLabels[row.owner] ?? row.owner) : row.owner}</td>
                 </tr>
               ))}
             </tbody>
@@ -479,9 +492,11 @@ export function ExecutiveReportPortal() {
       </Card>
 
       <Card>
-        <CardTitle>Velg rapportseksjoner</CardTitle>
+        <CardTitle>{lang === "nb" ? "Velg rapportseksjoner" : "Select report sections"}</CardTitle>
         <CardDescription className="mt-2">
-          Velg seksjonene du vil inkludere, og generer rapportutkastet basert pa valget.
+          {lang === "nb"
+            ? "Velg seksjonene du vil inkludere, og generer rapportutkastet basert på valget."
+            : "Choose which sections to include and generate the report draft based on your selection."}
         </CardDescription>
 
         <div className="mt-5 grid gap-3 md:grid-cols-2">
@@ -514,21 +529,23 @@ export function ExecutiveReportPortal() {
             onClick={onGenerateReport}
             type="button"
           >
-            Generer rapport
+            {lang === "nb" ? "Generer rapport" : "Generate report"}
           </button>
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            {selectedSectionHeadings.length} av {content.sections.length} seksjoner valgt
+            {selectedSectionHeadings.length} {lang === "nb" ? "av" : "of"} {content.sections.length} {lang === "nb" ? "seksjoner valgt" : "sections selected"}
           </p>
         </div>
       </Card>
 
       {generatedSections ? (
-        <ReportSections sections={generatedSections} />
+        <ReportSections lang={lang} sections={generatedSections} />
       ) : (
         <Card>
-          <CardTitle>Rapportutkast ikke generert</CardTitle>
+          <CardTitle>{lang === "nb" ? "Rapportutkast ikke generert" : "Report draft not generated"}</CardTitle>
           <CardDescription className="mt-2">
-            Velg seksjoner og trykk Generer rapport for a vise seksjonene i rapportutkastet.
+            {lang === "nb"
+              ? "Velg seksjoner og trykk Generer rapport for å vise seksjonene i rapportutkastet."
+              : "Select sections and click Generate report to view the sections in the report draft."}
           </CardDescription>
         </Card>
       )}

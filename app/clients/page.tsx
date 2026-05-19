@@ -7,6 +7,7 @@ import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { clients as staticClients } from "@/lib/mock-data/clients";
 import { getStoredClients } from "@/lib/server/client-store";
+import { getTranslation } from "@/lib/translations/use-translation";
 
 type ClientsPageProps = {
   searchParams?: Promise<{ lang?: string }>;
@@ -15,6 +16,7 @@ type ClientsPageProps = {
 export default async function ClientsPage({ searchParams }: ClientsPageProps) {
   const params = await searchParams;
   const lang = resolveAdsLanguage(params?.lang);
+  const t = (key: string, fallback?: string) => getTranslation(lang, key, fallback);
   const stored = await getStoredClients();
   const clients = [...staticClients, ...stored];
 
@@ -23,8 +25,8 @@ export default async function ClientsPage({ searchParams }: ClientsPageProps) {
       <section className="space-y-6">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">{lang === "nb" ? "Kundeportefolje" : "Client portfolio"}</p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight">{lang === "nb" ? "Operasjonell innsikt pa tvers av kunder" : "Operational insights across clients"}</h1>
+            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">{t("pages.clients.subtitle", "Client portfolio")}</p>
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight">{t("pages.clients.title", "Operational insights across clients")}</h1>
           </div>
           <AddClientDialog />
         </div>
@@ -37,14 +39,14 @@ export default async function ClientsPage({ searchParams }: ClientsPageProps) {
                   {client.logoMark}
                 </div>
                 <Badge variant={client.accountHealth > 80 ? "success" : client.accountHealth > 70 ? "warning" : "danger"}>
-                  {lang === "nb" ? "Helse" : "Health"} {client.accountHealth}
+                  {t("status.health", "Health")} {client.accountHealth}
                 </Badge>
               </div>
               <CardTitle className="mt-4 text-xl">{client.name}</CardTitle>
               <CardDescription className="mt-2">
                 {client.industry} • {client.region}
               </CardDescription>
-              <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-300">{lang === "nb" ? "Rapportstatus" : "Report status"}: {client.reportStatus}</p>
+              <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-300">{t("settings.status", "Status")}: {client.reportStatus}</p>
             </Card>
           ))}
         </div>

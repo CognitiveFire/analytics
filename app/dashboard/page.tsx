@@ -15,9 +15,11 @@ import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { DEMO_ACCOUNT_ID } from "@/lib/demo-account";
 import { clients } from "@/lib/mock-data/clients";
 import { trendHistory } from "@/lib/mock-data/metrics";
+import { useTranslation } from "@/lib/translations/use-translation";
 
 export default function DashboardPage() {
   const [lang, setLang] = useState<"nb" | "en">("nb");
+  const { t } = useTranslation(lang);
 
   useEffect(() => {
     const updateLang = () => {
@@ -44,11 +46,9 @@ export default function DashboardPage() {
     return (
       <PlatformShell>
         <Card className="border-zinc-200/90 bg-white/80 dark:bg-zinc-900/70">
-          <CardTitle>{lang === "nb" ? "Ingen seeded data for valgt kunde" : "No seeded data for selected client"}</CardTitle>
+          <CardTitle>{t("dashboard.noData")}</CardTitle>
           <CardDescription className="mt-2">
-            {lang === "nb"
-              ? "Demo-kontoen er den eneste kontoen som leveres med eksempeldata. Nye kunder kan fortsatt brukes for oppsett, SEO-opplastinger og videre konfigurasjon."
-              : "The demo account is the only account shipped with sample data. New clients can still be used for setup, SEO uploads, and configuration."}
+            {t("common.noData")}
           </CardDescription>
         </Card>
       </PlatformShell>
@@ -64,36 +64,36 @@ export default function DashboardPage() {
 
         <section className="grid gap-6 xl:grid-cols-3">
           <TrendChart
-            title={lang === "nb" ? "ROAS-trend" : "ROAS trend"}
-            description={lang === "nb" ? "Effektivitetskurve for rapporteringsperioden" : "Efficiency curve for the reporting period"}
+            title={t("dashboard.roas")}
+            description={t("dashboard.roasDesc", "Efficiency curve for the reporting period")}
             color="#111111"
             data={trendHistory}
             dataKey="roas"
           />
           <TrendChart
-            title={lang === "nb" ? "Kostnadseffektivitet" : "Cost efficiency"}
-            description={lang === "nb" ? "Kostnadsutvikling og budsjettkontroll" : "Cost development and budget control"}
+            title={t("dashboard.monthlySpend")}
+            description={t("dashboard.spendDesc", "Cost development and budget control")}
             color="#ff4a0a"
             data={trendHistory}
             dataKey="spend"
           />
           <TrendChart
-            title="SEO-synlighet"
-            description="Utvikling i organisk synlighet"
+            title={t("seo.title")}
+            description={t("dashboard.seoDesc", "Development in organic visibility")}
             color="#ff7a45"
             data={trendHistory}
             dataKey="seoVisibility"
           />
           <TrendChart
-            title="Konverteringskvalitet"
-            description="Lead-kvalitet og konverteringshelse"
+            title={t("dashboard.conversionQuality")}
+            description={t("dashboard.conversionQualityDesc", "Lead quality and conversion health")}
             color="#1f2937"
             data={trendHistory}
             dataKey="conversionQuality"
           />
           <TrendChart
-            title="Attribusjonstrend"
-            description="Utvikling i attribuert omsetning"
+            title={t("tasks.categories.attribution")}
+            description={t("dashboard.attributionDesc", "Development in attributed revenue")}
             color="#d9470f"
             data={trendHistory}
             dataKey="attributedRevenue"

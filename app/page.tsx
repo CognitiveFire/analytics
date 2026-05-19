@@ -11,12 +11,37 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
 
 const featureItems = [
-  "AI-drevet strategisk innsikt",
-  "Operasjonell oppgaveprioritering",
-  "Lederrettet rapportering",
-  "Premium merkede oversikter",
-  "Kanalovergripende innsikt",
-  "Tilpassede visualiseringer",
+  {
+    nb: "AI-drevet strategisk innsikt",
+    en: "AI-powered strategic insight",
+  },
+  {
+    nb: "Operasjonell oppgaveprioritering",
+    en: "Operational task prioritization",
+  },
+  {
+    nb: "Lederrettet rapportering",
+    en: "Executive reporting",
+  },
+  {
+    nb: "Premium merkede oversikter",
+    en: "Premium branded overviews",
+  },
+  {
+    nb: "Kanalovergripende innsikt",
+    en: "Cross-channel intelligence",
+  },
+  {
+    nb: "Tilpassede visualiseringer",
+    en: "Custom visualizations",
+  },
+];
+
+const problems = [
+  { nb: "For mange dashboards", en: "Too many dashboards" },
+  { nb: "Fragmentert analyse", en: "Fragmented analysis" },
+  { nb: "Svak rapporteringsopplevelse", en: "Weak reporting experience" },
+  { nb: "Lav strategisk synlighet", en: "Low strategic visibility" },
 ];
 
 export default function Home() {
@@ -87,14 +112,16 @@ export default function Home() {
             className="rounded-[2rem] border border-zinc-200/80 bg-white/90 p-6 shadow-[0_30px_80px_rgba(15,23,42,0.12)] dark:border-zinc-800 dark:bg-zinc-900/85"
           >
             <div className="mb-4 flex items-center justify-between">
-              <p className="text-sm font-medium">Forhandsvisning</p>
+              <p className="text-sm font-medium">{lang === "nb" ? "Forhandsvisning" : "Preview"}</p>
               <Sparkles className="h-4 w-4 text-zinc-500" />
             </div>
             <div className="space-y-3">
               <div className="rounded-2xl bg-zinc-100 p-4 dark:bg-zinc-800">
-                <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">AI-oppsummering</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">{lang === "nb" ? "AI-oppsummering" : "AI summary"}</p>
                 <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300">
-                  Utvidet broad match ga mer trafikk med lav intensjon, mens merkevareettersporselen fortsatt er underfinansiert.
+                  {lang === "nb"
+                    ? "Utvidet broad match ga mer trafikk med lav intensjon, mens merkevareettersporselen fortsatt er underfinansiert."
+                    : "Expanded broad match drove more low-intent traffic, while brand demand capture remains underfunded."}
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -103,7 +130,7 @@ export default function Home() {
                   <p className="mt-1 text-2xl font-semibold">4.9x</p>
                 </div>
                 <div className="rounded-2xl bg-zinc-100 p-3 dark:bg-zinc-800">
-                  <p className="text-xs text-zinc-500">Mulighet</p>
+                  <p className="text-xs text-zinc-500">{lang === "nb" ? "Mulighet" : "Opportunity"}</p>
                   <p className="mt-1 text-2xl font-semibold">86</p>
                 </div>
               </div>
@@ -112,40 +139,40 @@ export default function Home() {
         </section>
 
         <section className="mt-24 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {[
-            "For mange dashboards",
-            "Fragmentert analyse",
-            "Svak rapporteringsopplevelse",
-            "Lav strategisk synlighet",
-          ].map((problem) => (
-            <div className="rounded-3xl border border-zinc-200 bg-white/90 p-5 dark:border-zinc-800 dark:bg-zinc-900/80" key={problem}>
-              <p className="text-sm text-zinc-700 dark:text-zinc-300">{problem}</p>
+          {problems.map((problem) => (
+            <div className="rounded-3xl border border-zinc-200 bg-white/90 p-5 dark:border-zinc-800 dark:bg-zinc-900/80" key={problem.nb}>
+              <p className="text-sm text-zinc-700 dark:text-zinc-300">{problem[lang]}</p>
             </div>
           ))}
         </section>
 
         <section className="mt-20 grid gap-8 lg:grid-cols-2">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Verdiforslag</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight">Fra rapporteringsstoy til operasjonell klarhet</h2>
+            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">{lang === "nb" ? "Verdiforslag" : "Value proposition"}</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight">
+              {lang === "nb" ? "Fra rapporteringsstoy til operasjonell klarhet" : "From reporting noise to operational clarity"}
+            </h2>
             <p className="mt-4 max-w-xl text-zinc-600 dark:text-zinc-300">
-              Signal Room hjelper team med a forsta hva som har endret seg, hvorfor det har skjedd, prioritere det som
-              betyr mest og kommunisere resultat tydelig til interessenter.
+              {lang === "nb"
+                ? "Signal Room hjelper team med a forsta hva som har endret seg, hvorfor det har skjedd, prioritere det som betyr mest og kommunisere resultat tydelig til interessenter."
+                : "Signal Room helps teams understand what changed, why it changed, prioritize what matters most, and communicate outcomes clearly to stakeholders."}
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             {featureItems.map((feature) => (
-              <div className="rounded-2xl bg-zinc-100 px-4 py-3 text-sm text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200" key={feature}>
-                {feature}
+              <div className="rounded-2xl bg-zinc-100 px-4 py-3 text-sm text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200" key={feature.nb}>
+                {feature[lang]}
               </div>
             ))}
           </div>
         </section>
 
         <section className="mt-20 rounded-3xl border border-zinc-200 bg-white/85 p-8 dark:border-zinc-800 dark:bg-zinc-900/75">
-          <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">Posisjonering</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">{lang === "nb" ? "Posisjonering" : "Positioning"}</p>
           <p className="mt-3 max-w-4xl text-2xl leading-relaxed tracking-tight text-zinc-800 dark:text-zinc-100">
-            Bygget for byraer og in-house-team som trenger operasjonell klarhet fremfor mer dashboard-stoy.
+            {lang === "nb"
+              ? "Bygget for byraer og in-house-team som trenger operasjonell klarhet fremfor mer dashboard-stoy."
+              : "Built for agencies and in-house teams that need operational clarity instead of more dashboard noise."}
           </p>
         </section>
       </div>
