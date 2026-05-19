@@ -1,15 +1,23 @@
+import { AddClientDialog } from "@/components/clients/add-client-dialog";
 import { PlatformShell } from "@/components/layout/platform-shell";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
-import { clients } from "@/lib/mock-data/clients";
+import { clients as staticClients } from "@/lib/mock-data/clients";
+import { getStoredClients } from "@/lib/server/client-store";
 
-export default function ClientsPage() {
+export default async function ClientsPage() {
+  const stored = await getStoredClients();
+  const clients = [...staticClients, ...stored];
+
   return (
     <PlatformShell>
       <section className="space-y-6">
-        <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Kundeportefolje</p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight">Operasjonell innsikt pa tvers av kunder</h1>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Kundeportefolje</p>
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight">Operasjonell innsikt pa tvers av kunder</h1>
+          </div>
+          <AddClientDialog />
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

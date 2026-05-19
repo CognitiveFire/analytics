@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,9 +19,19 @@ export function AdsShell({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-30 border-b border-zinc-200/80 bg-[#f4f2ec]/95 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/90">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-6 py-5 lg:px-10">
           <div className="flex items-center justify-between gap-4">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">Signal Room Ads</p>
-              <h1 className="text-xl font-semibold tracking-tight">GPT-powered Operational Intelligence</h1>
+            <div className="flex items-center gap-4">
+              <Link
+                href="/dashboard"
+                className="flex items-center gap-1.5 text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Signal Room
+              </Link>
+              <div className="h-5 w-px bg-zinc-300 dark:bg-zinc-700" />
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">Signal Room Ads</p>
+                <h1 className="text-xl font-semibold tracking-tight">GPT-powered Operational Intelligence</h1>
+              </div>
             </div>
             <div className="flex items-center gap-3">
               <Badge className="bg-orange-100 text-orange-700" variant="neutral">
