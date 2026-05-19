@@ -7,15 +7,16 @@ import { Sparkles } from "lucide-react";
 import { PlatformShell } from "@/components/layout/platform-shell";
 import { Badge } from "@/components/ui/badge";
 import { resolveAdsLanguage } from "@/lib/ads/ui-language";
+import { useTranslation } from "@/lib/translations/use-translation";
 import { cn } from "@/lib/utils/cn";
 
 const navItems = [
-  { href: "/ads/dashboard", label: { nb: "Oversikt", en: "Dashboard" } },
-  { href: "/ads/recommendations", label: { nb: "Anbefalinger", en: "Recommendations" } },
-  { href: "/ads/execution", label: { nb: "Utførelse", en: "Execution" } },
-  { href: "/ads/campaigns", label: { nb: "Kampanjer", en: "Campaigns" } },
-  { href: "/ads/history", label: { nb: "Historikk", en: "History" } },
-  { href: "/ads/settings", label: { nb: "Innstillinger", en: "Settings" } },
+  { href: "/ads/dashboard", labelKey: "ads.dashboard", fallback: "Dashboard" },
+  { href: "/ads/recommendations", labelKey: "ads.recommendations", fallback: "Recommendations" },
+  { href: "/ads/execution", labelKey: "ads.execution", fallback: "Execution" },
+  { href: "/ads/campaigns", labelKey: "ads.campaigns", fallback: "Campaigns" },
+  { href: "/ads/history", labelKey: "ads.history", fallback: "History" },
+  { href: "/ads/settings", labelKey: "ads.settings", fallback: "Settings" },
 ];
 
 export function AdsShell({ children }: { children: React.ReactNode }) {
@@ -23,6 +24,7 @@ export function AdsShell({ children }: { children: React.ReactNode }) {
   const searchParams = useSearchParams();
   const selectedAccountId = searchParams.get("accountId") ?? "";
   const lang = resolveAdsLanguage(searchParams.get("lang"));
+  const { t } = useTranslation(lang);
 
   function buildHref(href: string) {
     const params = new URLSearchParams();
@@ -72,7 +74,7 @@ export function AdsShell({ children }: { children: React.ReactNode }) {
                     key={item.href}
                   >
                     {item.href === "/ads/dashboard" ? <Sparkles className="h-4 w-4" /> : null}
-                    {item.label[lang]}
+                    {t(item.labelKey, item.fallback)}
                   </Link>
                 );
               })}

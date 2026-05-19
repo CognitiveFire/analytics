@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils/cn";
 import { ScreamingFrogUploadResult } from "@/types";
 import { SeoHealthPanel } from "@/components/seo/seo-health-panel";
 import { SeoTaskPanel } from "@/components/seo/seo-task-panel";
+import { getDemoScreamingFrogResult } from "@/lib/mock-data/seo";
 
 const exportSpecs = [
   {
@@ -71,10 +72,11 @@ interface ScreamingFrogUploaderProps {
 }
 
 export function ScreamingFrogUploader({ activeAccountId }: ScreamingFrogUploaderProps) {
+  const demoResult = useMemo(() => getDemoScreamingFrogResult(activeAccountId), [activeAccountId]);
   const [files, setFiles] = useState<Record<string, File | null>>(initialFiles);
   const [fileNames, setFileNames] = useState<Record<string, string | null>>(initialFileNames);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [result, setResult] = useState<ScreamingFrogUploadResult | null>(null);
+  const [result, setResult] = useState<ScreamingFrogUploadResult | null>(demoResult);
   const [error, setError] = useState<string | null>(null);
 
   const pendingCount = useMemo(() => Object.values(files).filter(Boolean).length, [files]);
@@ -108,22 +110,25 @@ export function ScreamingFrogUploader({ activeAccountId }: ScreamingFrogUploader
           throw new Error(payload.error ?? "Kunne ikke laste tidligere SEO-opplasting.");
         }
 
-        const nextResult = payload.result ?? null;
+        const nextResult = payload.result ?? demoResult;
         setResult(nextResult);
         setFileNames({
           ...initialFileNames,
           ...(nextResult?.uploadedFileNames ?? {}),
         });
       } catch {
-        setResult(null);
-        setFileNames(initialFileNames);
+        setResult(demoResult);
+        setFileNames({
+          ...initialFileNames,
+          ...demoResult.uploadedFileNames,
+        });
       }
     }
 
     void loadAccountState();
     setFiles(initialFiles);
     setError(null);
-  }, [activeAccountId]);
+  }, [activeAccountId, demoResult]);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
