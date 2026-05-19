@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
 import { ScreamingFrogUploadResult } from "@/types";
+import { SeoHealthPanel } from "@/components/seo/seo-health-panel";
+import { SeoTaskPanel } from "@/components/seo/seo-task-panel";
 
 const exportSpecs = [
   {
@@ -241,7 +243,22 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
       ) : null}
 
       {result ? (
-        <div className="grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
+        <div className="space-y-6">
+          {/* Step indicator */}
+          <div className="flex items-center gap-3 rounded-[1.5rem] border border-emerald-200/70 bg-emerald-50/50 px-5 py-3.5 dark:border-emerald-900/50 dark:bg-emerald-950/20">
+            <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+            <div>
+              <p className="text-sm font-medium text-emerald-900 dark:text-emerald-100">Crawl behandlet</p>
+              <p className="text-xs text-emerald-700/70 dark:text-emerald-300/60">
+                {result.projectName ?? "Screaming Frog-import"} · {result.crawlDate ?? "ukjent dato"} · {result.fileCount} filer behandlet
+              </p>
+            </div>
+          </div>
+
+          {/* Crawl summary + AI notes */}
+          <div>
+            <p className="mb-4 text-xs uppercase tracking-[0.22em] text-zinc-500">Crawl-resultater</p>
+            <div className="grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
           <Card>
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
@@ -285,6 +302,19 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
               ))}
             </div>
           </Card>
+            </div>
+          </div>
+
+          {/* SEO Health */}
+          <div>
+            <p className="mb-4 text-xs uppercase tracking-[0.22em] text-zinc-500">SEO-helse</p>
+            <SeoHealthPanel result={result} />
+          </div>
+
+          {/* SEO Tasks */}
+          <div>
+            <SeoTaskPanel />
+          </div>
         </div>
       ) : null}
 
