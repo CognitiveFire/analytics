@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdsRecommendation {
+  id                     String   @id @default(cuid())
+  accountId              String
+  title                  String
+  category               String
+  reasoning              String
+  confidence             Float
+  impact                 String
+  complexity             String
+  estimatedBusinessEffect String
+  proposedActions        Json
+  status                 String
+  priorityScore          Float
+  priorityLevel          String
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+}
+
+model AdsExecution {
+  id               String   @id @default(cuid())
+  accountId        String
+  recommendationId String
+  approvedBy       String
+  approvedAt       DateTime @default(now())
+  changeSet        Json
+  rollbackMeta     Json
+}
+
+model AdsAuditLog {
+  id         String   @id @default(cuid())
+  accountId  String
+  userId     String
+  type       String
+  payload    Json
+  createdAt  DateTime @default(now())
+}

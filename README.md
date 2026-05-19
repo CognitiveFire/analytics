@@ -158,3 +158,92 @@ The processor normalizes:
 npm run lint
 npm run build
 ```
+
+## Signal Room Ads (GPT-assisted, human-supervised)
+
+Signal Room Ads is an operational intelligence and assisted execution layer for Google Ads teams.
+
+### Product boundaries
+
+- Human-supervised recommendation system: yes
+- Deterministic validation and safety enforcement: yes
+- Manual approval workflow before mutations: yes
+- Autonomous campaign mutations by GPT: no
+
+### Deterministic vs GPT responsibilities
+
+Deterministic services handle:
+
+- metric calculation
+- anomaly checks
+- safety validation
+- mutation execution scaffolding
+- audit logging
+
+GPT services handle:
+
+- strategic reasoning
+- recommendation drafting
+- executive summaries
+- prioritisation narratives
+
+### Ads app routes
+
+- `/ads/dashboard`
+- `/ads/recommendations`
+- `/ads/execution`
+- `/ads/campaigns`
+- `/ads/history`
+- `/ads/settings`
+
+### Ads API routes
+
+- `GET /api/ads/recommendations`
+- `POST /api/ads/execution/preview`
+- `POST /api/ads/execution/apply`
+- `GET /api/ads/history`
+
+### Ads API auth headers
+
+All Ads API endpoints expect user context headers (or matching local dev env defaults):
+
+- `x-signalroom-user-id`
+- `x-signalroom-role` (`viewer`, `reviewer`, `executor`, `admin`)
+- `x-signalroom-account-ids` (comma-separated account IDs)
+
+Ads API middleware enforces minimum role access across `/api/ads/*` before route handlers run.
+
+### Execution mode
+
+- Default mode is dry-run (`SIGNALROOM_ADS_MUTATION_MODE=dry-run`).
+- Live mutation mode requires explicit env setup and approved execution requests.
+- GPT never executes mutations directly.
+
+### High-risk approval policy
+
+- Budget changes and bid-strategy updates require dual approval.
+- Primary and secondary approvers must be distinct users.
+- Policy is enforced deterministically in the execution safety layer.
+
+### Mutation contract harness
+
+Run contract checks for Google Ads mutate payload structures:
+
+```bash
+npm run test:ads-contracts
+```
+
+### Prisma setup
+
+1. Set `DATABASE_URL` in `.env.local`.
+2. Generate Prisma client:
+
+```bash
+npm run prisma:generate
+```
+
+3. Run migrations for local development:
+
+```bash
+npm run prisma:migrate
+```

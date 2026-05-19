@@ -6,16 +6,22 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "test:ads-contracts": "tsx scripts/check-google-ads-mutation-contracts.ts"
   },
   "dependencies": {
     "@google-cloud/bigquery": "^8.3.1",
+    "@prisma/client": "^6.16.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "csv-parse": "^6.2.1",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.16.0",
     "next": "^15.5.18",
+    "openai": "^6.38.0",
+    "prisma": "^6.16.2",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "recharts": "^3.8.1",
@@ -30,6 +36,7 @@
     "eslint": "^9",
     "eslint-config-next": "^15.5.18",
     "tailwindcss": "^4",
+    "tsx": "^4.22.2",
     "typescript": "^5"
   }
 }

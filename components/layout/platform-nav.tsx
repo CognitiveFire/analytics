@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, Building2, ClipboardCheck, FileText, Search, Settings } from "lucide-react";
+import { BarChart3, Building2, ClipboardCheck, FileText, Search, Settings, Sparkles } from "lucide-react";
 
 import { cn } from "@/lib/utils/cn";
 
 const items = [
   { href: "/dashboard", label: "Oversikt", icon: BarChart3 },
+  { href: "/ads/dashboard", label: "Ads", icon: Sparkles },
   { href: "/seo", label: "SEO", icon: Search },
   { href: "/clients", label: "Kunder", icon: Building2 },
   { href: "/reports", label: "Rapporter", icon: FileText },
