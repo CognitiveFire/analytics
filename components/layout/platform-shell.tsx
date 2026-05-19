@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { ClientControls } from "@/components/layout/client-controls";
-import { LanguageToggle } from "@/components/layout/language-toggle";
 import { PlatformNav } from "@/components/layout/platform-nav";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 
@@ -23,9 +22,6 @@ export function PlatformShell({ children }: { children: React.ReactNode }) {
               </div>
             </Link>
             <div className="flex items-center gap-2">
-              <Suspense fallback={null}>
-                <LanguageToggle />
-              </Suspense>
               <ThemeToggle />
             </div>
           </div>
