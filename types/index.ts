@@ -75,7 +75,9 @@ export interface OperationalTask {
 }
 
 export interface ScoredTask extends OperationalTask {
- 
+  priorityScore: number;
+  priorityLevel: PriorityLevel;
+}
 
 export interface OperationalRecommendation {
   id: string;
@@ -96,8 +98,6 @@ export interface OperationalRecommendation {
   priority: PriorityLevel;
   owner?: string;
   createdDate: string;
-} priorityScore: number;
-  priorityLevel: PriorityLevel;
 }
 
 export interface CompletedOperationalTask {
