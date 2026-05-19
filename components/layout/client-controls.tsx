@@ -53,9 +53,9 @@ export function ClientControls() {
   const healthVariant = currentClient.accountHealth > 80 ? "success" : currentClient.accountHealth > 70 ? "warning" : "danger";
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
       <select
-        className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-700 outline-none focus:ring-2 focus:ring-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
+        className="w-full min-w-0 rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-700 outline-none focus:ring-2 focus:ring-zinc-300 sm:w-auto sm:min-w-[220px] dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
         onChange={(event) => setClientId(event.target.value)}
         value={clientId}
       >
@@ -67,7 +67,7 @@ export function ClientControls() {
       </select>
 
       <select
-        className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-700 outline-none focus:ring-2 focus:ring-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
+        className="w-full min-w-0 rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-700 outline-none focus:ring-2 focus:ring-zinc-300 sm:w-auto sm:min-w-[160px] dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
         onChange={(event) => setPeriod(event.target.value)}
         value={period}
       >

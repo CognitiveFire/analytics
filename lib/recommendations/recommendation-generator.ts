@@ -2,6 +2,7 @@ import { runAdsAnalysis } from "@/lib/analysis/run-ads-analysis";
 import { generateExecutiveSummary, generateRecommendationDrafts } from "@/lib/openai/gpt-analysis-service";
 import { listRecommendations, saveRecommendations } from "@/lib/recommendations/recommendation-repository";
 import { calculatePriorityScore, toPriorityLevel } from "@/lib/scoring/ads-priority";
+import { isDemoAdsAccount } from "@/lib/server/ads-active-account";
 import { Recommendation } from "@/types/ads";
 
 function mapCategory(title: string): Recommendation["category"] {
@@ -68,6 +69,13 @@ export async function generateRecommendations(accountId: string): Promise<{ reco
 }
 
 export async function getPersistedOrGenerateRecommendations(accountId: string): Promise<{ recommendations: Recommendation[]; summary: string }> {
+  if (!isDemoAdsAccount(accountId)) {
+    return {
+      recommendations: [],
+      summary: "Ingen Ads-data er tilgjengelig for denne kunden ennå.",
+    };
+  }
+
   const stored = await listRecommendations(accountId);
   if (stored.length > 0) {
     return {

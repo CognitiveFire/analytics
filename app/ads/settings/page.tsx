@@ -1,4 +1,5 @@
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
+import { resolveAdsLanguage } from "@/lib/ads/ui-language";
 import { clients } from "@/lib/mock-data/clients";
 import { listGoogleAdsConnectorStates } from "@/lib/server/google-ads-connector-store";
 
@@ -10,14 +11,24 @@ const safeguards = [
   "Rollback metadata required for every execution batch",
 ];
 
-export default async function AdsSettingsPage() {
+type AdsSettingsPageProps = {
+  searchParams?: Promise<{ lang?: string }>;
+};
+
+export default async function AdsSettingsPage({ searchParams }: AdsSettingsPageProps) {
+  const params = await searchParams;
+  const lang = resolveAdsLanguage(params?.lang);
   const connectorStates = await listGoogleAdsConnectorStates();
 
   return (
     <div className="space-y-4">
       <Card className="border-zinc-200/90 bg-white/80 dark:bg-zinc-900/70">
-        <CardTitle>Execution Safeguards</CardTitle>
-        <CardDescription className="mt-2">Signal Room Ads is an intelligence and assisted execution layer, not autonomous account automation.</CardDescription>
+        <CardTitle>{lang === "nb" ? "Sikkerhetsmekanismer for utførelse" : "Execution Safeguards"}</CardTitle>
+        <CardDescription className="mt-2">
+          {lang === "nb"
+            ? "Signal Room Ads er et lag for innsikt og assistert utførelse, ikke autonom kontoautomatisering."
+            : "Signal Room Ads is an intelligence and assisted execution layer, not autonomous account automation."}
+        </CardDescription>
         <ul className="mt-5 space-y-2 text-sm text-zinc-700">
           {safeguards.map((safeguard) => (
             <li className="rounded-xl bg-white/75 px-3 py-2" key={safeguard}>
@@ -28,15 +39,19 @@ export default async function AdsSettingsPage() {
       </Card>
 
       <Card>
-        <CardTitle>Google Ads connector status</CardTitle>
+        <CardTitle>{lang === "nb" ? "Status for Google Ads-kobling" : "Google Ads connector status"}</CardTitle>
         <CardDescription className="mt-2">
-          Denne statusen lagres fra Innstillinger / Koblingsveiviser og viser hvilke kontoer som faktisk er koblet.
+          {lang === "nb"
+            ? "Denne statusen lagres fra Innstillinger / Koblingsveiviser og viser hvilke kontoer som faktisk er koblet."
+            : "This status is stored from Settings / Connector Wizard and shows which accounts are actually connected."}
         </CardDescription>
 
         <div className="mt-5 space-y-3">
           {connectorStates.length === 0 ? (
             <div className="rounded-xl border border-dashed border-zinc-300 px-4 py-3 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
-              Ingen Google Ads-koblinger er lagret enn. Ga til Innstillinger {">"} Koblingsveiviser for a aktivere.
+              {lang === "nb"
+                ? <>Ingen Google Ads-koblinger er lagret enn. Gå til Innstillinger {">"} Koblingsveiviser for å aktivere.</>
+                : <>No Google Ads connectors are saved yet. Go to Settings {">"} Connector Wizard to activate one.</>}
             </div>
           ) : (
             connectorStates.map((state) => {
@@ -52,11 +67,11 @@ export default async function AdsSettingsPage() {
                           : "bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
                       }`}
                     >
-                      {state.connected ? "Connected" : "Not connected"}
+                      {state.connected ? (lang === "nb" ? "Koblet til" : "Connected") : (lang === "nb" ? "Ikke koblet til" : "Not connected")}
                     </span>
                   </div>
                   <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
-                    Valgte kontoer: {state.selectedAccounts.length > 0 ? state.selectedAccounts.join(", ") : "Ingen"}
+                    {lang === "nb" ? "Valgte kontoer" : "Selected accounts"}: {state.selectedAccounts.length > 0 ? state.selectedAccounts.join(", ") : lang === "nb" ? "Ingen" : "None"}
                   </p>
                 </div>
               );

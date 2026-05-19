@@ -16,6 +16,7 @@ import {
   mockAdsSearchTerms,
   mockLandingPageMetrics,
 } from "@/lib/mock-data/ads";
+import { isDemoAdsAccount } from "@/lib/server/ads-active-account";
 
 function byAccount<T extends { accountId?: string }>(rows: T[], accountId: string): T[] {
   return rows.filter((row) => !row.accountId || row.accountId === accountId);
@@ -40,6 +41,16 @@ export async function fetchSearchTerms(accountId: string): Promise<AdsSearchTerm
 export async function fetchConversions(accountId: string): Promise<AdsConversionSummary> {
   if (mockAdsConversions.accountId === accountId) {
     return mockAdsConversions;
+  }
+
+  if (!isDemoAdsAccount(accountId)) {
+    return {
+      accountId,
+      conversionCount30d: 0,
+      primaryConversionCount30d: 0,
+      duplicateConversionRate: 0,
+      offlineImportCoverage: 0,
+    };
   }
 
   return {

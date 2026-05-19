@@ -167,7 +167,7 @@ export function ScreamingFrogUploader({ activeAccount }: ScreamingFrogUploaderPr
       <Card className="border-zinc-200/80 bg-white/95 dark:border-zinc-800 dark:bg-zinc-900/90">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Opplastingsomrade</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Opplastingsstatus</p>
             <CardTitle className="mt-2 text-3xl">Behandle Screaming Frog-eksporter</CardTitle>
             <CardDescription className="mt-3 max-w-3xl">
               Last opp flere CSV-eksporter, valider settet, behandle crawlen og ga videre til oversikten.

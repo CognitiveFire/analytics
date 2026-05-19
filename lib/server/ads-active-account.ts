@@ -4,6 +4,10 @@ import { listGoogleAdsConnectorStates } from "@/lib/server/google-ads-connector-
 
 export const DEFAULT_ADS_ACCOUNT_ID = "demo-executive";
 
+export function isDemoAdsAccount(accountId: string): boolean {
+  return accountId === DEFAULT_ADS_ACCOUNT_ID;
+}
+
 export async function resolveActiveAdsAccountId(): Promise<string> {
   const states = await listGoogleAdsConnectorStates();
   const connected = states.find((state) => state.connected && state.selectedAccounts.length > 0);
